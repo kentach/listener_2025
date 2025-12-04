@@ -1,0 +1,159 @@
+<%= render "shared/header" %>
+
+<section class="hero-section py-5 text-center">
+  <div class="container px-4">
+    <!-- タイトル -->
+    <h1 class="hero-title fw-bold mb-4">
+      <span class="text-gradient d-block fs-1 fs-md-2">
+        英語音声学習アプリ<br>
+        <span class="highlight fw-bold fs-1 fs-md-2">Listener</span>へようこそ!
+      </span>
+    </h1>
+
+    <!-- サブタイトル -->
+    <p class="hero-sub text-dark mb-4 lh-lg fw-medium fs-6 fs-md-5">
+      「音読」✖️「シャドーイング」で<br>
+      「リスニング力」と「リーディング力」を同時に鍛える<br>
+      新しい英語トレーニングアプリ。
+    </p>
+
+    <!-- CTAボタン -->
+    <div class="cta-buttons d-flex flex-column flex-md-row justify-content-center gap-3 mb-4">
+      <%= link_to "今すぐ始める", "#",
+          class: "btn btn-primary btn-lg rounded-pill fw-bold px-5 py-3 shadow-sm",
+          aria: { label: "新規登録" } %>
+
+      <%= link_to "ログイン", "#",
+          class: "btn btn-outline-primary btn-lg rounded-pill fw-bold px-5 py-3",
+          aria: { label: "ログイン" } %>
+    </div>
+
+    <p class="hero-note text-muted small mb-5">
+      すべての機能が使い放題・追加費用ゼロ
+    </p>
+</section>
+
+<section class="feature-title-section text-center py-5">
+  <p class="feature-number">特徴 <span>01</span></p>
+  <h2 class="feature-title">全てのテキストに対応</h2>
+  <h2 class="feature-title">英検対策にバッチリ！</h2>
+  <p class="feature-subtitle">
+    あらゆる英語圏の音声教材からあなたにピッタリの教材が見つかります。<br>
+    豊富なテーマと実践に近い英語だからこそ面白い、成長する。
+  </p>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<div class="swiper card-swiper">
+  <div class="swiper-wrapper">
+
+    <div class="swiper-slide card-item">
+      <%= image_tag "ontre_01.png", alt: "Sample 1", class: "card-img" %>
+    </div>
+
+    <div class="swiper-slide card-item">
+      <%= image_tag "ontre_02.png", alt: "Sample 2", class: "card-img" %>
+    </div>
+
+    <div class="swiper-slide card-item">
+      <%= image_tag "ontre_03.png", alt: "Sample 3", class: "card-img" %>
+    </div>
+
+    <div class="swiper-slide card-item">
+      <%= image_tag "ontre_04.png", alt: "Sample 4", class: "card-img" %>
+    </div>
+
+    <div class="swiper-slide card-item">
+      <%= image_tag "ontre_05.png", alt: "Sample 5", class: "card-img" %>
+    </div>
+
+    <div class="swiper-slide card-item">
+      <%= image_tag "ontre_06.png", alt: "Sample 6", class: "card-img" %>
+    </div>
+
+    <div class="swiper-slide card-item">
+      <%= image_tag "rhythm_01.png", alt: "Sample 6", class: "card-img" %>
+    </div>
+
+    <div class="swiper-slide card-item">
+      <%= image_tag "rhythm_02.png", alt: "Sample 6", class: "card-img" %>
+    </div>
+
+    <div class="swiper-slide card-item">
+      <%= image_tag "rhythm_03.png", alt: "Sample 6", class: "card-img" %>
+    </div>
+
+    <div class="swiper-slide card-item">
+      <%= image_tag "rhythm_04.png", alt: "Sample 6", class: "card-img" %>
+    </div>
+
+    <div class="swiper-slide card-item">
+      <%= image_tag "rhythm_05.png", alt: "Sample 6", class: "card-img" %>
+    </div>
+
+    <div class="swiper-slide card-item">
+      <%= image_tag "rhythm_06.png", alt: "Sample 6", class: "card-img" %>
+    </div>
+
+  </div>
+
+  <!-- スクロールバー（横） -->
+  <div class="swiper-scrollbar"></div>
+</div>
+</section>
+
+<section class="feature-title-section text-center py-5">
+  <p class="feature-number">特徴 <span>02</span></p>
+  <h2 class="feature-title">リスニング・音読トレーニングに最適</h2>
+  <h2 class="feature-title">英語の土台を作る</h2>
+  <p class="feature-subtitle">
+    「英語の土台」を作る上で最適なトレーニングが音読<br>
+    反復トレーニングでリスニング力とリーディング力を同時に鍛える。
+  </p>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+  const swiper = new Swiper('.card-swiper', {
+    slidesPerView: 'auto',
+    spaceBetween: 16,
+    loop: true,
+    freeMode: true,               // ← continuous autoplay には freeMode を ON にする
+    freeModeMomentum: false,      // ← 慣性停止をOFF（止まらない）
+    autoplay: {
+      delay: 0,                   // ← “0” にすると止まらず流れ続ける
+      disableOnInteraction: false,
+    },
+    speed: 2000,                  // ← 流れるスピード（数値を大きくするとゆっくり）
+  });
+</script>
+
+<footer class="site-footer">
+  <div class="footer-content">
+
+    <div class="footer-logo">
+      <h2>MyWebsite</h2>
+      <p>学びを、もっと身近に。</p>
+    </div>
+
+    <div class="footer-links">
+      <a href="#">ホーム</a>
+      <a href="#">教材一覧</a>
+      <a href="#">お問い合わせ</a>
+      <a href="#">プライバシーポリシー</a>
+    </div>
+
+    <div class="footer-sns">
+      <a href="#">Twitter</a>
+      <a href="#">YouTube</a>
+      <a href="#">Instagram</a>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2025 MyWebsite All rights reserved.
+  </div>
+</footer>
+
