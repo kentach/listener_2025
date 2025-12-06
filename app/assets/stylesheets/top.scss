@@ -317,14 +317,31 @@
   color: #777;
 }
 
+/* スマホで2段にする */
 @media (max-width: 768px) {
-  .footer-content {
-    text-align: center;
+  .icon-area {
+    flex-wrap: wrap;            /* 折り返しON */
+    gap: 30px;                  /* 適度なスペース */
   }
 
-  .footer-links a,
-  .footer-sns a {
-    display: inline-block;
-    margin: 6px 12px;
+  .icon-wrapper {
+    width: 45%;                 /* 1段に2つ並ぶ */
+  }
+
+  .icon-circle {
+    width: 80px;                /* 少し小さめに */
+    height: 80px;
+  }
+
+  .icon-circle i {
+    font-size: 32px;
+  }
+
+  .icon-text {
+    font-size: 16px;
+  }
+
+  .icon-label {
+    font-size: 16px;
   }
 }
