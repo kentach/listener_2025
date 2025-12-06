@@ -1,159 +1,150 @@
 <%= render "shared/header" %>
 
-<section class="hero-section py-5 text-center">
-  <div class="container px-4">
-    <!-- タイトル -->
-    <h1 class="hero-title fw-bold mb-4">
-      <span class="text-gradient d-block fs-1 fs-md-2">
-        英語音声学習アプリ<br>
-        <span class="highlight fw-bold fs-1 fs-md-2">Listener</span>へようこそ!
-      </span>
-    </h1>
-
-    <!-- サブタイトル -->
-    <p class="hero-sub text-dark mb-4 lh-lg fw-medium fs-6 fs-md-5">
-      「音読」✖️「シャドーイング」で<br>
-      「リスニング力」と「リーディング力」を同時に鍛える<br>
-      新しい英語トレーニングアプリ。
-    </p>
-
-    <!-- CTAボタン -->
-    <div class="cta-buttons d-flex flex-column flex-md-row justify-content-center gap-3 mb-4">
-      <%= link_to "今すぐ始める", "#",
-          class: "btn btn-primary btn-lg rounded-pill fw-bold px-5 py-3 shadow-sm",
-          aria: { label: "新規登録" } %>
-
-      <%= link_to "ログイン", "#",
-          class: "btn btn-outline-primary btn-lg rounded-pill fw-bold px-5 py-3",
-          aria: { label: "ログイン" } %>
-    </div>
-
-    <p class="hero-note text-muted small mb-5">
-      すべての機能が使い放題・追加費用ゼロ
-    </p>
-</section>
-
-<section class="feature-title-section text-center py-5">
-  <p class="feature-number">特徴 <span>01</span></p>
-  <h2 class="feature-title">全てのテキストに対応</h2>
-  <h2 class="feature-title">英検対策にバッチリ！</h2>
-  <p class="feature-subtitle">
-    あらゆる英語圏の音声教材からあなたにピッタリの教材が見つかります。<br>
-    豊富なテーマと実践に近い英語だからこそ面白い、成長する。
-  </p>
-
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-<div class="swiper card-swiper">
-  <div class="swiper-wrapper">
+<section class="feature-title-section text-center py-5">
+      <p class="feature-number">リスニング強化アプリ</p>
+      <h2 class="feature-title">LISTENER</h2>
 
-    <div class="swiper-slide card-item">
-      <%= image_tag "ontre_01.png", alt: "Sample 1", class: "card-img" %>
-    </div>
+      <p class="feature-subtitle">
+        「音読」×「シャドーイング」で<br>
+        「リスニング力」と「リーディング力」を同時に鍛える<br>
+        新しい英語トレーニングアプリ。
+      </p>
 
-    <div class="swiper-slide card-item">
-      <%= image_tag "ontre_02.png", alt: "Sample 2", class: "card-img" %>
-    </div>
+      <div class="cta-buttons d-flex flex-column flex-md-row justify-content-center gap-3 mb-4">
+        <%= link_to "今すぐ始める", "#",
+            class: "btn btn-primary btn-lg rounded-pill fw-bold px-5 py-3 shadow-sm",
+            aria: { label: "新規登録" } %>
 
-    <div class="swiper-slide card-item">
-      <%= image_tag "ontre_03.png", alt: "Sample 3", class: "card-img" %>
-    </div>
+        <%= link_to "ログイン", "#",
+            class: "btn btn-outline-primary btn-lg rounded-pill fw-bold px-5 py-3",
+            aria: { label: "ログイン" } %>
+      </div>
 
-    <div class="swiper-slide card-item">
-      <%= image_tag "ontre_04.png", alt: "Sample 4", class: "card-img" %>
-    </div>
-
-    <div class="swiper-slide card-item">
-      <%= image_tag "ontre_05.png", alt: "Sample 5", class: "card-img" %>
-    </div>
-
-    <div class="swiper-slide card-item">
-      <%= image_tag "ontre_06.png", alt: "Sample 6", class: "card-img" %>
-    </div>
-
-    <div class="swiper-slide card-item">
-      <%= image_tag "rhythm_01.png", alt: "Sample 6", class: "card-img" %>
-    </div>
-
-    <div class="swiper-slide card-item">
-      <%= image_tag "rhythm_02.png", alt: "Sample 6", class: "card-img" %>
-    </div>
-
-    <div class="swiper-slide card-item">
-      <%= image_tag "rhythm_03.png", alt: "Sample 6", class: "card-img" %>
-    </div>
-
-    <div class="swiper-slide card-item">
-      <%= image_tag "rhythm_04.png", alt: "Sample 6", class: "card-img" %>
-    </div>
-
-    <div class="swiper-slide card-item">
-      <%= image_tag "rhythm_05.png", alt: "Sample 6", class: "card-img" %>
-    </div>
-
-    <div class="swiper-slide card-item">
-      <%= image_tag "rhythm_06.png", alt: "Sample 6", class: "card-img" %>
-    </div>
-
-  </div>
-
-  <!-- スクロールバー（横） -->
-  <div class="swiper-scrollbar"></div>
-</div>
+      <p class="hero-note text-muted small mb-5">
+        すべての機能が使い放題・追加費用ゼロ
+      </p>
 </section>
 
 <section class="feature-title-section text-center py-5">
-  <p class="feature-number">特徴 <span>02</span></p>
-  <h2 class="feature-title">リスニング・音読トレーニングに最適</h2>
-  <h2 class="feature-title">英語の土台を作る</h2>
+  <p class="feature-number">特徴<span>01</span></p>
+  <h2 class="feature-title">全てのテキストに対応</h2>
+  <h2 class="feature-title">英検対策にバッチリ！</h2>
+
   <p class="feature-subtitle">
-    「英語の土台」を作る上で最適なトレーニングが音読<br>
-    反復トレーニングでリスニング力とリーディング力を同時に鍛える。
+    授業で扱うテキストで自宅が可能。<br>
+    豊富なテーマとレベル別のテキストで英検対策も万全。
+  </p>
+
+  <div class="swiper card-swiper">
+    <div class="swiper-wrapper">
+
+      <% ["ontre_01.png","ontre_02.png","ontre_03.png","ontre_04.png","ontre_05.png","ontre_06.png",
+           "rhythm_01.png","rhythm_02.png","rhythm_03.png","rhythm_04.png","rhythm_05.png","rhythm_06.png"
+          ].each do |img| %>
+        <div class="swiper-slide card-item">
+          <%= image_tag img, class: "card-img", alt: img %>
+        </div>
+      <% end %>
+    </div>
+    <div class="swiper-scrollbar"></div>
+  </div>
+</section>
+
+<section class="feature-title-section text-center py-5">
+    <p class="feature-number">特徴 <span>02</span></p>
+    <h2 class="feature-title">シャドーイング・音読トレーニングに最適</h2>
+    <h2 class="feature-title">「英語の基礎」を作る</h2>
+
+    <p class="feature-subtitle">
+      「英語の土台」を作る上で最適なトレーニングが「音読」。<br>
+      繰り返しトレーニングを行うことで<br>
+      リスニング力とリーディング力が同時に鍛えられる。
+    </p>
+</section>
+
+<section class="feature-title-section text-center py-5">
+  <p class="feature-number">特徴 <span>03</span></p>
+  <h2 class="feature-title">英語学習に欠かせない機能搭載</h2>
+  <h2 class="feature-title">痒いところにも手が届く</h2>
+
+  <p class="feature-subtitle">
+    リスニング再生速度調整、バックグラウンド再生可能、<br>
+    英語学習に欠かせない便利な機能を多数搭載。
+  </p>
+
+  <div class="feature-icons d-flex flex-wrap justify-content-center gap-4 mt-4">
+
+    <!-- 再生 -->
+    <svg width="120" height="120" viewBox="0 0 120 120">
+      <circle cx="60" cy="60" r="55" fill="#d93812"/>
+      <polygon points="40,40 70,60 40,80" fill="white"/>
+      <polygon points="60,40 90,60 60,80" fill="white"/>
+    </svg>
+
+    <!-- 5秒戻し -->
+    <svg width="120" height="120" viewBox="0 0 120 120">
+      <circle cx="60" cy="60" r="55" fill="#d93812"/>
+      <path d="M60 25 A35 35 0 1 1 30 60"
+            stroke="white" stroke-width="8" fill="none"/>
+      <polygon points="25,45 40,60 25,75" fill="white"/>
+      <text x="60" y="70" font-size="32" fill="white" text-anchor="middle">5s</text>
+    </svg>
+
+    <!-- 速度調整 -->
+  <svg width="100" height="100" viewBox="0 0 120 120">
+  <circle cx="60" cy="60" r="50" fill="#d93812"/>
+
+  <!-- 上向きループ矢印 -->
+  <path d="M45 60
+           A15 15 0 0 1 60 45
+           A15 15 0 0 1 75 60"
+        stroke="white" stroke-width="8"
+        fill="none" stroke-linecap="round"/>
+
+  <polygon points="75,60 88,60 82,48" fill="white"/>
+
+  <!-- 下向きループ矢印 -->
+  <path d="M75 65
+           A15 15 0 0 1 60 80
+           A15 15 0 0 1 45 65"
+        stroke="white" stroke-width="8"
+        fill="none" stroke-linecap="round"/>
+
+  <polygon points="45,65 32,65 38,77" fill="white"/>
+</svg>
+  </div>
+</section>
+
+<section class="feature-title-section text-center py-5">
+  <p class="feature-number">特徴 <span>04</span></p>
+  <h2 class="feature-title">英語の発音もすぐわかる</h2>
+  <h2 class="feature-title">基本英単語も収録</h2>
+
+  <p class="feature-subtitle">
+    英検５級〜３級の合格に必要な英単語も学習することができます。<br>
+    正しい発音で学習が可能です。
   </p>
 </section>
 
+<%= render "shared/footer" %>
+ 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
 <script>
   const swiper = new Swiper('.card-swiper', {
     slidesPerView: 'auto',
     spaceBetween: 16,
     loop: true,
-    freeMode: true,               // ← continuous autoplay には freeMode を ON にする
-    freeModeMomentum: false,      // ← 慣性停止をOFF（止まらない）
+    allowTouchMove: false,
+    speed: 3000,
     autoplay: {
-      delay: 0,                   // ← “0” にすると止まらず流れ続ける
+      delay: 0,
       disableOnInteraction: false,
     },
-    speed: 2000,                  // ← 流れるスピード（数値を大きくするとゆっくり）
+    scrollbar: {
+      el: '.swiper-scrollbar',
+      draggable: true,
+    },
   });
 </script>
-
-<footer class="site-footer">
-  <div class="footer-content">
-
-    <div class="footer-logo">
-      <h2>MyWebsite</h2>
-      <p>学びを、もっと身近に。</p>
-    </div>
-
-    <div class="footer-links">
-      <a href="#">ホーム</a>
-      <a href="#">教材一覧</a>
-      <a href="#">お問い合わせ</a>
-      <a href="#">プライバシーポリシー</a>
-    </div>
-
-    <div class="footer-sns">
-      <a href="#">Twitter</a>
-      <a href="#">YouTube</a>
-      <a href="#">Instagram</a>
-    </div>
-
-  </div>
-
-  <div class="footer-bottom">
-    © 2025 MyWebsite All rights reserved.
-  </div>
-</footer>
-
