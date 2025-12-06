@@ -28,7 +28,7 @@
 </section>
 
 <section class="feature-title-section text-center py-5">
-  <p class="feature-number">特徴<span>01</span></p>
+  <p class="feature-number">特徴 <span>01</span></p>
   <h2 class="feature-title">全てのテキストに対応</h2>
   <h2 class="feature-title">英検対策にバッチリ！</h2>
 
@@ -52,13 +52,13 @@
   </div>
 </section>
 
-<section class="feature-title-section text-center py-5">
+<section class="feature-title-section bg-gray-section text-center py-5">
     <p class="feature-number">特徴 <span>02</span></p>
     <h2 class="feature-title">シャドーイング・音読トレーニングに最適</h2>
     <h2 class="feature-title">「英語の基礎」を作る</h2>
 
     <p class="feature-subtitle">
-      「英語の土台」を作る上で最適なトレーニングが「音読」。<br>
+      「英語の土台」を作る上で<br>最適なトレーニングが「音読」。<br>
       繰り返しトレーニングを行うことで<br>
       リスニング力とリーディング力が同時に鍛えられる。
     </p>
@@ -70,51 +70,48 @@
   <h2 class="feature-title">痒いところにも手が届く</h2>
 
   <p class="feature-subtitle">
-    リスニング再生速度調整、バックグラウンド再生可能、<br>
     英語学習に欠かせない便利な機能を多数搭載。
   </p>
 
-  <div class="feature-icons d-flex flex-wrap justify-content-center gap-4 mt-4">
+  <div class="d-flex justify-content-center gap-5 mt-4">
 
-    <!-- 再生 -->
-    <svg width="120" height="120" viewBox="0 0 120 120">
-      <circle cx="60" cy="60" r="55" fill="#d93812"/>
-      <polygon points="40,40 70,60 40,80" fill="white"/>
-      <polygon points="60,40 90,60 60,80" fill="white"/>
-    </svg>
-
-    <!-- 5秒戻し -->
-    <svg width="120" height="120" viewBox="0 0 120 120">
-      <circle cx="60" cy="60" r="55" fill="#d93812"/>
-      <path d="M60 25 A35 35 0 1 1 30 60"
-            stroke="white" stroke-width="8" fill="none"/>
-      <polygon points="25,45 40,60 25,75" fill="white"/>
-      <text x="60" y="70" font-size="32" fill="white" text-anchor="middle">5s</text>
-    </svg>
-
-    <!-- 速度調整 -->
-  <svg width="100" height="100" viewBox="0 0 120 120">
-  <circle cx="60" cy="60" r="50" fill="#d93812"/>
-
-  <!-- 上向きループ矢印 -->
-  <path d="M45 60
-           A15 15 0 0 1 60 45
-           A15 15 0 0 1 75 60"
-        stroke="white" stroke-width="8"
-        fill="none" stroke-linecap="round"/>
-
-  <polygon points="75,60 88,60 82,48" fill="white"/>
-
-  <!-- 下向きループ矢印 -->
-  <path d="M75 65
-           A15 15 0 0 1 60 80
-           A15 15 0 0 1 45 65"
-        stroke="white" stroke-width="8"
-        fill="none" stroke-linecap="round"/>
-
-  <polygon points="45,65 32,65 38,77" fill="white"/>
-</svg>
+  <!-- リピート -->
+  <div class="icon-wrapper text-center">
+    <div class="icon-circle">
+      <i class="bi bi-arrow-repeat"></i>
+    </div>
+    <p class="icon-label">リピート機能搭載</p>
   </div>
+
+  <!-- 5秒巻き戻し -->
+  <div class="icon-wrapper text-center">
+    <div class="icon-circle position-relative">
+      <i class="bi bi-arrow-counterclockwise"></i>
+      <span class="icon-text">5s</span>
+    </div>
+    <p class="icon-label">5秒戻し</p>
+  </div>
+
+  <!-- 再生速度 -->
+  <div class="icon-wrapper text-center">
+    <div class="icon-circle position-relative">
+      <i class="bi bi-speedometer2"></i>
+      <span class="icon-text">1.0x</span>
+    </div>
+    <p class="icon-label">速度調整自由自在</p>
+  </div>
+
+  <!-- スキップ -->
+  <div class="icon-wrapper text-center">
+    <div class="icon-circle position-relative">
+      <i class="bi bi-skip-forward-fill"></i>
+      <span class="icon-text">10s</span>
+    </div>
+    <p class="icon-label">10秒送り</p>
+  </div>
+
+</div>
+
 </section>
 
 <section class="feature-title-section text-center py-5">
@@ -128,6 +125,17 @@
   </p>
 </section>
 
+<section class="text-center py-5">
+ <div class="cta-buttons d-flex flex-column flex-md-row justify-content-center gap-3 mb-4">
+        <%= link_to "さあ今すぐ始めよう", "#",
+            class: "btn btn-primary btn-lg rounded-pill fw-bold px-5 py-3 shadow-sm",
+            aria: { label: "新規登録" } %>
+
+        <%= link_to "ログインする", "#",
+            class: "btn btn-outline-primary btn-lg rounded-pill fw-bold px-5 py-3",
+            aria: { label: "ログイン" } %>
+      </div>
+</section>
 <%= render "shared/footer" %>
  
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
