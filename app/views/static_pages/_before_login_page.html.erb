@@ -1,11 +1,12 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <section class="feature-title-section text-center py-5">
   <p class="feature-number">リスニング強化アプリ</p>
   <h2 class="feature-title">LISTENER</h2>
 
   <p class="feature-subtitle">
     「音読」×「シャドーイング」で<br>
-    「リスニング力」と「リーディング力」を同時に鍛える<br>
-    新しい英語トレーニングアプリ。
+    「聴く力」と「読む力」を同時に鍛える<br>
+      新しい英語トレーニングアプリ。
   </p>
 
   <div class="cta-buttons d-flex flex-column flex-md-row justify-content-center gap-3 mb-4">
@@ -29,7 +30,7 @@
   <h2 class="feature-title">英検対策にバッチリ！</h2>
 
   <p class="feature-subtitle">
-    授業で扱うテキストが自宅で学習可能に。<br>
+    授業で扱うテキストで自宅学習が可能に。<br>
     豊富なテーマとレベル別テキストで英検対策も万全。
   </p>
 
@@ -49,19 +50,15 @@
   </div>
 </section>
 
-
-<!-- =========================
-      特徴 02
-========================= -->
 <section class="feature-title-section bg-gray-section text-center py-5">
   <p class="feature-number">特徴 <span>02</span></p>
-  <h2 class="feature-title">シャドーイング・音読トレーニングに最適</h2>
-  <h2 class="feature-title">「英語の基礎」を作る</h2>
+  <h2 class="feature-title">シャドーイングと音読練習に最適！</h2>
+  <h2 class="feature-title">「英語の土台」をこれ一つで</h2>
 
   <p class="feature-subtitle">
-    「英語の土台」を作る上で<br>最適なトレーニングが「音読」。<br>
-    繰り返しトレーニングで<br>
-  「リスニング力」と「リーディング力」を同時に鍛える。
+    「英語の土台」を作る上で<br>最適なのが「音読」。<br>
+    同じ教材を繰り返しトレーニングすることで<br>
+  「リスニング」と「リーディング」を同時に鍛えられる。
   </p>
 </section>
 
@@ -103,7 +100,7 @@
         <i class="bi bi-speedometer2"></i>
         <span class="icon-text">1.0x</span>
       </div>
-      <p class="icon-label">速度調整自由自在</p>
+      <p class="icon-label">音声再生速度<br>調整機能</p>
     </div>
 
     <!-- スキップ -->
@@ -112,17 +109,12 @@
         <i class="bi bi-skip-forward-fill"></i>
         <span class="icon-text">10s</span>
       </div>
-      <p class="icon-label">10秒送り</p>
+      <p class="icon-label">10秒スキップ</p>
     </div>
 
   </div>
 </section>
 
-
-
-<!-- =========================
-      特徴 04
-========================= -->
 <section class="feature-title-section text-center py-5">
   <p class="feature-number">特徴 <span>04</span></p>
   <h2 class="feature-title">英語の発音もすぐわかる</h2>
@@ -130,21 +122,18 @@
 
   <p class="feature-subtitle">
     英検５級〜３級の合格に必要な英単語も収録。<br>
-    正しい発音で学習が可能です。
+    正しい発音で学習が可能。
   </p>
 </section>
 
 
-<!-- =========================
-      CTA
-========================= -->
 <section class="text-center py-5">
   <div class="cta-buttons d-flex flex-column flex-md-row justify-content-center gap-3 mb-4">
-    <%= link_to "さあ今すぐ始めよう", "#",
+    <%= link_to "さあ今すぐ始めよう", new_user_registration_path,
         class: "btn btn-primary btn-lg rounded-pill fw-bold px-5 py-3 shadow-sm",
         aria: { label: "新規登録" } %>
 
-    <%= link_to "ログインする", "#",
+    <%= link_to "アカウントをお持ちの方", new_user_session_path,
         class: "btn btn-outline-primary btn-lg rounded-pill fw-bold px-5 py-3",
         aria: { label: "ログイン" } %>
   </div>
