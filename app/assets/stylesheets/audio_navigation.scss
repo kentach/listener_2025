@@ -1,0 +1,43 @@
+
+/* プレーヤー全体 */
+.podcast-player {
+  max-width: 600px;      /* プレーヤーの最大幅 */
+  margin: 0 auto;        /* 中央寄せ */
+  background: #f8f9fb;   /* 明るい背景色 */
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 進捗バー */
+.podcast-progress {
+  height: 6px;
+  border-radius: 3px;
+  accent-color: #dc3545; /* 赤系でPodcastらしいカラー */
+  cursor: pointer;
+}
+
+/* 再生ボタン */
+#playBtn {
+  font-size: 1.5rem;
+  line-height: 1;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ボタン全般 */
+button:focus {
+  box-shadow: none; /* フォーカス時の青い枠を消す */
+}
+
+/* 下部固定用追加 */
+.fixed-bottom.podcast-player {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1050;
+}

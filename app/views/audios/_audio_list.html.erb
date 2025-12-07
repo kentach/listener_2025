@@ -1,0 +1,37 @@
+<% if @chapter.audios.count > 1 %>
+  <h5 class="mb-3">この章の音声一覧</h5>
+
+  <% @chapter.audios.each do |audio| %>
+    <% active = audio.id == @audio.id %>
+    <div class="card p-2 mb-2 shadow-sm d-flex align-items-center justify-content-start <%= 'bg-dark text-white' if active %>"
+         style="cursor:pointer;"
+         data-audio-url="/audio_files/<%= audio.file_name %>">
+
+      <!-- ファイル名 -->
+      <span class="fw-medium" style="font-size:0.95rem;">
+        <i class="bi bi-file-earmark-audio me-2"></i>
+        <%= audio.file_name %>
+      </span>
+    </div>
+  <% end %>
+<% end %>
+<script>
+  document.addEventListener("turbo:load", () => {
+    const audioPlayer = document.getElementById("audio");
+
+    document.querySelectorAll(".card[data-audio-url]").forEach(card => {
+      card.addEventListener("click", () => {
+        const url = card.getAttribute("data-audio-url");
+        if (!url) return;
+
+        // 下部プレーヤーの音源を切替
+        audioPlayer.src = url;
+        audioPlayer.play();
+
+        // カードのハイライト更新
+        document.querySelectorAll(".card[data-audio-url]").forEach(c => c.classList.remove("bg-dark", "text-white"));
+        card.classList.add("bg-dark", "text-white");
+      });
+    });
+  });
+</script>

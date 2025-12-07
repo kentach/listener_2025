@@ -10,9 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_12_07_060734) do
+ActiveRecord::Schema[7.2].define(version: 2025_12_07_081539) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "audios", force: :cascade do |t|
+    t.bigint "chapter_id", null: false
+    t.string "file_name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chapter_id"], name: "index_audios_on_chapter_id"
+  end
+
+  create_table "chapters", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "series", null: false
+    t.bigint "textbook_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["textbook_id"], name: "index_chapters_on_textbook_id"
+  end
+
+  create_table "favorites", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "audio_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["audio_id"], name: "index_favorites_on_audio_id"
+    t.index ["user_id", "audio_id"], name: "index_favorites_on_user_id_and_audio_id", unique: true
+    t.index ["user_id"], name: "index_favorites_on_user_id"
+  end
 
   create_table "tasks", force: :cascade do |t|
     t.string "name"
@@ -42,4 +69,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_07_060734) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "audios", "chapters"
+  add_foreign_key "chapters", "textbooks"
+  add_foreign_key "favorites", "audios"
+  add_foreign_key "favorites", "users"
 end
