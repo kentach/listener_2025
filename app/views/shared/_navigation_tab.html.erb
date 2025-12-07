@@ -18,8 +18,8 @@
       <div>AIライティング</div>
     <% end %>
 
-    <%= link_to "#", 
-        class: "tab-item text-center mx-3 #{current_page?("#") ? 'active' : ''}" do %>
+    <%= link_to favorites_path, 
+        class: "tab-item text-center mx-3 #{current_page?(favorites_path) ? 'active' : ''}" do %>
       <i class="bi bi-star"></i>
       <div>お気に入り</div>
     <% end %>

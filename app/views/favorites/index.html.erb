@@ -1,0 +1,43 @@
+<h2 class="mb-4 text-center">お気に入り一覧</h2>
+
+<% @grouped.each do |textbook, chapters| %>
+
+  <!-- 教科書ヘッダー -->
+  <div class="d-flex align-items-center mb-3 p-2 border rounded shadow-sm"
+       style="background:#f9f9f9;">
+    <% if textbook.cover_image.present? %>
+      <%= image_tag textbook.cover_image,
+                    style: "width:70px; height:100px; object-fit:cover; border-radius:4px;",
+                    alt: textbook.name %>
+    <% else %>
+      <div style="width:70px; height:100px; background:#ccc; border-radius:4px;"></div>
+    <% end %>
+
+    <div class="ms-3">
+      <h4 class="mb-1"><%= textbook.name %></h4>
+      <small class="text-muted"><%= textbook.level %> / <%= textbook.series %></small>
+    </div>
+  </div>
+
+  <!-- 章ごとのリスト -->
+  <% chapters.each do |chapter, audios| %>
+
+    <% audios.each do |audio| %>
+      <div class="d-flex justify-content-between align-items-center p-2 mb-2 border rounded">
+        
+        <!-- タイトル（chapter.titleでOK） -->
+        <%= link_to chapter.title,
+                    textbook_chapter_audio_path(textbook, chapter, audio),
+                    style: "text-decoration:none; color:inherit;" %>
+
+        <!-- お気に入りボタン -->
+        <%= render "audios/favorite_button", audio: audio %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <hr class="my-4">
+
+<% end %>
+
+<%= render "shared/navigation_tab" %>

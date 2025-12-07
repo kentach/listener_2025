@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   resources :textbooks, only: [:index, :show] do
     resources :chapters, only: [:show] do
       resources :audios, only: [:show] do
-        resource :favorite, only: [:create, :destroy], controller: 'favorites'
+        resource :favorite, only: [:index, :create, :destroy], controller: 'favorites'
       end
     end
   end

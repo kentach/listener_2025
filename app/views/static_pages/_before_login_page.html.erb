@@ -52,13 +52,66 @@
 
 <section class="feature-title-section bg-gray-section text-center py-5">
   <p class="feature-number">特徴 <span>02</span></p>
-  <h2 class="feature-title">シャドーイングと音読練習に最適</h2>
-  <h2 class="feature-title">英語学習をこれ一つで</h2>
+  <h2 class="feature-title">座る時間＝勉強じゃない</h2>
+  <h2 class="feature-title">これ一つで英語学習をどこでも</h2>
 
   <p class="feature-subtitle">
-    同じ教材を繰り返しトレーニングすることで<br>
-  「英語の基盤」を作る。
+    スマホ一つでリスニングの練習が<br>
+  いつでもどこでも可能に。
   </p>
+
+  <div class="container d-flex justify-content-center mt-5">
+  <div class="smartphone">
+    <div class="content">
+      <%= image_tag "Screenshot 2025-12-07 at 22.40.39.png", class: "screen-image", alt: "スマホ画面" %>
+    </div>
+  </div>
+</div>
+
+<style>
+.smartphone {
+  width: 260px;                /* ← 横幅を少し小さめに */
+  height: 520px;               /* ← 縦長比率 2 : 1 のスマホ感 */
+  border: 14px solid #333;
+  border-radius: 32px;
+  padding: 0;
+  position: relative;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  background: #000;
+  overflow: hidden;            /* ← 内部のはみ出しを隠す */
+}
+
+/* ノッチ */
+.smartphone::before {
+  content: "";
+  width: 90px;
+  height: 16px;
+  background: #000;
+  border-radius: 8px;
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+/* 内部画面 */
+.smartphone .content {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+}
+
+/* 画像をスマホ内に収める */
+.screen-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* ← 画面いっぱいに広がる */
+  display: block;
+}
+
+</style>
 </section>
 
 <section class="feature-title-section text-center py-5">
@@ -137,8 +190,16 @@
 <%= render "shared/footer" %>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
 <script>
-  const swiper = new Swiper('.card-swiper', {
+function initSwiper() {
+  const el = document.querySelector('.card-swiper');
+  if (!el) return;
+
+  // すでに初期化済みなら再初期化を防ぐ
+  if (el.swiper) return;
+
+  new Swiper('.card-swiper', {
     slidesPerView: 'auto',
     spaceBetween: 16,
     loop: true,
@@ -151,6 +212,15 @@
     scrollbar: {
       el: '.swiper-scrollbar',
       draggable: true,
-    },
+    }
   });
+}
+
+// Turbo遷移用
+document.addEventListener("turbo:load", initSwiper);
+
+// 通常読み込み用（ログアウト時はこちらが発火する）
+document.addEventListener("DOMContentLoaded", initSwiper);
 </script>
+
+
