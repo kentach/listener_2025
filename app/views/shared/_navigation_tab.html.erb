@@ -1,0 +1,27 @@
+<footer id="footer" class="footer-bottom bg-white border-top fixed-bottom py-2">
+  <div class="tab-menu d-flex justify-content-center">
+    <%= link_to root_path, 
+        class: "tab-item text-center mx-3 #{current_page?(root_path) ? 'active' : ''}" do %>
+      <i class="bi bi-house"></i>
+      <div>ホーム</div>
+    <% end %>
+
+    <%= link_to "#", 
+        class: "tab-item text-center mx-3 #{current_page?("#") ? 'active' : ''}" do %>
+      <i class="bi bi-book"></i>
+      <div>ボキャブラリ</div>
+    <% end %>
+
+    <%= link_to "#", 
+        class: "tab-item text-center mx-3 #{current_page?("#") ? 'active' : ''}" do %>
+      <i class="bi bi-pencil-fill"></i>
+      <div>AIライティング</div>
+    <% end %>
+
+    <%= link_to "#", 
+        class: "tab-item text-center mx-3 #{current_page?("#") ? 'active' : ''}" do %>
+      <i class="bi bi-star"></i>
+      <div>お気に入り</div>
+    <% end %>
+  </div>
+</footer>

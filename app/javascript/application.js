@@ -2,7 +2,7 @@ import "@hotwired/turbo-rails"
 import "./controllers"
 import * as bootstrap from "bootstrap"
 import "./header"
-import Swiper from "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js";
+import { Swiper } from "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs";
 
 document.addEventListener("turbo:load", () => {
   new Swiper('.swiper', {
