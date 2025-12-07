@@ -10,7 +10,7 @@
 
   <div class="scroll-wrapper d-flex overflow-auto gap-3">
     <% @ontore_textbooks.each_with_index do |textbook, index| %>
-      <%= link_to "#", class: "textbook-card-link text-decoration-none" do %>
+      <%= link_to textbook_path(textbook), class: "textbook-card-link text-decoration-none" do %>
         <div class="textbook-card">
           <%= image_tag textbook.cover_image,
                         class: "textbook-image img-fluid",
@@ -32,7 +32,7 @@
 
   <div class="scroll-wrapper d-flex overflow-auto gap-3">
     <% @rhythm_textbooks.each_with_index do |textbook, index| %>
-      <%= link_to "#", class: "textbook-card-link text-decoration-none" do %>
+      <%= link_to textbook_path(textbook), class: "textbook-card-link text-decoration-none" do %>
         <div class="textbook-card">
           <%= image_tag textbook.cover_image,
                         class: "textbook-image img-fluid",
