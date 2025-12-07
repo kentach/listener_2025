@@ -1,0 +1,3 @@
+<%= turbo_stream.replace dom_id(@audio, :favorite_button) do %>
+  <%= render "audios/favorite_button", audio: @audio %>
+<% end %>

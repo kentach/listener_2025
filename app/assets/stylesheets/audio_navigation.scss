@@ -1,19 +1,21 @@
-
 /* プレーヤー全体 */
 .podcast-player {
-  max-width: 600px;      /* プレーヤーの最大幅 */
-  margin: 0 auto;        /* 中央寄せ */
-  background: #f8f9fb;   /* 明るい背景色 */
+  width: 100%;           /* 幅を画面いっぱいに */
+  max-width: 600px;      /* PCでは最大600px */
+  margin: 0 auto;
+  background: #f8f9fb;
   padding: 1rem;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;  /* スマホの余白崩れ防止 */
 }
 
 /* 進捗バー */
 .podcast-progress {
+  width: 100%;           /* スマホで横にはみ出さない */
   height: 6px;
   border-radius: 3px;
-  accent-color: #dc3545; /* 赤系でPodcastらしいカラー */
+  accent-color: #dc3545;
   cursor: pointer;
 }
 
@@ -30,14 +32,40 @@
 
 /* ボタン全般 */
 button:focus {
-  box-shadow: none; /* フォーカス時の青い枠を消す */
+  box-shadow: none;
 }
 
-/* 下部固定用追加 */
+/* 下部固定 */
 .fixed-bottom.podcast-player {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   z-index: 1050;
+}
+
+/* ==========================================
+   ここからスマホ向け最適化（レスポンシブ）
+   ========================================== */
+@media (max-width: 480px) {
+
+  .podcast-player {
+    padding: 0.7rem;     /* 内側余白を少し減らす */
+    border-radius: 10px;
+  }
+
+  #playBtn {
+    width: 42px;
+    height: 42px;
+    font-size: 1.3rem;   /* 文字サイズ少し小さく */
+  }
+
+  .podcast-progress {
+    height: 5px;         /* 少し細く */
+  }
+
+  /* 固定時のはみ出し防止 */
+  .fixed-bottom.podcast-player {
+    border-radius: 0;    /* 下部固定時は角丸ゼロの方が自然 */
+  }
 }
