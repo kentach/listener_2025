@@ -1,35 +1,25 @@
-<header class="lp-header">
+<header class="lp-header fixed-header">
   <div class="logo-area">
     <%= link_to root_path, class: "logo-link" do %>
       <span class="logo-text">LISTENER</span>
     <% end %>
   </div>
 
-  <!-- ハンバーガーボタン -->
   <button class="hamburger" id="hamburger-btn" aria-expanded="false" aria-label="メニューを開く">
     <span></span>
     <span></span>
     <span></span>
   </button>
 
-  <!-- ハンバーガーメニュー -->
   <nav class="hamburger-menu" id="hamburger-menu">
     <ul>
-      <li><%= link_to "ホーム", root_path %></li>
       <li><%= link_to "Listenerとは", "#" %></li>
       <li><%= link_to "Listenerの特徴", "#" %></li>
       <li><%= link_to "利用規約", "#" %></li>
       <li><%= link_to "よくある質問", "#" %></li>
-      <% if user_signed_in? %>
-        <li><%= link_to "プロフィール", edit_user_registration_path %></li>
-        <li><%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete } %></li>
-      <% else %>
-        <li><%= link_to "ログインする", new_user_session_path %></li>
-        <li><%= link_to "サインアップ", new_user_registration_path %></li>
-      <% end %>
+      <li><%= link_to "ログインする", new_user_session_path %></li>
     </ul>
   </nav>
 
-  <!-- メニューオーバーレイ -->
   <div id="menu-overlay" class="menu-overlay"></div>
 </header>

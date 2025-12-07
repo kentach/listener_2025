@@ -3,22 +3,46 @@
   <head>
     <title><%= content_for(:title) || "Myapp" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= yield :head %>
 
-    <link rel="manifest" href="/manifest.json">
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
+
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <!-- Application CSS -->
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+
+    <!-- JavaScript -->
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
   <body>
-    <%= stylesheet_link_tag "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" %>
-    <%= yield %>
+    <header>
+      <% if user_signed_in? %>
+        <%= render "shared/header" %>
+      <% else %>
+        <%= render "shared/before_login_header" %>
+      <% end %>
+    </header>
+
+    <%= render 'shared/flash_message' %>
+
+    <main class="container mt-4">
+      <% if devise_controller? %>
+        <%= yield %>
+      <% elsif user_signed_in? %>
+        <%= yield %>
+      <% else %>
+        <%= render "static_pages/before_login_page" %>
+      <% end %>
+    </main>
   </body>
 </html>
