@@ -1,18 +1,18 @@
 /* プレーヤー全体 */
 .podcast-player {
-  width: 100%;           /* 幅を画面いっぱいに */
-  max-width: 600px;      /* PCでは最大600px */
+  width: 100%;
+  max-width: 600px;
   margin: 0 auto;
   background: #f8f9fb;
   padding: 1rem;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;  /* スマホの余白崩れ防止 */
+  box-sizing: border-box;
 }
 
 /* 進捗バー */
 .podcast-progress {
-  width: 100%;           /* スマホで横にはみ出さない */
+  width: 100%;
   height: 6px;
   border-radius: 3px;
   accent-color: #dc3545;
@@ -22,7 +22,6 @@
 /* 再生ボタン */
 #playBtn {
   font-size: 1.5rem;
-  line-height: 1;
   width: 50px;
   height: 50px;
   display: flex;
@@ -30,9 +29,29 @@
   align-items: center;
 }
 
-/* ボタン全般 */
-button:focus {
-  box-shadow: none;
+/* ボタン全般をキレイに整列 */
+.podcast-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px; /* スマホでも崩れない */
+  flex-wrap: nowrap;
+}
+
+.podcast-controls button {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 再生だけ大きく */
+.podcast-controls #playBtn {
+  width: 52px;
+  height: 52px;
 }
 
 /* 下部固定 */
@@ -45,27 +64,38 @@ button:focus {
 }
 
 /* ==========================================
-   ここからスマホ向け最適化（レスポンシブ）
+     スマホ向け（480px 以下）
    ========================================== */
 @media (max-width: 480px) {
 
   .podcast-player {
-    padding: 0.7rem;     /* 内側余白を少し減らす */
-    border-radius: 10px;
+    padding: 0.7rem;
+    border-radius: 0;
   }
 
-  #playBtn {
-    width: 42px;
-    height: 42px;
-    font-size: 1.3rem;   /* 文字サイズ少し小さく */
+  .podcast-controls {
+    gap: 8px; /* スマホ用に詰める */
+  }
+
+  .podcast-controls button {
+    width: 34px;
+    height: 34px;
+    font-size: 1.0rem;
+  }
+
+  .podcast-controls #playBtn {
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+  }
+
+  #speedControl {
+    width: 55px;
+    font-size: 0.75rem;
+    padding: 2px;
   }
 
   .podcast-progress {
-    height: 5px;         /* 少し細く */
-  }
-
-  /* 固定時のはみ出し防止 */
-  .fixed-bottom.podcast-player {
-    border-radius: 0;    /* 下部固定時は角丸ゼロの方が自然 */
+    height: 5px;
   }
 }
