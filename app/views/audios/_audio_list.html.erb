@@ -1,20 +1,25 @@
 <% if @chapter.audios.count > 1 %>
   <h5 class="mb-3">この章の音声一覧</h5>
 
-  <% @chapter.audios.each do |audio| %>
-    <% active = audio.id == @audio.id %>
-    <div class="card p-2 mb-2 shadow-sm d-flex align-items-center justify-content-start <%= 'bg-dark text-white' if active %>"
-         style="cursor:pointer;"
-         data-audio-url="/audio_files/<%= audio.file_name %>">
+  <!-- ▼ 音声リストラッパー -->
+  <div class="audio-list-wrapper">
+    <% @chapter.audios.each do |audio| %>
+      <% active = audio.id == @audio.id %>
 
-      <!-- ファイル名 -->
-      <span class="fw-medium" style="font-size:0.95rem;">
-        <i class="bi bi-file-earmark-audio me-2"></i>
-        <%= audio.file_name %>
-      </span>
-    </div>
-  <% end %>
+      <div class="card p-2 mb-2 shadow-sm d-flex align-items-center
+                  <%= 'bg-dark text-white' if active %>"
+           style="cursor:pointer;"
+           data-audio-url="/audio_files/<%= audio.file_name %>">
+
+        <span class="fw-medium" style="font-size:0.95rem;">
+          <i class="bi bi-file-earmark-audio me-2"></i>
+          <%= audio.file_name %>
+        </span>
+      </div>
+    <% end %>
+  </div>
 <% end %>
+
 <script>
   document.addEventListener("turbo:load", () => {
     const audioPlayer = document.getElementById("audio");

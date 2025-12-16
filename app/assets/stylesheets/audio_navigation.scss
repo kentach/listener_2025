@@ -20,13 +20,20 @@
 }
 
 /* 再生ボタン */
+/* 再生ボタンを完全な正円に固定 */
 #playBtn {
-  font-size: 1.5rem;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 52px;
+  height: 52px;
+  min-width: 52px;   /* ← これが重要 */
+  min-height: 52px;
+  padding: 0;
+  aspect-ratio: 1 / 1; /* ← 横長防止の決定打 */
+  line-height: 1;
+}
+
+/* Bootstrap btn の影響を排除 */
+.podcast-controls button {
+  flex: 0 0 auto;   /* ← flexで伸びないようにする */
 }
 
 /* ボタン全般をキレイに整列 */
@@ -98,4 +105,26 @@
   .podcast-progress {
     height: 5px;
   }
+  
+  #playBtn {
+    width: 45px;
+    height: 45px;
+    min-width: 45px;
+    min-height: 45px;
+    aspect-ratio: 1 / 1;
+  }
 }
+
+/* 下部プレーヤーに隠れないようにする */
+.audio-list-wrapper {
+  padding-bottom: 120px; /* ← 下部audioプレーヤー分 */
+}
+
+/* 画面が低い端末向け（任意だが強く推奨） */
+@media (max-height: 700px) {
+  .audio-list-wrapper {
+    max-height: calc(100vh - 220px);
+    overflow-y: auto;
+  }
+}
+
