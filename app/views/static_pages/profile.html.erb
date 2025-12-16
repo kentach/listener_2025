@@ -1,0 +1,131 @@
+<!-- 英検 合格証明書風 アカウントページ（本物風・改良版） -->
+<section class="py-5 bg-light">
+  <div class="container d-flex justify-content-center">
+
+    <div class="certificate shadow-lg col-md-6 bg-white text-center position-relative"
+         style="padding:45px 40px; max-width: 720px;">
+
+      <!-- 装飾枠 -->
+      <div class="certificate-frame"></div>
+
+      <!-- ヘッダー -->
+      <div class="mb-5">
+        <h2 class="fw-bold letter-spacing-en">CERTIFICATE</h2>
+        <p class="mb-1 fw-semibold">英語技能検定</p>
+        <p class="text-muted small">EIKEN Test in Practical English Proficiency</p>
+      </div>
+
+      <% if user_signed_in? %>
+
+        <!-- 本文 -->
+        <p class="fs-5 mb-4">
+          本証明書は、下記の者が
+        </p>
+
+        <p class="fs-3 fw-bold mb-4">
+          <%= current_user.name.presence || "あなた" %>
+        </p>
+
+        <p class="fs-5 mb-4">
+          英語技能検定において
+        </p>
+
+        <p class="fs-3 fw-bold mb-4">
+          <%= current_user.eiken_level || "英検（未設定）" %>
+        </p>
+
+        <p class="fs-5 mb-5">
+          に相当する英語力を有することを<br>
+          ここに証明いたします。
+        </p>
+
+        <!-- 認定区分 -->
+        <div class="mb-5">
+          <% case current_user.eiken_level %>
+          <% when "英検1級", "英検準1級" %>
+            <span class="rank rank-gold">上級 認定</span>
+          <% when "英検2級", "英検準2級", "英検準2プラス級" %>
+            <span class="rank rank-silver">中級 認定</span>
+          <% when "英検3級", "英検4級", "英検5級" %>
+            <span class="rank rank-bronze">初級 認定</span>
+          <% else %>
+            <span class="rank rank-gray">未設定</span>
+          <% end %>
+        </div>
+
+        <!-- フッター -->
+        <div class="d-flex justify-content-between align-items-end mt-5">
+          <div class="text-start">
+            <p class="small mb-1">認定日</p>
+            <p class="fw-bold"><%= l(Date.today) %></p>
+          </div>
+
+          <div class="text-end">
+            <p class="small mb-1">発行者</p>
+            <p class="fw-bold">LISTENER</p>
+          </div>
+        </div>
+
+        <!-- 署名風 -->
+        <div class="signature">
+          LISTENER
+        </div>
+
+      <% else %>
+        <h4 class="fw-bold mb-3">ログインが必要です</h4>
+        <p class="text-muted">ログインすると正式な合格証明書が表示されます。</p>
+      <% end %>
+
+        </div>
+  </div>
+</section>
+
+<div class="text-center mb-5 pb-5">
+  <%= link_to edit_user_registration_path,
+              class: "btn btn-outline-secondary px-4 py-2 rounded-pill" do %>
+    <i class="bi bi-pencil-square me-2"></i>
+    アカウントを編集する
+  <% end %>
+</div>
+
+<%= render "shared/navigation_tab" %>
+
+<style>
+  .certificate {
+    border: 12px solid #d1d5db;
+    font-family: "Times New Roman", "Hiragino Mincho ProN", serif;
+  }
+
+  .certificate-frame {
+    position: absolute;
+    inset: 15px;
+    border: 2px solid #9ca3af;
+    pointer-events: none;
+  }
+
+  .letter-spacing-en {
+    letter-spacing: 0.3em;
+  }
+
+  .rank {
+    display: inline-block;
+    padding: 10px 30px;
+    font-weight: bold;
+    border-radius: 999px;
+    font-size: 1rem;
+  }
+
+  .rank-gold { background: linear-gradient(135deg, #facc15, #ca8a04); color: #fff; }
+  .rank-silver { background: linear-gradient(135deg, #e5e7eb, #9ca3af); color: #111; }
+  .rank-bronze { background: linear-gradient(135deg, #fcd34d, #92400e); color: #fff; }
+  .rank-gray { background: #6b7280; color: #fff; }
+
+  .signature {
+    position: absolute;
+    bottom: 40px;
+    right: 60px;
+    font-family: "Zapfino", "Segoe Script", cursive;
+    font-size: 1rem;
+    opacity: 0.7;
+  }
+</style>

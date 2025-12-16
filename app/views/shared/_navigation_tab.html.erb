@@ -6,22 +6,17 @@
       <div>ホーム</div>
     <% end %>
 
-    <%= link_to "#", 
-        class: "tab-item text-center mx-3 #{current_page?("#") ? 'active' : ''}" do %>
-      <i class="bi bi-book"></i>
-      <div>ボキャブラリ</div>
-    <% end %>
-
-    <%= link_to "#", 
-        class: "tab-item text-center mx-3 #{current_page?("#") ? 'active' : ''}" do %>
-      <i class="bi bi-pencil-fill"></i>
-      <div>AIライティング</div>
-    <% end %>
-
     <%= link_to favorites_path, 
         class: "tab-item text-center mx-3 #{current_page?(favorites_path) ? 'active' : ''}" do %>
       <i class="bi bi-star"></i>
       <div>お気に入り</div>
     <% end %>
+
+    <%= link_to profile_path, 
+        class: "tab-item text-center mx-3 #{current_page?(profile_path) ? 'active' : ''}" do %>
+      <i class="bi bi-person-circle"></i>
+      <div>アカウント</div>
+    <% end %>
+
   </div>
 </footer>

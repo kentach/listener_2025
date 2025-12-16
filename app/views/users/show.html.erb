@@ -1,0 +1,114 @@
+<!-- 英検風・賞状カード -->
+<div class="container py-5 d-flex justify-content-center">
+  <div class="eiken-certificate">
+    <div class="certificate-border">
+      <div class="certificate-inner">
+        <p class="cert-top">CERTIFICATE</p>
+        <h2 class="cert-title">英検 合格証</h2>
+
+        <p class="cert-text">
+          下記の者は、英語能力検定試験において
+          <span class="cert-rank">英検2級</span>
+          に合格したことを証します。
+        </p>
+
+        <h3 class="cert-name">山田 太郎</h3>
+
+        <div class="cert-footer">
+          <div class="cert-date">2025年3月</div>
+          <div class="cert-seal">EIKEN</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+/* ================================
+   英検風 賞状UI
+================================ */
+.eiken-certificate {
+  max-width: 520px;
+  width: 100%;
+}
+
+.certificate-border {
+  background: linear-gradient(135deg, #c9a24d, #f3e6b3, #c9a24d);
+  padding: 8px;
+  border-radius: 12px;
+}
+
+.certificate-inner {
+  background: #fffdf6;
+  padding: 36px 28px 32px;
+  border-radius: 8px;
+  text-align: center;
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
+  position: relative;
+}
+
+.cert-top {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.cert-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.cert-text {
+  font-size: 15px;
+  line-height: 1.8;
+  margin-bottom: 24px;
+}
+
+.cert-rank {
+  display: inline-block;
+  font-size: 20px;
+  font-weight: bold;
+  color: #b18a2e;
+  margin: 0 4px;
+}
+
+.cert-name {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 32px;
+}
+
+.cert-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.cert-date {
+  font-size: 14px;
+}
+
+.cert-seal {
+  width: 80px;
+  height: 80px;
+  border: 3px solid #b18a2e;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #b18a2e;
+  font-size: 14px;
+}
+
+/* スマホ対応 */
+@media (max-width: 480px) {
+  .cert-title { font-size: 22px; }
+  .cert-name { font-size: 20px; }
+  .cert-text { font-size: 14px; }
+}
+</style>
+
+<h3 class="cert-name"><%= current_user.name %></h3>
+<span class="cert-rank"><%= current_user.eiken_level %></span>

@@ -1,0 +1,7 @@
+<% if user.eiken_rank >= 6 %>
+  <span class="badge bg-success">上級者</span>
+<% elsif user.eiken_rank >= 4 %>
+  <span class="badge bg-primary">中級者</span>
+<% elsif user.eiken_rank >= 1 %>
+  <span class="badge bg-secondary">初級者</span>
+<% end %>

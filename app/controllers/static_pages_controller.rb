@@ -3,4 +3,8 @@ class StaticPagesController < ApplicationController
         @ontore_textbooks = Textbook.where(series: "音トレ")
         @rhythm_textbooks = Textbook.where(series: "リズムでマスター")
     end 
+
+    def about; end
+
+    def profile; end
 end

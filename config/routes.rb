@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 
   root "static_pages#top"
   get "favorites", to: "favorites#index", as: "favorites"
+  get "about_listener", to: "static_pages#about"
+  get "profile", to: "static_pages#profile"
 
   resources :textbooks, only: [:index, :show] do
     resources :chapters, only: [:show] do
