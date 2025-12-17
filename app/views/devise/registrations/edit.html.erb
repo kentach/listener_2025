@@ -1,74 +1,56 @@
 <% if current_user.name.blank? || current_user.eiken_level.blank? %>
   <div class="alert alert-warning text-center rounded-3 mb-4">
     <i class="bi bi-exclamation-circle me-1"></i>
-    学習を始める前にプロフィールを完成させましょう！
+    学習を始める前に、プロフィール（名前・英検級）を完成させましょう
   </div>
 <% end %>
 
 <div class="container d-flex justify-content-center py-5">
-  <div class="card shadow-sm p-4 rounded-4" style="max-width: 420px; width: 100%;">
+  <div class="card shadow-sm p-4 rounded-4"
+       style="max-width: 420px; width: 100%;">
 
     <h2 class="text-center mb-4 fw-bold">
-      <i class="bi bi-person-circle me-1"></i>
-      アカウント編集
+      <i class="bi bi-shield-lock me-1"></i>
+      ログイン情報の編集
     </h2>
 
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+    <%= form_for(resource,
+                 as: resource_name,
+                 url: registration_path(resource_name),
+                 html: { method: :put }) do |f| %>
+
       <%= render "devise/shared/error_messages", resource: resource %>
 
       <!-- =====================
-           プロフィール情報
+           メール・パスワード
       ====================== -->
       <h6 class="text-muted mb-3">
-        <i class="bi bi-card-text me-1"></i> アカウント
+        <i class="bi bi-envelope me-1"></i>
+        メールアドレス・パスワード
       </h6>
 
       <div class="mb-3">
-        <%= f.label :name, "名前", class: "form-label fw-semibold" %>
-        <%= f.text_field :name,
-              class: "form-control rounded-3",
-              placeholder: "名前を入力してください" %>
-      </div>
-
-      <div class="mb-4">
-        <%= f.label :eiken_level, "現在の英検級", class: "form-label fw-semibold" %>
-        <%= f.select :eiken_level,
-              [["まだ取得していない"],
-               ["英検5級"], ["英検4級"], ["英検3級"],
-               ["英検準2級"], ["英検準2プラス級"],
-               ["英検2級"], ["英検準1級"], ["英検1級"]],
-              { prompt: "選択してください" },
-              class: "form-select rounded-3" %>
-      </div>
-
-      <hr class="my-4">
-
-      <!-- =====================
-           アカウント情報
-      ====================== -->
-      <h6 class="text-muted mb-3">
-        <i class="bi bi-shield-lock me-1"></i> アカウント
-      </h6>
-
-      <div class="mb-3">
-        <%= f.label :email, "メールアドレス", class: "form-label" %>
+        <%= f.label :email, "メールアドレス", class: "form-label fw-semibold" %>
         <%= f.email_field :email,
               autocomplete: "email",
-              class: "form-control" %>
+              class: "form-control rounded-3" %>
       </div>
 
       <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
         <div class="alert alert-warning small">
-          確認待ちのメール：
+          確認待ちのメールアドレス：
           <strong><%= resource.unconfirmed_email %></strong>
         </div>
       <% end %>
 
       <div class="mb-3">
-        <%= f.label :password, "新しいパスワード（変更しない場合は空欄）", class: "form-label" %>
+        <%= f.label :password,
+              "新しいパスワード",
+              class: "form-label fw-semibold" %>
         <%= f.password_field :password,
               autocomplete: "new-password",
-              class: "form-control" %>
+              class: "form-control rounded-3" %>
+
         <% if @minimum_password_length %>
           <div class="form-text">
             ※ <%= @minimum_password_length %>文字以上
@@ -77,43 +59,49 @@
       </div>
 
       <div class="mb-4">
-        <%= f.label :password_confirmation, "新しいパスワード（確認）", class: "form-label" %>
+        <%= f.label :password_confirmation,
+              "パスワード確認",
+              class: "form-label fw-semibold" %>
         <%= f.password_field :password_confirmation,
               autocomplete: "new-password",
-              class: "form-control" %>
+              class: "form-control rounded-3" %>
       </div>
 
       <div class="mb-4">
-        <%= f.label :current_password, "現在のパスワード（必須）", class: "form-label fw-semibold" %>
+        <%= f.label :current_password,
+              "現在のパスワード（必須）",
+              class: "form-label fw-semibold" %>
         <%= f.password_field :current_password,
               autocomplete: "current-password",
-              class: "form-control" %>
+              class: "form-control rounded-3" %>
         <div class="form-text">
-          ※ 変更を保存するために必要です
+          ※ セキュリティのため、変更時は必ず入力してください
         </div>
       </div>
 
       <div class="d-grid mb-4">
-        <%= f.submit "更新する", class: "btn btn-primary fw-bold rounded-pill" %>
+        <%= f.submit "変更を保存する",
+              class: "btn btn-primary fw-bold rounded-pill" %>
       </div>
+
     <% end %>
 
-    <hr>
+    <hr class="my-4">
 
     <!-- =====================
-         危険操作
+         アカウント削除
     ====================== -->
     <div class="text-center">
       <h6 class="text-danger mb-3">
         <i class="bi bi-exclamation-triangle me-1"></i>
-        アカウント削除
+        アカウント削除（取り消し不可）
       </h6>
 
       <%= button_to "アカウントを削除する",
             registration_path(resource_name),
             method: :delete,
             data: {
-              confirm: "本当にアカウントを削除しますか？",
+              confirm: "本当にアカウントを削除しますか？この操作は取り消せません。",
               turbo_confirm: "本当にアカウントを削除しますか？"
             },
             class: "btn btn-outline-danger btn-sm rounded-pill" %>

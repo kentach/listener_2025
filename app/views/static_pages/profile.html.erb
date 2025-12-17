@@ -43,15 +43,31 @@
         <div class="mb-5">
           <% case current_user.eiken_level %>
           <% when "英検1級", "英検準1級" %>
-            <span class="rank rank-gold">上級 認定</span>
-          <% when "英検2級", "英検準2級", "英検準2プラス級" %>
-            <span class="rank rank-silver">中級 認定</span>
-          <% when "英検3級", "英検4級", "英検5級" %>
-            <span class="rank rank-bronze">初級 認定</span>
+            <span class="rank rank-gold">高校卒業〜大学レベル</span>
+
+          <% when "英検2級" %>
+            <span class="rank rank-gold">高校3年生レベル</span>
+
+          <% when "英検準2プラス級" %>
+            <span class="rank rank-silver">高校2年生レベル</span>
+
+          <% when "英検準2級" %>
+            <span class="rank rank-silver">高校1年生レベル</span>
+
+          <% when "英検3級" %>
+            <span class="rank rank-bronze">中学3年生レベル</span>
+
+          <% when "英検4級" %>
+            <span class="rank rank-bronze">中学2年生レベル</span>
+
+          <% when "英検5級" %>
+            <span class="rank rank-bronze">中学1年生レベル</span>
+
           <% else %>
             <span class="rank rank-gray">未設定</span>
           <% end %>
         </div>
+
 
         <!-- フッター -->
         <div class="d-flex justify-content-between align-items-end mt-5">
@@ -62,13 +78,13 @@
 
           <div class="text-end">
             <p class="small mb-1">発行者</p>
-            <p class="fw-bold">LISTENER</p>
+            <p class="fw-bold">サイエイ</p>
           </div>
         </div>
 
         <!-- 署名風 -->
         <div class="signature">
-          LISTENER
+          SAIEI
         </div>
 
       <% else %>
@@ -81,10 +97,10 @@
 </section>
 
 <div class="text-center mb-5 pb-5">
-  <%= link_to edit_user_registration_path,
+  <%= link_to edit_profile_user_path(current_user),
               class: "btn btn-outline-secondary px-4 py-2 rounded-pill" do %>
     <i class="bi bi-pencil-square me-2"></i>
-    アカウントを編集する
+    英検級を編集する
   <% end %>
 </div>
 

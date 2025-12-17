@@ -1,6 +1,3 @@
-# db/seeds.rb
-# Safe seeds: find_or_create_by! を用いて重複を防止する完全版
-# 実行しても既存データは上書きされません（作成済みならスキップ）
 
 ActiveRecord::Base.transaction do
   # -------------------------------
@@ -12,13 +9,7 @@ ActiveRecord::Base.transaction do
     { name: "音トレ道場4段", series: "音トレ", level: "英検準2級", cover_image: "ontre_04.png" },
     { name: "音トレ道場3段", series: "音トレ", level: "英検3級", cover_image: "ontre_03.png" },
     { name: "音トレ道場2段", series: "音トレ", level: "英検4級", cover_image: "ontre_02.png" },
-    { name: "音トレ道場初段", series: "音トレ", level: "英検5級", cover_image: "ontre_01.png" },
-    { name: "リズムでマスター英検準1級", series: "リズムでマスター", level: "英検準1級", cover_image: "rhythm_06.png" },
-    { name: "リズムでマスター英検2級", series: "リズムでマスター", level: "英検2級", cover_image: "rhythm_05.png" },
-    { name: "リズムでマスター英検準2級", series: "リズムでマスター", level: "英検準2級", cover_image: "rhythm_04.png" },
-    { name: "リズムでマスター英検3級", series: "リズムでマスター", level: "英検3級", cover_image: "rhythm_03.png" },
-    { name: "リズムでマスター英検4級", series: "リズムでマスター", level: "英検4級", cover_image: "rhythm_02.png" },
-    { name: "リズムでマスター英検5級", series: "リズムでマスター", level: "英検5級", cover_image: "rhythm_01.png" }
+    { name: "音トレ道場初段", series: "音トレ", level: "英検5級", cover_image: "ontre_01.png" }
   ]
 
   textbooks.each do |attrs|
@@ -30,30 +21,28 @@ ActiveRecord::Base.transaction do
   end
 
   # -------------------------------
-  # helper: create chapters + audios safely
+  # Helper: chapter + audio の作成
   # -------------------------------
   def create_chapters_for(textbook_name, chapters_data)
     textbook = Textbook.find_by!(name: textbook_name)
 
     chapters_data.each do |c|
-      chapter = Chapter.find_or_create_by!(
+      chapter = Chapter.find_or_initialize_by(
         textbook: textbook,
-        series:   c[:series],
-        title:    c[:title]
+        series: c[:series],
+        title: c[:title]
       )
+      chapter.save! if chapter.new_record?
 
       Array(c[:audio_files]).each do |file|
-        Audio.find_or_create_by!(
-          chapter: chapter,
-          file_name: file
-        )
+        Audio.find_or_create_by!(chapter: chapter, file_name: file)
       end
     end
   end
 
-  # -------------------------------
+  # ================================
   # 音トレ道場6段
-  # -------------------------------
+  # ================================
   chapters_data6 = [
     # 長文
     { series: "長文", title: "TOPIC1 History 歴史", audio_files: ["ontre6_topic1.mp3"] },
@@ -76,7 +65,6 @@ ActiveRecord::Base.transaction do
     { series: "長文", title: "TOPIC18 Law 法律", audio_files: ["ontre6_topic18.mp3"] },
     { series: "長文", title: "TOPIC19 International Relations 国際関係", audio_files: ["ontre6_topic19.mp3"] },
     { series: "長文", title: "TOPIC20 Biology 生物", audio_files: ["ontre6_topic20.mp3"] },
-
     # リスニング
     { series: "リスニング", title: "SCENE1 Daily Life 日常の様々な場面での対話・連絡", audio_files: ["ontre6_scene1_No1.mp3","ontre6_scene1_No2.mp3","ontre6_scene1_No3.mp3","ontre6_scene1_Q1.mp3","ontre6_scene1_Q2.mp3","ontre6_scene1_Q3.mp3"] },
     { series: "リスニング", title: "SCENE2 College/Graduate School キャンパスでの対話・案内", audio_files: ["ontre6_scene2_No1.mp3","ontre6_scene2_No2.mp3","ontre6_scene2_No3.mp3","ontre6_scene2_Q1.mp3","ontre6_scene2_Q2.mp3","ontre6_scene2_Q3.mp3"] },
@@ -87,9 +75,9 @@ ActiveRecord::Base.transaction do
 
   create_chapters_for("音トレ道場6段", chapters_data6)
 
-  # -------------------------------
+  # ================================
   # 音トレ道場5段
-  # -------------------------------
+  # ================================
   chapters_data5 = [
     { series: "長文", title: "TOPIC1 Education 教育", audio_files: ["ontre5_topic1.mp3"] },
     { series: "長文", title: "TOPIC2 Astronomy 天文学", audio_files: ["ontre5_topic2.mp3"] },
@@ -120,9 +108,9 @@ ActiveRecord::Base.transaction do
 
   create_chapters_for("音トレ道場5段", chapters_data5)
 
-  # -------------------------------
+  # ================================
   # 音トレ道場4段
-  # -------------------------------
+  # ================================
   chapters_data4 = [
     { series: "長文", title: "TOPIC1 Daily Life 日常生活", audio_files: ["ontre4_topic1.mp3"]},
     { series: "長文", title: "TOPIC2 Business ビジネス", audio_files: ["ontre4_topic2.mp3"]},
@@ -153,9 +141,37 @@ ActiveRecord::Base.transaction do
 
   create_chapters_for("音トレ道場4段", chapters_data4)
 
-  # -------------------------------
-  # (必要に応じて他の教材も同様に追加可能)
-  # -------------------------------
+  # ================================
+  # 音トレ道場3段〜初段（例: 簡略化）
+  # ================================
+  ["音トレ道場3段","音トレ道場2段","音トレ道場初段"].each do |tb_name|
+    chapters_data = [
+    { series: "長文", title: "TOPIC1", audio_files: ["ontre3_topic1.mp3"]},
+    { series: "長文", title: "TOPIC2", audio_files: ["ontre3_topic2.mp3"]},
+    { series: "長文", title: "TOPIC3", audio_files: ["ontre3_topic3.mp3"]},
+    { series: "長文", title: "TOPIC4", audio_files: ["ontre3_topic4.mp3"]},
+    { series: "長文", title: "TOPIC5", audio_files: ["ontre3_topic5.mp3"]},
+    { series: "長文", title: "TOPIC6", audio_files: ["ontre3_topic6.mp3"]},
+    { series: "長文", title: "TOPIC7", audio_files: ["ontre3_topic7.mp3"]},
+    { series: "長文", title: "TOPIC8", audio_files: ["ontre3_topic8.mp3"]},
+    { series: "長文", title: "TOPIC9", audio_files: ["ontre3_topic9.mp3"]},
+    { series: "長文", title: "TOPIC10", audio_files: ["ontre3_topic10.mp3"]},
+    { series: "長文", title: "TOPIC11", audio_files: ["ontre3_topic11.mp3"]},
+    { series: "長文", title: "TOPIC12", audio_files: ["ontre3_topic12.mp3"]},
+    { series: "長文", title: "TOPIC13", audio_files: ["ontre3_topic13.mp3"]},
+    { series: "長文", title: "TOPIC14", audio_files: ["ontre3_topic14.mp3"]},
+    { series: "長文", title: "TOPIC15", audio_files: ["ontre3_topic15.mp3"]},
+    { series: "リスニング", title: "Scene1", audio_files: ["ontre3_scene1_No1.mp3", "ontre3_scene1_Q1.mp3"]},
+    { series: "リスニング", title: "Scene2", audio_files: ["ontre3_scene2_No1.mp3", "ontre3_scene2_Q1.mp3"]},
+    { series: "リスニング", title: "Scene3", audio_files: ["ontre3_scene3_No1.mp3", "ontre3_scene3_Q1.mp3"]},
+    { series: "リスニング", title: "Scene4", audio_files: ["ontre3_scene4_No1.mp3", "ontre3_scene4_Q1.mp3"]},
+    { series: "リスニング", title: "Scene5", audio_files: ["ontre3_scene5_No1.mp3", "ontre3_scene5_Q1.mp3"]},
+    { series: "リスニング", title: "Scene6", audio_files: ["ontre3_scene6_No1.mp3", "ontre3_scene6_Q1.mp3"]},
+    { series: "リスニング", title: "Scene7", audio_files: ["ontre3_scene7_No1.mp3", "ontre3_scene7_Q1.mp3"]},
+    { series: "リスニング", title: "Scene8", audio_files: ["ontre3_scene8_No1.mp3", "ontre3_scene8_Q1.mp3"]},
+  ]
+    create_chapters_for(tb_name, chapters_data)
+  end
 
-  puts "Seeds: finished safely (no duplicates created)."
+  puts "✅ Seeds finished safely (no duplicates created)."
 end

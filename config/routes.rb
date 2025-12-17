@@ -9,6 +9,12 @@ Rails.application.routes.draw do
   get "about_listener", to: "static_pages#about"
   get "profile", to: "static_pages#profile"
 
+  resource :user, only: [] do
+    get   :edit_profile
+    patch :update_profile
+    get   :edit_password
+    patch :update_password
+  end
   resources :textbooks, only: [:index, :show] do
     resources :chapters, only: [:show] do
       resources :audios, only: [:show] do

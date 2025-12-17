@@ -1,226 +1,140 @@
-<!-- Swiper CSS -->
+<!-- ================= LIBRARIES ================= -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
 <!-- ================= HERO ================= -->
-<section class="feature-title-section text-center py-5">
-  <p class="feature-number">リスニング強化アプリ</p>
-  <h2 class="feature-title">LISTENER</h2>
+<section class="feature-title-section hero-section">
+  <div class="section-inner">
+    <p class="hero-tagline fade-up">リスニング強化アプリ</p>
+    <h1 class="hero-title fade-up delay-1">LISTENER</h1>
 
-  <div class="container d-flex justify-content-center mt-5">
-    <div class="smartphone small-phone">
-      <div class="content">
-        <%= image_tag "Screenshot 2025-12-16 at 16.57.08.png",
-          class: "screen-image",
-          alt: "スマホ画面" %>
-      </div>
+    <p class="feature-subtitle fade-up delay-2">
+      「音読」×「シャドーイング」で<br>
+      「聴く」と「読む」を同時に鍛える<br>
+      新しい英語トレーニングアプリ
+    </p>
+
+    <div class="cta-buttons fade-up delay-3">
+      <%= link_to "今すぐ始める", new_user_registration_path,
+        class: "btn btn-primary btn-lg rounded-pill fw-bold px-5 py-3 shadow" %>
+
+      <%= link_to "ログイン", new_user_session_path,
+        class: "btn btn-outline-primary btn-lg rounded-pill fw-bold px-5 py-3" %>
     </div>
   </div>
-
-  <p class="feature-subtitle mt-4">
-    「音読」×「シャドーイング」で<br>
-    「聴く」と「読む」を同時に鍛える<br>
-    新しい英語トレーニングアプリ。
-  </p>
-
-  <div class="cta-buttons d-flex flex-column flex-md-row justify-content-center gap-3 mb-4">
-    <%= link_to "今すぐ始める",
-        new_user_registration_path,
-        class: "btn btn-primary btn-lg rounded-pill fw-bold px-5 py-3 shadow-sm" %>
-
-    <%= link_to "ログイン",
-        new_user_session_path,
-        class: "btn btn-outline-primary btn-lg rounded-pill fw-bold px-5 py-3" %>
-  </div>
-
-  <p class="hero-note text-muted small mb-5">
-    すべての機能が使い放題・追加費用ゼロ
-  </p>
 </section>
 
 <!-- ================= FEATURE 01 ================= -->
-<section class="feature-title-section feature-dark text-center py-5">
-  <p class="feature-number">特徴 <span>01</span></p>
-  <h2 class="feature-title">全てのテキストに対応</h2>
-  <h2 class="feature-title">英検対策にバッチリ！</h2>
+<section class="feature-title-section">
+  <div class="section-inner">
+    <p class="feature-number fade-up">FEATURE <span>01</span></p>
+    <h2 class="feature-title fade-up delay-1">全てのテキストに対応</h2>
+    <h2 class="feature-title fade-up delay-2">英検対策にバッチリ</h2>
 
-  <p class="feature-subtitle">
-    授業で扱うテキストで自宅学習が可能に。<br>
-    レベル別教材で英検対策も万全。
-  </p>
+    <p class="feature-subtitle fade-up delay-3">
+      授業で扱う教材で自宅学習。<br>
+      英検対策も万全。
+    </p>
+  </div>
 
-  <div class="swiper card-swiper mt-4">
+  <div class="swiper card-swiper fade-up delay-4">
     <div class="swiper-wrapper">
       <% [
-        "ontre_01.png","ontre_02.png","ontre_03.png",
-        "ontre_04.png","ontre_05.png","ontre_06.png",
-        "rhythm_01.png","rhythm_02.png","rhythm_03.png"
+        "ontre_01.png","ontre_02.png","ontre_03.png","ontre_04.png","ontre_05.png","ontre_06.png",
+        "rhythm_01.png","rhythm_02.png","rhythm_03.png","rhythm_04.png","rhythm_05.png","rhythm_06.png"
       ].each do |img| %>
         <div class="swiper-slide card-item">
-          <%= image_tag img,
-            class: "card-img",
-            alt: img,
-            loading: "lazy" %>
+          <%= image_tag img, class: "card-img", alt: img %>
         </div>
       <% end %>
     </div>
-    <div class="swiper-scrollbar"></div>
   </div>
 </section>
 
 <!-- ================= FEATURE 02 ================= -->
-<section class="feature-title-section bg-gray-section text-center py-5">
-  <p class="feature-number">特徴 <span>02</span></p>
-  <h2 class="feature-title">座る時間＝勉強じゃない</h2>
-  <h2 class="feature-title">どこでも英語学習</h2>
+<section class="feature-title-section bg-gray-section">
+  <div class="section-inner">
+    <p class="feature-number fade-up">FEATURE <span>02</span></p>
+    <h2 class="feature-title fade-up delay-1">音読 × シャドーイング</h2>
 
-  <p class="feature-subtitle">
-    スマホ一つでリスニング練習が<br>
-    いつでもどこでも可能に。
-  </p>
+    <div class="icon-area">
+      <div class="icon-wrapper fade-up delay-2">
+        <div class="icon-circle"><i class="bi bi-mic-fill"></i></div>
+        <p class="icon-label">音読</p>
+      </div>
 
-  <div class="container d-flex justify-content-center mt-5">
-    <div class="smartphone">
-      <div class="content">
-        <%= image_tag "IMG_0476.jpeg",
-          class: "screen-image",
-          alt: "スマホ画面",
-          loading: "lazy" %>
+      <div class="icon-wrapper fade-up delay-3">
+        <div class="icon-circle"><i class="bi bi-headphones"></i></div>
+        <p class="icon-label">シャドーイング</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ================= FEATURE 03 ================= -->
-<section class="feature-title-section text-center py-5">
-  <p class="feature-number">特徴 <span>03</span></p>
-  <h2 class="feature-title">英語学習に欠かせない機能</h2>
+<section class="feature-title-section">
+  <div class="section-inner">
+    <p class="feature-number fade-up">FEATURE <span>03</span></p>
+    <h2 class="feature-title fade-up delay-1">便利な学習機能</h2>
 
-  <p class="feature-subtitle">
-    毎日の学習を支える便利機能を搭載。
-  </p>
-
-  <div class="d-flex justify-content-center gap-5 mt-4 icon-area flex-wrap">
-    <div class="icon-wrapper text-center">
-      <div class="icon-circle"><i class="bi bi-arrow-repeat"></i></div>
-      <p class="icon-label">リピート</p>
-    </div>
-
-    <div class="icon-wrapper text-center">
-      <div class="icon-circle position-relative">
-        <i class="bi bi-arrow-counterclockwise"></i>
-        <span class="icon-text">5s</span>
+    <div class="icon-area">
+      <div class="icon-wrapper fade-up delay-2">
+        <div class="icon-circle"><i class="bi bi-arrow-repeat"></i></div>
+        <p class="icon-label">リピート</p>
       </div>
-      <p class="icon-label">5秒戻し</p>
-    </div>
 
-    <div class="icon-wrapper text-center">
-      <div class="icon-circle position-relative">
-        <i class="bi bi-speedometer2"></i>
-        <span class="icon-text">1.0x</span>
+      <div class="icon-wrapper fade-up delay-3">
+        <div class="icon-circle"><i class="bi bi-speedometer2"></i></div>
+        <p class="icon-label">速度調整</p>
       </div>
-      <p class="icon-label">速度調整</p>
-    </div>
 
-    <div class="icon-wrapper text-center">
-      <div class="icon-circle position-relative">
-        <i class="bi bi-skip-forward-fill"></i>
-        <span class="icon-text">10s</span>
+      <div class="icon-wrapper fade-up delay-4">
+        <div class="icon-circle"><i class="bi bi-skip-forward-fill"></i></div>
+        <p class="icon-label">スキップ</p>
       </div>
-      <p class="icon-label">10秒スキップ</p>
     </div>
   </div>
-
-  <p class="text-muted small mt-4">
-    ※ 英検指導経験のある講師監修
-  </p>
 </section>
 
 <!-- ================= CTA ================= -->
-<section class="text-center py-5">
-  <div class="cta-buttons d-flex flex-column flex-md-row justify-content-center gap-3 mb-4">
-    <%= link_to "さあ今すぐ始めよう",
-        new_user_registration_path,
-        class: "btn btn-primary btn-lg rounded-pill fw-bold px-5 py-3 shadow-sm" %>
+<section class="feature-title-section">
+  <div class="section-inner">
+    <h2 class="feature-title fade-up">さあ、今すぐ始めよう</h2>
 
-    <%= link_to "アカウントをお持ちの方",
-        new_user_session_path,
+    <div class="cta-buttons fade-up delay-1">
+      <%= link_to "無料で始める", new_user_registration_path,
+        class: "btn btn-primary btn-lg rounded-pill fw-bold px-5 py-3 shadow" %>
+
+      <%= link_to "ログイン", new_user_session_path,
         class: "btn btn-outline-primary btn-lg rounded-pill fw-bold px-5 py-3" %>
+    </div>
   </div>
 </section>
 
 <%= render "shared/footer" %>
 
-<!-- ================= CSS ================= -->
-<style>
-.smartphone {
-  width: 250px;
-  height: 520px;
-  border: 14px solid #333;
-  border-radius: 32px;
-  background: #000;
-  position: relative;
-  box-shadow: 0 0 20px rgba(0,0,0,.3);
-  overflow: hidden;
-}
-
-.small-phone {
-  width: 130px;
-  height: 270px;
-  border-width: 2px;
-  border-radius: 20px;
-  padding: 8px;
-}
-
-.small-phone::before {
-  display: none;
-}
-
-.smartphone::before {
-  content: "";
-  width: 80px;
-  height: 16px;
-  background: #000;
-  border-radius: 8px;
-  position: absolute;
-  top: -5px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.smartphone .content {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.screen-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-</style>
-
-<!-- ================= Swiper ================= -->
+<!-- ================= JS ================= -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
 document.addEventListener("turbo:load", () => {
-  const el = document.querySelector(".card-swiper");
-  if (!el || el.swiper) return;
-
-  new Swiper(el, {
+  new Swiper(".card-swiper", {
     slidesPerView: "auto",
-    spaceBetween: 16,
+    spaceBetween: 20,
     loop: true,
-    speed: 3000,
-    autoplay: {
-      delay: 0,
-      disableOnInteraction: false
-    },
-    allowTouchMove: true,
-    scrollbar: {
-      el: ".swiper-scrollbar",
-      draggable: true
-    }
+    allowTouchMove: false,
+    speed: 4000,
+    autoplay: { delay: 0 }
   });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll(".fade-up").forEach(el => observer.observe(el));
 });
 </script>
