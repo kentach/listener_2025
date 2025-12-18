@@ -19,22 +19,16 @@
 
   <body>
     <header>
-      <% if user_signed_in? %>
-        <%= render "shared/header" %>
-      <% else %>
-        <%= render "shared/before_login_header" %>
-      <% end %>
+      <%= render "shared/header" %>
     </header>
 
     <%= render 'shared/flash_message' %>
 
-    <main class="container mt-4">
-      <% if devise_controller? %>
-        <%= yield %>
-      <% elsif user_signed_in? %>
-        <%= yield %>
-      <% else %>
+    <main class="container">
+      <% if controller_name == "static_pages" && action_name == "top" && !user_signed_in? %>
         <%= render "static_pages/before_login_page" %>
+      <% else %>
+        <%= yield %>
       <% end %>
     </main>
   </body>

@@ -6,7 +6,8 @@ Rails.application.routes.draw do
 
   root "static_pages#top"
   get "favorites", to: "favorites#index", as: "favorites"
-  get "about_listener", to: "static_pages#about"
+  get "about_listener", to: "static_pages#about", as: "about_listener"
+  get "feature", to: "static_pages#feature", as: "feature"
   get "profile", to: "static_pages#profile"
 
   resource :user, only: [] do

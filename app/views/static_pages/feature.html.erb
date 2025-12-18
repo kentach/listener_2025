@@ -1,0 +1,221 @@
+<!-- ================= HERO ================= -->
+<section class="feature-title-section feature-page-hero">
+  <div class="section-inner">
+    <p class="hero-tagline fade-up">LISTENERの特徴</p>
+    <h1 class="hero-title fade-up delay-1">FEATURES</h1>
+    <p class="feature-subtitle fade-up delay-2">
+      LISTENERの学習機能や便利なツールをまとめて紹介します。<br>
+      音読・シャドーイング・リピート機能など、英語学習を効率的にサポート。
+    </p>
+  </div>
+</section>
+
+<!-- ================= FEATURE CARDS ================= -->
+<section class="feature-card-section">
+  <div class="feature-card fade-up">
+    <p class="feature-number">FEATURE <span>01</span></p>
+    <h2 class="feature-title">全ての教材に対応</h2>
+    <p class="feature-subtitle">
+      英検や学校の教材など、あらゆるテキストで学習可能。
+    </p>
+  </div>
+
+  <div class="feature-card fade-up delay-1">
+    <p class="feature-number">FEATURE <span>02</span></p>
+    <h2 class="feature-title">音読 × シャドーイング</h2>
+    <div class="icon-grid">
+      <div class="icon-wrapper">
+        <div class="icon-circle"><i class="bi bi-mic-fill"></i></div>
+        <p class="icon-label">音読</p>
+      </div>
+      <div class="icon-wrapper">
+        <div class="icon-circle"><i class="bi bi-headphones"></i></div>
+        <p class="icon-label">シャドーイング</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="feature-card fade-up delay-2">
+    <p class="feature-number">FEATURE <span>03</span></p>
+    <h2 class="feature-title">便利な学習機能</h2>
+    <div class="icon-grid">
+      <div class="icon-wrapper">
+        <div class="icon-circle"><i class="bi bi-arrow-repeat"></i></div>
+        <p class="icon-label">リピート</p>
+      </div>
+      <div class="icon-wrapper">
+        <div class="icon-circle"><i class="bi bi-speedometer2"></i></div>
+        <p class="icon-label">速度調整</p>
+      </div>
+      <div class="icon-wrapper">
+        <div class="icon-circle"><i class="bi bi-skip-forward-fill"></i></div>
+        <p class="icon-label">スキップ</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="about-cta text-center">
+  <div class="container">
+    <h2 class="cta-title">英検リスニングを、今日から。</h2>
+    <p class="cta-text">まずは無料で体験してみてください。</p>
+
+    <div class="d-flex justify-content-center gap-3 mt-4">
+      <a href="/users/sign_up" class="btn btn-primary btn-lg rounded-pill px-5">今すぐ始める</a>
+      <a href="/users/sign_in" class="btn btn-outline-primary btn-lg rounded-pill px-5">ログイン</a>
+    </div>
+  </div>
+</section>
+
+
+<style>
+/* ================= FEATURE PAGE BASE ================= */
+.feature-page-hero {
+  background: linear-gradient(135deg, #4f46e5, #06b6d4);
+  color: #fff;
+  padding: 120px 20px;
+  text-align: center;
+}
+
+.feature-page-hero .hero-tagline {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: 0.05em;
+}
+
+.feature-page-hero .hero-title {
+  font-size: clamp(3rem, 8vw, 5rem);
+  font-weight: 900;
+  margin-bottom: 16px;
+}
+
+.feature-page-hero .feature-subtitle {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* ================= FEATURE CARDS ================= */
+.feature-card-section {
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.feature-card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  padding: 40px 20px;
+  margin: 40px auto;
+  max-width: 600px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+}
+
+.feature-card .feature-number {
+  font-weight: 700;
+  color: #4f46e5;
+  margin-bottom: 12px;
+}
+
+.feature-card .feature-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.feature-card .feature-subtitle {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+/* ================= ICON GRID ================= */
+.icon-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+.icon-grid .icon-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  max-width: 120px;
+}
+
+.icon-grid .icon-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4f46e5, #06b6d4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 2rem;
+}
+
+/* ================= ANIMATION ================= */
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.fade-up.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+  .feature-page-hero {
+    padding: 80px 16px;
+  }
+
+  .feature-card {
+    padding: 30px 16px;
+  }
+
+  .feature-card .feature-title {
+    font-size: 1.6rem;
+  }
+
+  .icon-grid .icon-circle {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+
+  .icon-grid .icon-wrapper {
+    max-width: 100px;
+    gap: 8px;
+  }
+}
+
+</style>
+
+<script>
+document.addEventListener("turbo:load", () => {
+  // IntersectionObserver でフェードアップアニメーション
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll(".fade-up").forEach(el => observer.observe(el));
+});
+</script>
