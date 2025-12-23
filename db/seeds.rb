@@ -1,8 +1,18 @@
+puts "🔧 Fixing PostgreSQL sequences..."
+
+ActiveRecord::Base.connection.tables.each do |table|
+  next if table.in?(%w[schema_migrations ar_internal_metadata])
+
+  ActiveRecord::Base.connection.execute(<<~SQL)
+    SELECT setval(
+      pg_get_serial_sequence('#{table}', 'id'),
+      COALESCE((SELECT MAX(id) FROM #{table}), 1),
+      true
+    )
+  SQL
+end
 
 ActiveRecord::Base.transaction do
-  # -------------------------------
-  # Textbooks
-  # -------------------------------
   textbooks = [
     { name: "音トレ道場6段", series: "音トレ", level: "英検準1級", cover_image: "ontre_06.png" },
     { name: "音トレ道場5段", series: "音トレ", level: "英検2級", cover_image: "ontre_05.png" },
@@ -19,32 +29,34 @@ ActiveRecord::Base.transaction do
   ]
 
   textbooks.each do |attrs|
-    Textbook.find_or_create_by!(name: attrs[:name]) do |t|
-      t.series = attrs[:series]
-      t.level = attrs[:level]
-      t.cover_image = attrs[:cover_image]
-    end
+    textbook = Textbook.find_or_initialize_by(name: attrs[:name])
+    textbook.update!(attrs)
   end
+
 
   # -------------------------------
   # Helper: chapter + audio の作成
   # -------------------------------
-  def create_chapters_for(textbook_name, chapters_data)
-    textbook = Textbook.find_by!(name: textbook_name)
+def create_chapters_for(textbook_name, chapters_data)
+  textbook = Textbook.find_by!(name: textbook_name)
 
-    chapters_data.each do |c|
-      chapter = Chapter.find_or_initialize_by(
-        textbook: textbook,
-        series: c[:series],
-        title: c[:title]
-      )
-      chapter.save! if chapter.new_record?
+  chapters_data.each do |c|
+    chapter = Chapter.find_or_initialize_by(
+      textbook_id: textbook.id,
+      series: c[:series],
+      title: c[:title]
+    )
+    chapter.save!
 
-      Array(c[:audio_files]).each do |file|
-        Audio.find_or_create_by!(chapter: chapter, file_name: file)
-      end
+    Array(c[:audio_files]).each do |file|
+      Audio.find_or_initialize_by(
+        chapter_id: chapter.id,
+        file_name: file
+      ).save!
     end
   end
+end
+
 
   # ================================
   # 音トレ道場6段
