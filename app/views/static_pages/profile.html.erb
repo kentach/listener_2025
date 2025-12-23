@@ -1,147 +1,262 @@
-<!-- 英検 合格証明書風 アカウントページ（本物風・改良版） -->
-<section class="py-5 bg-light">
-  <div class="container d-flex justify-content-center">
+<% levels = ["英検5級", "英検4級", "英検3級", "英検準2級", "英検準2級プラス", "英検2級", "英検準1級", "英検1級"] %>
+<% current_index = levels.index(current_user.eiken_level) || 0 %>
+<% progress = ((current_index.to_f / (levels.length - 1)) * 100).round %>
 
-    <div class="certificate shadow-lg col-md-6 bg-white text-center position-relative"
-         style="padding:45px 40px; max-width: 720px;">
+<div class="eiken-container">
 
-      <!-- 装飾枠 -->
-      <div class="certificate-frame"></div>
+  <div class="eiken-card">
 
-      <!-- ヘッダー -->
-      <div class="mb-5">
-        <h2 class="fw-bold letter-spacing-en">CERTIFICATE</h2>
-        <p class="mb-1 fw-semibold">英語技能検定</p>
-        <p class="text-muted small">EIKEN Test in Practical English Proficiency</p>
+    <p class="eiken-title">🎓 あなたの英検級</p>
+
+    <!-- プログレス -->
+    <div class="progress-wrap">
+
+      <div class="progress-ticks">
+        <% levels.length.times do %><span></span><% end %>
       </div>
 
-      <% if user_signed_in? %>
+      <div class="progress-bar">
+        <div class="progress-fill <%= 'complete' if current_index == levels.length - 1 %>"
+             data-progress="<%= progress %>"></div>
+      </div>
 
-        <!-- 本文 -->
-        <p class="fs-5 mb-4">
-          本証明書は、下記の者が
-        </p>
-
-        <p class="fs-3 fw-bold mb-4">
-          <%= current_user.name.presence || "あなた" %>
-        </p>
-
-        <p class="fs-5 mb-4">
-          英語技能検定において
-        </p>
-
-        <p class="fs-3 fw-bold mb-4">
-          <%= current_user.eiken_level || "英検（未設定）" %>
-        </p>
-
-        <p class="fs-5 mb-5">
-          に相当する英語力を有することを<br>
-          ここに証明いたします。
-        </p>
-
-        <!-- 認定区分 -->
-        <div class="mb-5">
-          <% case current_user.eiken_level %>
-          <% when "英検1級", "英検準1級" %>
-            <span class="rank rank-gold">高校卒業〜大学レベル</span>
-
-          <% when "英検2級" %>
-            <span class="rank rank-gold">高校3年生レベル</span>
-
-          <% when "英検準2プラス級" %>
-            <span class="rank rank-silver">高校2年生レベル</span>
-
-          <% when "英検準2級" %>
-            <span class="rank rank-silver">高校1年生レベル</span>
-
-          <% when "英検3級" %>
-            <span class="rank rank-bronze">中学3年生レベル</span>
-
-          <% when "英検4級" %>
-            <span class="rank rank-bronze">中学2年生レベル</span>
-
-          <% when "英検5級" %>
-            <span class="rank rank-bronze">中学1年生レベル</span>
-
-          <% else %>
-            <span class="rank rank-gray">未設定</span>
-          <% end %>
-        </div>
-
-
-        <!-- フッター -->
-        <div class="d-flex justify-content-between align-items-end mt-5">
-          <div class="text-start">
-            <p class="small mb-1">認定日</p>
-            <p class="fw-bold"><%= l(Date.today) %></p>
-          </div>
-
-          <div class="text-end">
-            <p class="small mb-1">発行者</p>
-            <p class="fw-bold">サイエイ</p>
-          </div>
-        </div>
-
-        <!-- 署名風 -->
-        <div class="signature">
-          SAIEI
-        </div>
-
-      <% else %>
-        <h4 class="fw-bold mb-3">ログインが必要です</h4>
-        <p class="text-muted">ログインすると正式な合格証明書が表示されます。</p>
+      <% if current_index == levels.length - 1 %>
+        <div class="goal-flag">🏁</div>
       <% end %>
+    </div>
 
-        </div>
+    <!-- 現在級 -->
+    <p class="current-level">
+      あなたの英検級：<strong><%= current_user.eiken_level %></strong>
+    </p>
+
+    <!-- 級一覧 -->
+    <div class="level-scroll">
+      <% levels.each_with_index do |level, index| %>
+        <span class="level-pill
+          <%= 'cleared' if index < current_index %>
+          <%= 'active' if index == current_index %>">
+          <%= level %>
+        </span>
+      <% end %>
+    </div>
+
+    <!-- 編集 -->
+    <div class="eiken-edit">
+      <%= link_to "英検級を変更する",
+        edit_profile_user_path(anchor: "eiken"),
+        class: "edit-btn" %>
+    </div>
+
   </div>
-</section>
+</div>
 
-<div class="text-center mb-5 pb-5">
-  <%= link_to edit_profile_user_path(current_user),
-              class: "btn btn-outline-secondary px-4 py-2 rounded-pill" do %>
-    <i class="bi bi-pencil-square me-2"></i>
-    英検級を編集する
-  <% end %>
+<!-- 🎉 -->
+<div id="confetti" class="confetti hidden">🎉🎉🎉</div>
+
+<div id="level-data"
+     data-current="<%= current_user.eiken_level %>"
+     data-previous="<%= session[:previous_eiken_level] %>">
 </div>
 
 <%= render "shared/navigation_tab" %>
 
 <style>
-  .certificate {
-    border: 12px solid #d1d5db;
-    font-family: "Times New Roman", "Hiragino Mincho ProN", serif;
-  }
+/* ===== 画面全体 ===== */
+body {
+  padding-bottom: 90px; /* navigation_tab対策 */
+}
 
-  .certificate-frame {
-    position: absolute;
-    inset: 15px;
-    border: 2px solid #9ca3af;
-    pointer-events: none;
-  }
+.eiken-container {
+  display: flex;
+  justify-content: center;
+  padding: 24px 16px;
+}
 
-  .letter-spacing-en {
-    letter-spacing: 0.3em;
-  }
+/* ===== カード ===== */
+.eiken-card {
+  width: 100%;
+  max-width: 720px;
+  padding: 20px;
+  background: #f9fafb;
+  border-radius: 18px;
+  border: 1px dashed #d1d5db;
+}
 
-  .rank {
-    display: inline-block;
-    padding: 10px 30px;
-    font-weight: bold;
-    border-radius: 999px;
-    font-size: 1rem;
-  }
+/* ===== タイトル ===== */
+.eiken-title {
+  font-weight: 700;
+  margin-bottom: 18px;
+}
 
-  .rank-gold { background: linear-gradient(135deg, #facc15, #ca8a04); color: #fff; }
-  .rank-silver { background: linear-gradient(135deg, #e5e7eb, #9ca3af); color: #111; }
-  .rank-bronze { background: linear-gradient(135deg, #fcd34d, #92400e); color: #fff; }
-  .rank-gray { background: #6b7280; color: #fff; }
+/* ===== プログレス ===== */
+.progress-wrap {
+  position: relative;
+  margin: 20px 0 24px;
+  padding-top: 14px;
+}
 
-  .signature {
-    position: absolute;
-    bottom: 40px;
-    right: 60px;
-    font-family: "Zapfino", "Segoe Script", cursive;
-    font-size: 1rem;
-    opacity: 0.7;
-  }
+.progress-bar {
+  height: 14px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  min-width: 6px;
+  background: linear-gradient(90deg, #fb923c, #f97316);
+  border-radius: 999px;
+  transition: width 0.8s ease;
+}
+
+.progress-fill.complete {
+  background: linear-gradient(90deg, #facc15, #eab308);
+}
+
+/* 目盛り */
+.progress-ticks {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.progress-ticks span {
+  width: 2px;
+  height: 20px;
+  background: #d1d5db;
+}
+
+/* フラッグ */
+.goal-flag {
+  position: absolute;
+  right: -4px;
+  top: -28px;
+  font-size: 1.2rem;
+}
+
+/* ===== 現在級 ===== */
+.current-level {
+  text-align: center;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+}
+
+.current-level strong {
+  color: #f97316;
+}
+
+/* ===== 級一覧 ===== */
+.level-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 6px 0 10px;
+}
+
+.level-pill {
+  flex: none;
+  min-width: 84px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  font-size: 0.7rem;
+  color: #6b7280;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.level-pill.cleared {
+  background: #ffedd5;
+  color: #9a3412;
+}
+
+.level-pill.active {
+  background: #f97316;
+  color: #fff;
+  font-weight: 700;
+}
+
+/* ===== 編集ボタン ===== */
+.eiken-edit {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.edit-btn {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+  padding: 14px;
+  border-radius: 999px;
+  background: #fff7ed;
+  color: #f97316;
+  font-weight: 700;
+  border: 2px solid #fdba74;
+  text-decoration: none;
+}
+
+.edit-btn:hover {
+  background: #f97316;
+  color: #fff;
+}
+
+/* ===== コンフェッティ ===== */
+.confetti {
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  z-index: 9999;
+  animation: fadeOut 2.5s forwards;
+}
+
+.confetti.hidden {
+  display: none;
+}
+
+@keyframes fadeOut {
+  0%, 70% { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
+}
 </style>
+
+<script>
+document.addEventListener("turbo:load", () => {
+  const bar = document.querySelector(".progress-fill");
+  if (!bar) return;
+
+  const progress = bar.dataset.progress || 0;
+  bar.style.width = "0%";
+
+  requestAnimationFrame(() => {
+    bar.style.width = progress + "%";
+  });
+});
+
+document.addEventListener("turbo:load", () => {
+  const data = document.getElementById("level-data");
+  if (!data) return;
+
+  const levels = ["英検5級","英検4級","英検3級","英検準2級","英検準2級プラス","英検2級","英検準1級","英検1級"];
+  const current = data.dataset.current;
+  const previous = data.dataset.previous;
+
+  if (!current || !previous) return;
+
+  if (levels.indexOf(current) > levels.indexOf(previous)) {
+    const confetti = document.getElementById("confetti");
+    confetti.classList.remove("hidden");
+    setTimeout(() => confetti.remove(), 2500);
+  }
+});
+</script>

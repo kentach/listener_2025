@@ -2,7 +2,7 @@
 <div class="container d-flex justify-content-center py-5">
   <div class="col-12 col-md-6 col-lg-5">
 
-    <h2 class="mb-4 text-center fw-bold display-6">サインアップ</h2>
+    <h2 class="mb-4 text-center fw-bold display-6">新規登録</h2>
 
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name),
                  html: { class: "shadow-sm p-4 rounded-4 bg-white" }) do |f| %>
@@ -47,7 +47,7 @@
 
       <!-- ボタン -->
       <div class="d-grid mt-4">
-        <%= f.submit "Sign Up", class: "btn btn-primary btn-lg fw-bold rounded-pill shadow-sm" %>
+        <%= f.submit "サインアップする", class: "btn btn-primary btn-lg fw-bold rounded-pill shadow-sm" %>
       </div>
     <% end %>
 
