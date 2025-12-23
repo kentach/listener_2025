@@ -41,8 +41,8 @@ ja:
       updated_not_active: "パスワードを変更しました。"
 
     registrations:
-      destroyed: "アカウントを削除しました。"
-      signed_up: "登録が完了しました。今日から英語学習頑張っていきましょう！"
+      destroyed: "アカウントを削除しました。ご利用ありがとうございました。"
+      signed_up: "登録が完了しました。ようこそ！"
       signed_up_but_inactive: "登録は完了しましたが、アカウントがまだ有効化されていません。"
       signed_up_but_locked: "登録は完了しましたが、アカウントがロックされています。"
       signed_up_but_unconfirmed: "確認メールを送信しました。メール内のリンクをクリックしてアカウントを有効化してください。"

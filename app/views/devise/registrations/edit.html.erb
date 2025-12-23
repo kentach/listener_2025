@@ -1,17 +1,10 @@
-<% if current_user.name.blank? || current_user.eiken_level.blank? %>
-  <div class="alert alert-warning text-center rounded-3 mb-4">
-    <i class="bi bi-exclamation-circle me-1"></i>
-    学習を始める前に、プロフィール（名前・英検級）を完成させましょう
-  </div>
-<% end %>
-
 <div class="container d-flex justify-content-center py-5">
   <div class="card shadow-sm p-4 rounded-4"
        style="max-width: 420px; width: 100%;">
 
     <h2 class="text-center mb-4 fw-bold">
       <i class="bi bi-shield-lock me-1"></i>
-      ログイン情報の編集
+      メール・パスワード
     </h2>
 
     <%= form_for(resource,
@@ -20,14 +13,6 @@
                  html: { method: :put }) do |f| %>
 
       <%= render "devise/shared/error_messages", resource: resource %>
-
-      <!-- =====================
-           メール・パスワード
-      ====================== -->
-      <h6 class="text-muted mb-3">
-        <i class="bi bi-envelope me-1"></i>
-        メールアドレス・パスワード
-      </h6>
 
       <div class="mb-3">
         <%= f.label :email, "メールアドレス", class: "form-label fw-semibold" %>
@@ -60,7 +45,7 @@
 
       <div class="mb-4">
         <%= f.label :password_confirmation,
-              "パスワード確認",
+              "新しいパスワード（確認）",
               class: "form-label fw-semibold" %>
         <%= f.password_field :password_confirmation,
               autocomplete: "new-password",
@@ -113,5 +98,3 @@
 
   </div>
 </div>
-
-<%= render "shared/navigation_tab" %>

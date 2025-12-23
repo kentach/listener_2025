@@ -37,3 +37,27 @@
     </div>
   <% end %>
 </div>
+<style>
+/* ===== タブコンテンツ ===== */
+.tab-content {
+  padding-bottom: 120px; /* ← 下ナビ分の逃げ */
+}
+
+/* 各タブ */
+.tab-pane {
+  display: none;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.tab-pane.active {
+  display: block;
+}
+
+/* スマホ最適化 */
+@media (max-width: 640px) {
+  .tab-content {
+    padding-bottom: 140px; /* スマホは多めに */
+  }
+}
+</style>
