@@ -1,37 +1,58 @@
-<!-- ================= ABOUT : LISTENER ================= -->
+<!-- ================= ABOUT HERO ================= -->
 <section class="about-hero text-center py-5">
   <div class="container">
-    <p class="about-eyebrow">ABOUT</p>
-    <h1 class="about-title">LISTENERとは</h1>
+    <p class="about-eyebrow">WHAT IS LISTENER?</p>
+
+    <h1 class="about-title">
+      『英語を聞く』を、<br class="d-md-none">
+      毎日の習慣に
+    </h1>
+
     <p class="about-lead">
-      リスニングを、<br class="d-md-none">もっとシンプルに、もっと続けやすく。
+      音読とシャドーイングを組み合わせた<br>
+      シンプルで続けやすいリスニング学習アプリ
     </p>
   </div>
 </section>
 
-<!-- ================= CONCEPT ================= -->
-<section class="about-section">
+<!-- ================= DEVELOPER ================= -->
+<section class="about-section text-center">
   <div class="container">
-    <div class="row align-items-center gy-4">
-      <div class="col-md-6">
-        <h2 class="section-title">開発者の想い</h2>
-        <p class="section-text">
-          LISTENERは「音読」と「シャドーイング」を軸に、英検リスニングに必要な力を効率よく鍛える学習アプリです。<br><br>
-          操作はシンプル、学習は本格的。<br>
-          毎日の積み重ねが、確かな成長につながります。
-        </p>
-      </div>
-      <div class="col-md-6 text-center">
-        <div class="mockup-phone">
-          <img src="/assets/kenta.jpeg" alt="LISTENER画面" />
-        </div>
-      </div>
-    </div>
+    <img src="/assets/kenta.jpeg" alt="LISTENER 開発者 上拾石健太" class="profile-photo mb-3">
+
+    <h2 class="section-title">このアプリの開発者</h2>
+
+    <p class="section-text mx-auto">
+      はじめまして。LISTENERの開発者、上拾石健太です。
+      現在、英会話スクールで英語講師として働いています。
+
+      自身の英語学習経験と、大学受験で身につけたプログラミングスキルを活かし、
+      「英語学習をもっと身近に、もっと続けやすくしたい」
+      という思いからLISTENERを開発しました。
+    </p>
+  </div>
+</section>
+
+<!-- ================= PHILOSOPHY ================= -->
+<section class="about-section bg-soft">
+  <div class="container">
+    <h2 class="section-title text-center">開発者の想い</h2>
+
+    <p class="section-text mx-auto">
+      英語学習は「繰り返し」。これに尽きると私は考えています。
+      授業はあくまで「知識を得るための場所」であり、本当に力を伸ばすのは
+      その後の「復習」と「反復トレーニング」です。
+
+      LISTENERは、英検リスニング・リーディングに特化した
+      反復練習を行うために設計されたアプリです。授業で使うテキストとリンクしています。
+      毎日少しでも英語に触れる、何度も同じ文章を読む・聞く、こうした小さな習慣の積み重ねで、英語力の土台が築かれていきます。
+      LISTENERが、皆さんの英語学習の一助となれば幸いです。
+    </p>
   </div>
 </section>
 
 <!-- ================= FEATURES ================= -->
-<section class="about-section bg-soft">
+<section class="about-section">
   <div class="container text-center">
     <h2 class="section-title mb-5">LISTENERの特徴</h2>
 
@@ -40,7 +61,7 @@
         <div class="feature-card">
           <i class="bi bi-headphones"></i>
           <h3>リスニング特化</h3>
-          <p>英検で差がつくリスニング力を重点的に強化。</p>
+          <p>英検で差がつくリスニング力を重点強化。</p>
         </div>
       </div>
 
@@ -48,7 +69,7 @@
         <div class="feature-card">
           <i class="bi bi-speedometer2"></i>
           <h3>学習最適化</h3>
-          <p>再生速度・リピートなど細かな調整が可能。</p>
+          <p>再生速度・リピート機能で効率UP。</p>
         </div>
       </div>
 
@@ -56,7 +77,7 @@
         <div class="feature-card">
           <i class="bi bi-award"></i>
           <h3>成長が見える</h3>
-          <p>英検級に応じたバッジで達成感を可視化。</p>
+          <p>英検級ごとの達成を可視化。</p>
         </div>
       </div>
     </div>
@@ -76,32 +97,40 @@
   </div>
 </section>
 
-<!-- ================= STYLE ================= -->
 <style>
-/* 共通 */
-body { font-family: "Inter", "Hiragino Sans", sans-serif; }
+body {
+  font-family: "Inter", "Hiragino Sans", sans-serif;
+}
 
+/* HERO */
 .about-hero {
-  background: linear-gradient(135deg, #4f46e5, #06b6d4);
-  color: #fff;
+  background: linear-gradient(180deg, #f8fafc, #ffffff);
+  padding: 80px 0;
 }
 
 .about-eyebrow {
-  letter-spacing: .2em;
-  opacity: .8;
+  font-size: 0.8rem;
+  letter-spacing: 0.25em;
+  color: #64748b;
+  margin-bottom: 12px;
 }
 
 .about-title {
-  font-size: clamp(2rem, 5vw, 3rem);
+  font-size: clamp(2.2rem, 4.5vw, 3.2rem);
   font-weight: 800;
+  line-height: 1.25;
+  color: #0f172a;
 }
 
 .about-lead {
   font-size: 1.1rem;
-  margin-top: 1rem;
-  opacity: .9;
+  line-height: 1.7;
+  color: #334155;
+  max-width: 640px;
+  margin: 16px auto 0;
 }
 
+/* SECTION */
 .about-section {
   padding: 80px 0;
 }
@@ -111,28 +140,26 @@ body { font-family: "Inter", "Hiragino Sans", sans-serif; }
 }
 
 .section-title {
-  font-weight: 700;
-  margin-bottom: 1rem;
+  font-weight: 800;
+  margin-bottom: 24px;
 }
 
 .section-text {
-  color: #475569;
+  max-width: 640px;
   line-height: 1.8;
+  color: #334155;
 }
 
-.mockup-phone {
-  max-width: 260px;
-  margin: auto;
-  border-radius: 32px;
-  overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0,0,0,.2);
+/* PROFILE */
+.profile-photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0,0,0,.1);
 }
 
-.mockup-phone img {
-  width: 100%;
-  display: block;
-}
-
+/* FEATURES */
 .feature-card {
   background: #fff;
   padding: 32px 24px;
@@ -146,16 +173,7 @@ body { font-family: "Inter", "Hiragino Sans", sans-serif; }
   margin-bottom: 16px;
 }
 
-.feature-card h3 {
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-
-.feature-card p {
-  font-size: .95rem;
-  color: #64748b;
-}
-
+/* CTA */
 .about-cta {
   padding: 80px 0;
 }
