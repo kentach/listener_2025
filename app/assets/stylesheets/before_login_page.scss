@@ -1,4 +1,26 @@
 /* ================= BASE ================= */
+
+.hero-heading {
+  font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.25;
+  margin-bottom: 20px;
+  text-align: center;
+
+  /* グラデーション文字 */
+  background: linear-gradient(90deg, #2563eb, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-heading br {
+  content: "";
+  display: block;
+  margin-bottom: 6px;
+}
+
 .feature-title-section {
   padding: 100px 20px;
   display: flex;
@@ -19,25 +41,36 @@
 .hero-tagline {
   font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 12px;
 }
 
 .hero-title {
-  font-size: clamp(3.5rem, 8vw, 6rem);
-  font-weight: 900;
-  color: #030101;
-  letter-spacing: 0.05em;
+  font-size: clamp(3.2rem, 7vw, 5.2rem); /* 少しだけ抑える */
+  font-weight: 900; /* 950 → 900で安定 */
+  letter-spacing: 0.18em; /* ← ここが最大の原因 */
+  text-transform: uppercase;
+  text-align: center;
+
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+
+  background: linear-gradient(90deg, #0f172a, #1e40af);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
 }
 
 .feature-subtitle {
   margin-top: 20px;
+  font-weight: 600;
   color: #000000e7;
   line-height: 1.8;
 }
 
 /* ================= FEATURE NUMBER / TITLE ================= */
 .feature-number {
-  font-weight: 900;
+  font-size: clamp(1rem, 7vw, 5.2rem);
+  font-weight:  1000;
   color: #ffd700;
 }
 
@@ -163,7 +196,7 @@
 /* ================= MOBILE ================= */
 @media (max-width: 768px) {
   .feature-title-section {
-    padding: 72px 16px;
+    padding: 30px 16px;
   }
 
   .card-item {
