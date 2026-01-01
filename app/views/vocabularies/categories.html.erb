@@ -1,0 +1,10 @@
+<h1>単語カテゴリー</h1>
+
+<div class="category-list">
+  <% @categories.each do |category| %>
+    <%= link_to vocabularies_path(series: category),
+                class: "category-card" do %>
+      <%= category %>
+    <% end %>
+  <% end %>
+</div>

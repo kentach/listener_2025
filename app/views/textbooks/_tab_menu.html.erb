@@ -1,5 +1,5 @@
 <div id="levelTabs" class="scroll-tabs mt-4 mb-3 border-bottom">
-  <% tabs = ["長文", "リスニング"] %> <!-- お気に入りを削除 -->
+  <% tabs = @tabs %>
   <% tabs.each_with_index do |series, i| %>
     <button class="tab <%= 'active' if i.zero? %>" data-target="<%= series.downcase %>">
       <%= series %>

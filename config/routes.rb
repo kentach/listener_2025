@@ -16,6 +16,11 @@ Rails.application.routes.draw do
     get   :edit_password
     patch :update_password
   end
+  resources :vocabularies do
+    collection do
+      get :memorization
+    end
+  end
   resources :textbooks, only: [:index, :show] do
     resources :chapters, only: [:show] do
       resources :audios, only: [:show] do
