@@ -1,6 +1,7 @@
-<div class="container" style="max-width: 600px; margin-top: 30px;">
-    <%= link_to "＜単語リスト", vocabularies_path, class: "text-dark text-decoration-none" %>
+<div class="container" style="max-width: 600px; margin-top: 20px;">
+  <%= link_to "＜単語リスト", vocabularies_path, class: "text-dark text-decoration-none" %>
 </div>
+
 <div class="single-card-wrapper">
   <div class="flash-card" id="flash-card">
     <div class="card-inner">
@@ -27,9 +28,8 @@
   <button id="next-card" class="btn-next">次へ</button>
 </div>
 
-
-<!-- Railsから単語データをJSONで渡す -->
 <script>
+  // Railsから単語データをJSONで渡す
   window.VOCABULARIES = <%= raw @vocabularies.to_json(only: [:english, :japanese]) %>;
 </script>
 
@@ -43,6 +43,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 5px;
 }
 
 /* カード本体 */
@@ -75,7 +76,6 @@
   border-radius: 20px;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
   backface-visibility: hidden;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -85,6 +85,8 @@
 /* 裏 */
 .card-back {
   transform: rotateY(180deg);
+  padding: 20px;
+  gap: 10px;
 }
 
 /* 英語 */
@@ -94,23 +96,30 @@
   letter-spacing: 0.5px;
 }
 
+/* 裏面英語 */
+#word-english-back {
+  font-size: 22px;
+  font-weight: 700;
+}
+
 /* 日本語 */
 .word-japanese {
-  margin-top: 14px;
+  margin-top: 10px;
   font-size: 16px;
   color: #666;
 }
 
+/* カードコントロール */
 .card-controls {
-  margin-top: 24px;
+  margin-top: 6px; /* カードとボタンを近づける */
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 16px;
 }
 
 .card-controls button {
-  width: 120px;
-  padding: 12px 0;
+  width: 110px;
+  padding: 10px 0;
   border-radius: 24px;
   font-size: 16px;
   font-weight: 600;
@@ -119,22 +128,11 @@
   cursor: pointer;
 }
 
-/* 前へ（青） */
-.btn-prev {
-  background-color: #2f6df6;
-}
+.btn-prev { background-color: #2f6df6; }
+.btn-next { background-color: #e64545; }
+.card-controls button:active { transform: scale(0.97); }
 
-/* 次へ（赤） */
-.btn-next {
-  background-color: #e64545;
-}
-
-/* 押した感 */
-.card-controls button:active {
-  transform: scale(0.97);
-}
-
-/* 発音ボタン共通 */
+/* 発音ボタン */
 .play-word-btn {
   position: absolute;
   bottom: 10px;
@@ -154,61 +152,16 @@
   padding: 0;
 }
 
-/* 裏面 */
-.card-back {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transform: rotateY(180deg);
-  padding: 20px;
-  gap: 10px;
-}
-
-/* 裏面英語 */
-#word-english-back {
-  font-size: 22px;
-  font-weight: 700;
-}
-
-/* 裏面日本語 */
-#word-japanese {
-  font-size: 16px;
-  color: #666;
-}
-.single-card-wrapper {
-  width: 100%;
-  min-height: 60vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px; /* 余白追加 */
-}
-
-.flash-card {
-  width: 90%;
-  max-width: 360px;
-  height: 240px;
-  perspective: 1000px;
-}
-
+/* モバイル対応 */
 @media (max-width: 480px) {
   .flash-card {
     max-width: 280px;
     height: 200px;
   }
 
-  .word-english {
-    font-size: 22px;
-  }
-
-  #word-english-back {
-    font-size: 18px;
-  }
-
-  #word-japanese {
-    font-size: 14px;
-  }
+  .word-english { font-size: 22px; }
+  #word-english-back { font-size: 18px; }
+  #word-japanese { font-size: 14px; }
 
   .play-word-btn {
     width: 28px;
@@ -217,16 +170,14 @@
   }
 
   .card-controls button {
-    width: 100px;
-    padding: 10px 0;
+    width: 90px;
+    padding: 8px 0;
     font-size: 14px;
   }
 }
-
-
 </style>
-<script>
 
+<script>
 document.addEventListener("turbo:load", () => {
   const vocabularies = window.VOCABULARIES;
   if (!vocabularies || vocabularies.length === 0) return;
@@ -289,5 +240,4 @@ document.addEventListener("turbo:load", () => {
   playBtn.addEventListener("click", () => speak(englishEl.textContent));
   playBtnBack.addEventListener("click", () => speak(englishBackEl.textContent));
 });
-
 </script>

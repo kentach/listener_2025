@@ -1,87 +1,87 @@
-<section class="level-slider-section">
+<section class="level-list-section">
   <h2 class="section-title">英検級を選択</h2>
 
-  <div class="level-slider-wrapper">
-    <div class="level-slider" id="level-slider">
-      <% ["準1級", "2級", "準2級", "準2級プラス", "3級", "4級", "5級"].each do |level| %>
-        <div class="level-card">
-          <%= link_to level, level_vocabularies_path(level: level), class: "level-link" %>
-        </div>
-      <% end %>
-    </div>
+  <div class="level-list-wrapper">
+    <% level_colors = {
+      "準1級" => "#f61010ff",  # 赤系
+      "2級" => "#fc8200ff",    # オレンジ系
+      "準2級" => "#fec804ff",   # 黄色系
+      "準2級プラス" => "#23e343ff", # 緑系
+      "3級" => "#2a99f4ff",     # 青系
+      "4級" => "#5a28efff",     # 紫系
+      "5級" => "#ec5576ff"      # ピンク系
+    } %>
+
+    <% ["準1級", "2級", "準2級", "準2級プラス", "3級", "4級", "5級"].each do |level| %>
+      <div class="level-card" style="background-color: <%= level_colors[level] %>;">
+        <%= link_to level, level_vocabularies_path(level: level), class: "level-link" %>
+      </div>
+    <% end %>
   </div>
 </section>
 
 <%= render "shared/navigation_tab" %>
 
 <style>
-.level-slider-section {
-  padding: 40px 10px;
+.level-list-section {
+  padding: 20px 10px;
   text-align: center;
 }
 
 .section-title {
   font-size: 24px;
   font-weight: 700;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
+  color: #333;
 }
 
-/* スライダー外枠 */
-.level-slider-wrapper {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch; /* スマホで慣性スクロール */
-  padding-bottom: 10px;
-}
-
-/* スライダーコンテナ */
-.level-slider {
+/* 縦並び用ラッパー */
+.level-list-wrapper {
   display: flex;
-  gap: 12px;
-  justify-content: flex-start; /* 左寄せにして自然にスクロール */
-  scroll-snap-type: x mandatory;  /* スマホでスナップ効果 */
+  flex-direction: column; /* 縦並び */
+  gap: 16px; /* カード間のスペース */
+  align-items: center; /* 中央揃え */
 }
 
 /* カード本体 */
 .level-card {
-  flex: 0 0 auto; /* 幅固定、スクロール可能 */
-  min-width: 120px;
-  max-width: 140px;
-  height: 140px;
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  width: 90%;
+  max-width: 300px;
+  height: 60px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
   font-size: 18px;
   cursor: pointer;
-  scroll-snap-align: start; /* スナップ開始位置 */
   transition: transform 0.2s;
 }
 
 .level-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-2px);
+  filter: brightness(110%);
 }
 
 .level-link {
   display: block;
   width: 100%;
   height: 100%;
-  line-height: 140px;
+  line-height: 60px;
   text-decoration: none;
-  color: #333;
+  color: #fff;
   text-align: center;
+  font-weight: bold;
 }
 
-/* レスポンシブ微調整 */
+/* レスポンシブ調整 */
 @media (max-width: 480px) {
   .level-card {
-    min-width: 100px;
-    max-width: 120px;
-    height: 120px;
+    width: 95%;
+    height: 50px;
     font-size: 16px;
-    line-height: 120px;
+    line-height: 50px;
   }
 
   .section-title {
@@ -89,57 +89,3 @@
   }
 }
 </style>
-<script>
-  // スライダーのドラッグ操作を有効にする
-  const slider = document.getElementById('level-slider');
-  let isDown = false;
-  let startX;
-  let scrollLeft;
-
-  const slider = document.getElementById('level-slider');
-let isDown = false;
-let startX;
-let scrollLeft;
-
-// PC用マウス操作
-slider.addEventListener('mousedown', (e) => {
-  isDown = true;
-  slider.classList.add('active');
-  startX = e.pageX - slider.offsetLeft;
-  scrollLeft = slider.scrollLeft;
-});
-slider.addEventListener('mouseleave', () => {
-  isDown = false;
-  slider.classList.remove('active');
-});
-slider.addEventListener('mouseup', () => {
-  isDown = false;
-  slider.classList.remove('active');
-});
-slider.addEventListener('mousemove', (e) => {
-  if(!isDown) return;
-  e.preventDefault();
-  const x = e.pageX - slider.offsetLeft;
-  const walk = (x - startX) * 2;
-  slider.scrollLeft = scrollLeft - walk;
-});
-
-// スマホ用タッチ操作
-slider.addEventListener('touchstart', (e) => {
-  isDown = true;
-  startX = e.touches[0].pageX - slider.offsetLeft;
-  scrollLeft = slider.scrollLeft;
-});
-
-slider.addEventListener('touchend', () => {
-  isDown = false;
-});
-
-slider.addEventListener('touchmove', (e) => {
-  if(!isDown) return;
-  const x = e.touches[0].pageX - slider.offsetLeft;
-  const walk = (x - startX) * 2;
-  slider.scrollLeft = scrollLeft - walk;
-});
-
-</script>
