@@ -3,13 +3,13 @@
 
   <div class="level-list-wrapper">
     <% level_colors = {
-      "準1級" => "#f61010ff",  # 赤系
-      "2級" => "#fc8200ff",    # オレンジ系
-      "準2級" => "#fec804ff",   # 黄色系
-      "準2級プラス" => "#23e343ff", # 緑系
-      "3級" => "#2a99f4ff",     # 青系
-      "4級" => "#5a28efff",     # 紫系
-      "5級" => "#ec5576ff"      # ピンク系
+      "準1級" => "#04921aff",   # 落ち着いた赤
+      "2級" => "#05bdddff",     # 落ち着いたオレンジ
+      "準2級" => "#e89613ff",   # 落ち着いた黄色
+      "準2級プラス" => "#0f95deff", # 落ち着いた緑
+      "3級" => "#ffcf40ff;",      # 落ち着いた青
+      "4級" => "#fc77e4ce",      # 落ち着いた紫
+      "5級" => "#5353da"       # 落ち着いたピンク
     } %>
 
     <% ["準1級", "2級", "準2級", "準2級プラス", "3級", "4級", "5級"].each do |level| %>
@@ -19,6 +19,7 @@
     <% end %>
   </div>
 </section>
+
 
 <%= render "shared/navigation_tab" %>
 
@@ -32,18 +33,18 @@
   font-size: 24px;
   font-weight: 700;
   margin-bottom: 20px;
-  color: #333;
+  color: #222; /* 少し濃くして読みやすく */
 }
 
 /* 縦並び用ラッパー */
 .level-list-wrapper {
   display: flex;
-  flex-direction: column; /* 縦並び */
-  gap: 16px; /* カード間のスペース */
-  align-items: center; /* 中央揃え */
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  margin-top: 20px;
 }
 
-/* カード本体 */
 .level-card {
   width: 90%;
   max-width: 300px;
@@ -53,15 +54,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
-  font-size: 18px;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .level-card:hover {
   transform: translateY(-2px);
-  filter: brightness(110%);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
 }
 
 .level-link {
@@ -71,9 +70,10 @@
   line-height: 60px;
   text-decoration: none;
   color: #fff;
-  text-align: center;
   font-weight: bold;
+  text-align: center;
 }
+
 
 /* レスポンシブ調整 */
 @media (max-width: 480px) {
@@ -87,5 +87,10 @@
   .section-title {
     font-size: 20px;
   }
+
+  .level-list-wrapper {
+    gap: 16px;
+  }
 }
+
 </style>

@@ -1,136 +1,230 @@
-<div class="card-list-page">
-
-  <!-- 暗記開始ボタン -->
- <div class="start-memorization">
-  <%= link_to "カードの暗記を開始",
-      memorization_vocabularies_path,
-      class: "start-memo-btn" %>
+<div class="container" style="max-width: 600px; margin-top: 20px;">
+  <%= link_to "＜英検級", vocabularies_path, class: "text-dark text-decoration-none" %>
 </div>
 
+<section class="vocab-series-list" style="max-width: 600px; margin-top: 20px;">
+  <h2>英検<%= @level %>　重要単語リスト</h2>
 
-  <% @vocabularies.each do |word| %>
-    <div class="list-card" data-id="<%= word.id %>">
-
-      <button class="favorite-btn">☆</button>
-      <% if word.audio.attached? %>
-        <%= audio_tag url_for(word.audio), controls: true %>
-      <% end %>
-
-      <div class="list-english">
-        <%= word.english %>
-      </div>
-
-      <div class="list-japanese">
-        <%= word.japanese %>
-      </div>
-
-    </div>
+<div style="display:flex; justify-content:center; gap:8px; margin-bottom:16px; flex-wrap:wrap;">
+  <%= form_with url: level_vocabularies_path(level: @level), method: :get, local: true, class: "vocab-search-form", style: "display:flex; gap:8px;" do %>
+    <%= hidden_field_tag :level, params[:level] %>
+    <input type="text" name="q" placeholder="単語を検索..." 
+           value="<%= params[:q] %>"
+           style="flex:1; max-width:300px; padding:8px 12px; font-size:14px; border-radius:8px; border:1px solid #ccc;">
+    <button type="submit" style="padding:8px 16px; font-size:14px; border-radius:8px; border:none; background-color:#2196F3; color:white; cursor:pointer;">
+        🔍 検索
+    </button>
   <% end %>
 
+  <% if params[:q].present? %>
+    <%= link_to "＜元の単語リストに戻る", level_vocabularies_path(level: params[:level]), class: "btn-back", style: "padding:8px 16px; border-radius:8px; background-color:#ccc; color:#333; text-decoration:none; height:100%;" %>
+  <% end %>
 </div>
 
+
+
+
+  <% series_colors = {
+    "疑問詞" => "#4CAF50",
+    "動詞シリーズ1" => "#2196F3",
+    "動詞シリーズ2" => "#216ef3ff",
+    "時間" => "#FF9800",
+    "場所" => "#9C27B0",
+    "天気" => "#033bf4ff",
+    "スポーツ" => "#E91E63",
+    "家" => "#795548",
+    "曜日" => "#2ec33fff",
+    "数・順序" => "rgba(39, 156, 219, 1)",
+    "月" => "#607D8B",
+    "乗り物" => "#4CAF50"
+  } %>
+
+<% @vocabularies.group_by(&:series).each do |series, words| %>
+  <div class="series-block" style="margin-bottom:16px;">
+    <div class="series-header" 
+         style="background-color: <%= series_colors[series] || '#333' %>;"
+         onclick="this.nextElementSibling.classList.toggle('collapsed'); 
+                  this.querySelector('.toggle-icon').textContent = this.nextElementSibling.classList.contains('collapsed') ? '+' : '−';">
+      <%= series %> （<%= words.count %>語）
+      <span class="toggle-icon">+</span>
+    </div>
+    
+
+    <div class="series-words collapsed">
+     <div style="margin-top:8px; margin-bottom:8px; text-align:center;">
+        <%= link_to "このシリーズを暗記", memorization_vocabularies_path(level: @level, series: series), class: "btn-start-memo" %>
+      </div>
+      <% words.each do |word| %>
+        <div class="word-card">
+          <div class="word-info">
+            <span class="word-number"><%= word.number %>.</span>
+            <span class="word-english"><%= word.english %></span>
+            <span class="word-japanese"><%= word.japanese %></span>
+          </div>
+          <div class="word-play">
+            <button class="play-btn">🔊 発音</button>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+</section>
 
 <%= render "shared/navigation_tab" %>
 
 <style>
-/* ページ全体 */
-.card-list-page {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 24px 16px 80px; /* ← 下に余白 */
+.word-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  margin-bottom: 6px;
+  border-radius: 8px;
+  background-color: #f7f7f7;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
-/* カード */
-.list-card {
-  position: relative;
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 20px 24px;
-  margin-bottom: 16px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+.word-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
 }
 
-/* 英語 */
-.list-english {
-  font-size: 20px;
-  font-weight: 700;
-}
-
-/* 日本語 */
-.list-japanese {
-  margin-top: 8px;
+.word-number {
   font-size: 14px;
   color: #666;
 }
 
-/* お気に入り */
-.favorite-btn {
-  position: absolute;
-  top: 14px;
-  right: 16px;
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  color: #bbb;
-}
-
-.favorite-btn.active {
-  color: #f5b301;
-}
-
-.start-memorization {
-  margin-bottom: 24px;
-  text-align: center;
-}
-
-#start-memo-btn {
-  width: 100%;
-  max-width: 320px;
-  padding: 14px 0;
-  border-radius: 28px;
+.word-english {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
+}
+
+.word-japanese {
+  font-size: 14px;
+  color: #333;
+}
+
+.word-play {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.word-play .play-btn {
+  padding: 6px 12px;
+  font-size: 14px;
   border: none;
-  cursor: pointer;
-
-  background: linear-gradient(90deg, #ff4d4d, #ff7a18);
+  border-radius: 6px;
+  background-color: #2196F3;
   color: #fff;
-  box-shadow: 0 8px 20px rgba(255, 77, 77, 0.3);
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
 }
 
-#start-memo-btn:active {
-  transform: scale(0.97);
+.word-play .play-btn:hover {
+  background-color: #1976D2;
+  transform: translateY(-2px);
 }
-.start-memo-btn {
+
+.series-block {
+  margin-bottom: 16px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.series-header {
+  color: #fff;
+  padding: 12px 16px;
+  font-weight: bold;
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.series-words {
+  display: none;
+  background-color: #f9f9f9;
+  padding: 8px 0;
+}
+
+.series-words:not(.collapsed) {
+  display: block;
+}
+
+.vocab-series-list {
+  width: 95%;
+  margin: 0 auto;
+  font-family: sans-serif;
+  padding-bottom: 80px; /* タブの高さ + 余裕分 */
+}
+
+.btn-start-memo {
   display: inline-block;
-  width: 100%;
-  max-width: 320px;
-  padding: 14px 0;
-  border-radius: 28px;
-  font-size: 16px;
-  font-weight: 700;
-  text-align: center;
-  text-decoration: none;
-
-  background: linear-gradient(90deg, #ff4d4d, #ff7a18);
+  padding: 10px 20px;
+  background-color: #f87b0eff;
   color: #fff;
-  box-shadow: 0 8px 20px rgba(255, 77, 77, 0.3);
+  font-weight: bold;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.2s;
 }
+.btn-start-memo:hover { background-color: #c66613ff; }
 
-
+@media (max-width: 600px) {
+  .series-header { font-size: 14px; padding: 10px 12px; }
+  .word-card { padding: 8px 12px; }
+  .word-english { font-size: 15px; }
+  .word-japanese { font-size: 13px; }
+  .word-play .play-btn { font-size: 13px; padding: 5px 10px; }
+}
 </style>
 
 <script>
 document.addEventListener("turbo:load", () => {
-  document.querySelectorAll(".favorite-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      btn.classList.toggle("active");
-      btn.textContent = btn.classList.contains("active") ? "★" : "☆";
+  // ボイスロード
+  let voices = [];
+  function loadVoices(callback) {
+    voices = speechSynthesis.getVoices();
+    if (voices.length > 0) {
+      callback();
+    } else {
+      speechSynthesis.onvoiceschanged = () => {
+        voices = speechSynthesis.getVoices();
+        callback();
+      };
+    }
+  }
+
+  function speakWord(text) {
+    if (!('speechSynthesis' in window) || !text) return;
+
+    speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.9;
+    utterance.pitch = 1.0;
+
+    const enVoice = voices.find(v => v.lang.startsWith('en')) || voices[0];
+    if (enVoice) utterance.voice = enVoice;
+
+    speechSynthesis.speak(utterance);
+  }
+
+  loadVoices(() => {
+    document.querySelectorAll(".play-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const word = btn.closest(".word-card").querySelector(".word-english").textContent;
+        speakWord(word);
+      });
     });
   });
 });
 
-
-
-</script>   
+</script>

@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     get   :edit_password
     patch :update_password
   end
-  resources :vocabularies do
+  resources :vocabularies, only: [:index] do
     collection do
       get :memorization   # 暗記カード画面
       get :level
