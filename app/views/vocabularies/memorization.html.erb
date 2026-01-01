@@ -176,6 +176,52 @@
   font-size: 16px;
   color: #666;
 }
+.single-card-wrapper {
+  width: 100%;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px; /* 余白追加 */
+}
+
+.flash-card {
+  width: 90%;
+  max-width: 360px;
+  height: 240px;
+  perspective: 1000px;
+}
+
+@media (max-width: 480px) {
+  .flash-card {
+    max-width: 280px;
+    height: 200px;
+  }
+
+  .word-english {
+    font-size: 22px;
+  }
+
+  #word-english-back {
+    font-size: 18px;
+  }
+
+  #word-japanese {
+    font-size: 14px;
+  }
+
+  .play-word-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+
+  .card-controls button {
+    width: 100px;
+    padding: 10px 0;
+    font-size: 14px;
+  }
+}
 
 
 </style>
