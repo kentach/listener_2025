@@ -24,7 +24,7 @@
 
     <%= render 'shared/flash_message' %>
 
-    <main class="container">
+    <main>
       <% if controller_name == "static_pages" && action_name == "top" && !user_signed_in? %>
         <%= render "static_pages/before_login_page" %>
       <% else %>
