@@ -1,6 +1,15 @@
 class VocabulariesController < ApplicationController
     def index
-        @vocabularies = Vocabulary.all
+        # 英検級スライダー画面
+    end
+
+    def level
+        @level = params[:level]
+        if @level.present?
+        @vocabularies = Vocabulary.where(level: @level)
+        else
+        @vocabularies = []
+        end
     end
 
     def memorization

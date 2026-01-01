@@ -1,136 +1,145 @@
-<div class="card-list-page">
+<section class="level-slider-section">
+  <h2 class="section-title">英検級を選択</h2>
 
-  <!-- 暗記開始ボタン -->
- <div class="start-memorization">
-  <%= link_to "カードの暗記を開始",
-      memorization_vocabularies_path,
-      class: "start-memo-btn" %>
-</div>
-
-
-  <% @vocabularies.each do |word| %>
-    <div class="list-card" data-id="<%= word.id %>">
-
-      <button class="favorite-btn">☆</button>
-      <% if word.audio.attached? %>
-        <%= audio_tag url_for(word.audio), controls: true %>
+  <div class="level-slider-wrapper">
+    <div class="level-slider" id="level-slider">
+      <% ["準1級", "2級", "準2級", "準2級プラス", "3級", "4級", "5級"].each do |level| %>
+        <div class="level-card">
+          <%= link_to level, level_vocabularies_path(level: level), class: "level-link" %>
+        </div>
       <% end %>
-
-      <div class="list-english">
-        <%= word.english %>
-      </div>
-
-      <div class="list-japanese">
-        <%= word.japanese %>
-      </div>
-
     </div>
-  <% end %>
-
-</div>
-
+  </div>
+</section>
 
 <%= render "shared/navigation_tab" %>
 
 <style>
-/* ページ全体 */
-.card-list-page {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 24px 16px 80px; /* ← 下に余白 */
+.level-slider-section {
+  padding: 40px 10px;
+  text-align: center;
 }
 
-/* カード */
-.list-card {
-  position: relative;
+.section-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+/* スライダー外枠 */
+.level-slider-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* スマホで慣性スクロール */
+  padding-bottom: 10px;
+}
+
+/* スライダーコンテナ */
+.level-slider {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-start; /* 左寄せにして自然にスクロール */
+  scroll-snap-type: x mandatory;  /* スマホでスナップ効果 */
+}
+
+/* カード本体 */
+.level-card {
+  flex: 0 0 auto; /* 幅固定、スクロール可能 */
+  min-width: 120px;
+  max-width: 140px;
+  height: 140px;
   background: #ffffff;
   border-radius: 16px;
-  padding: 20px 24px;
-  margin-bottom: 16px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-}
-
-/* 英語 */
-.list-english {
-  font-size: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-weight: 700;
-}
-
-/* 日本語 */
-.list-japanese {
-  margin-top: 8px;
-  font-size: 14px;
-  color: #666;
-}
-
-/* お気に入り */
-.favorite-btn {
-  position: absolute;
-  top: 14px;
-  right: 16px;
-  background: none;
-  border: none;
-  font-size: 20px;
+  font-size: 18px;
   cursor: pointer;
-  color: #bbb;
+  scroll-snap-align: start; /* スナップ開始位置 */
+  transition: transform 0.2s;
 }
 
-.favorite-btn.active {
-  color: #f5b301;
+.level-card:hover {
+  transform: translateY(-4px);
 }
 
-.start-memorization {
-  margin-bottom: 24px;
-  text-align: center;
-}
-
-#start-memo-btn {
+.level-link {
+  display: block;
   width: 100%;
-  max-width: 320px;
-  padding: 14px 0;
-  border-radius: 28px;
-  font-size: 16px;
-  font-weight: 700;
-  border: none;
-  cursor: pointer;
-
-  background: linear-gradient(90deg, #ff4d4d, #ff7a18);
-  color: #fff;
-  box-shadow: 0 8px 20px rgba(255, 77, 77, 0.3);
-}
-
-#start-memo-btn:active {
-  transform: scale(0.97);
-}
-.start-memo-btn {
-  display: inline-block;
-  width: 100%;
-  max-width: 320px;
-  padding: 14px 0;
-  border-radius: 28px;
-  font-size: 16px;
-  font-weight: 700;
-  text-align: center;
+  height: 100%;
+  line-height: 140px;
   text-decoration: none;
-
-  background: linear-gradient(90deg, #ff4d4d, #ff7a18);
-  color: #fff;
-  box-shadow: 0 8px 20px rgba(255, 77, 77, 0.3);
+  color: #333;
+  text-align: center;
 }
 
+/* レスポンシブ微調整 */
+@media (max-width: 480px) {
+  .level-card {
+    min-width: 100px;
+    max-width: 120px;
+    height: 120px;
+    font-size: 16px;
+    line-height: 120px;
+  }
 
+  .section-title {
+    font-size: 20px;
+  }
+}
 </style>
-
 <script>
-document.addEventListener("turbo:load", () => {
-  document.querySelectorAll(".favorite-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      btn.classList.toggle("active");
-      btn.textContent = btn.classList.contains("active") ? "★" : "☆";
-    });
-  });
+  // スライダーのドラッグ操作を有効にする
+  const slider = document.getElementById('level-slider');
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  const slider = document.getElementById('level-slider');
+let isDown = false;
+let startX;
+let scrollLeft;
+
+// PC用マウス操作
+slider.addEventListener('mousedown', (e) => {
+  isDown = true;
+  slider.classList.add('active');
+  startX = e.pageX - slider.offsetLeft;
+  scrollLeft = slider.scrollLeft;
+});
+slider.addEventListener('mouseleave', () => {
+  isDown = false;
+  slider.classList.remove('active');
+});
+slider.addEventListener('mouseup', () => {
+  isDown = false;
+  slider.classList.remove('active');
+});
+slider.addEventListener('mousemove', (e) => {
+  if(!isDown) return;
+  e.preventDefault();
+  const x = e.pageX - slider.offsetLeft;
+  const walk = (x - startX) * 2;
+  slider.scrollLeft = scrollLeft - walk;
 });
 
+// スマホ用タッチ操作
+slider.addEventListener('touchstart', (e) => {
+  isDown = true;
+  startX = e.touches[0].pageX - slider.offsetLeft;
+  scrollLeft = slider.scrollLeft;
+});
 
+slider.addEventListener('touchend', () => {
+  isDown = false;
+});
+
+slider.addEventListener('touchmove', (e) => {
+  if(!isDown) return;
+  const x = e.touches[0].pageX - slider.offsetLeft;
+  const walk = (x - startX) * 2;
+  slider.scrollLeft = scrollLeft - walk;
+});
 
 </script>

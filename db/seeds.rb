@@ -30,18 +30,19 @@ ActiveRecord::Base.transaction do
     { number: 24, english: "How about ?",  japanese: "～はどうですか？" },
     { number: 25, english: "How tall",  japanese: "どのくらいの高さ" },
     { number: 26, english: "How long",  japanese: "どのくらい（時間、期間、長さ）" }
-    
   ]
 
-  wh_questions.each do |v|
+  wh_questions.each do |q|
     Vocabulary.create!(
+      number: q[:number],
+      english: q[:english],
+      japanese: q[:japanese],
       series: "疑問詞",
-      number: v[:number],
-      english: v[:english],
-      japanese: v[:japanese]
+      level: "5級"   # ← ここで5級として登録
     )
   end
 end
+
 
 
 def create_chapters_for(textbook_name, chapters_data)

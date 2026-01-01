@@ -1,0 +1,136 @@
+<div class="card-list-page">
+
+  <!-- 暗記開始ボタン -->
+ <div class="start-memorization">
+  <%= link_to "カードの暗記を開始",
+      memorization_vocabularies_path,
+      class: "start-memo-btn" %>
+</div>
+
+
+  <% @vocabularies.each do |word| %>
+    <div class="list-card" data-id="<%= word.id %>">
+
+      <button class="favorite-btn">☆</button>
+      <% if word.audio.attached? %>
+        <%= audio_tag url_for(word.audio), controls: true %>
+      <% end %>
+
+      <div class="list-english">
+        <%= word.english %>
+      </div>
+
+      <div class="list-japanese">
+        <%= word.japanese %>
+      </div>
+
+    </div>
+  <% end %>
+
+</div>
+
+
+<%= render "shared/navigation_tab" %>
+
+<style>
+/* ページ全体 */
+.card-list-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px 80px; /* ← 下に余白 */
+}
+
+/* カード */
+.list-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* 英語 */
+.list-english {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* 日本語 */
+.list-japanese {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #666;
+}
+
+/* お気に入り */
+.favorite-btn {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #bbb;
+}
+
+.favorite-btn.active {
+  color: #f5b301;
+}
+
+.start-memorization {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+#start-memo-btn {
+  width: 100%;
+  max-width: 320px;
+  padding: 14px 0;
+  border-radius: 28px;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+
+  background: linear-gradient(90deg, #ff4d4d, #ff7a18);
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(255, 77, 77, 0.3);
+}
+
+#start-memo-btn:active {
+  transform: scale(0.97);
+}
+.start-memo-btn {
+  display: inline-block;
+  width: 100%;
+  max-width: 320px;
+  padding: 14px 0;
+  border-radius: 28px;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+
+  background: linear-gradient(90deg, #ff4d4d, #ff7a18);
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(255, 77, 77, 0.3);
+}
+
+
+</style>
+
+<script>
+document.addEventListener("turbo:load", () => {
+  document.querySelectorAll(".favorite-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      btn.classList.toggle("active");
+      btn.textContent = btn.classList.contains("active") ? "★" : "☆";
+    });
+  });
+});
+
+
+
+</script>   

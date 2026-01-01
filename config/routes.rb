@@ -18,7 +18,8 @@ Rails.application.routes.draw do
   end
   resources :vocabularies do
     collection do
-      get :memorization
+      get :memorization   # 暗記カード画面
+      get :level
     end
   end
   resources :textbooks, only: [:index, :show] do
