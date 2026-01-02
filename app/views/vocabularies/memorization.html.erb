@@ -1,7 +1,7 @@
-
 <div class="container" style="max-width: 600px; margin-top: 30px;">
-    <%= link_to "＜単語リスト", level_vocabularies_path(level: params[:level]), class: "text-dark text-decoration-none" %>
+  <%= link_to "＜単語リスト", level_vocabularies_path(level: params[:level]), class: "text-dark text-decoration-none" %>
 </div>
+
 <div class="single-card-wrapper">
   <div class="flash-card" id="flash-card">
     <div class="card-inner">
@@ -21,6 +21,11 @@
 
     </div>
   </div>
+
+  <!-- 進捗バー -->
+  <div class="progress-wrapper">
+    <div class="progress-bar" id="progress-bar">0%</div>
+  </div>
 </div>
 
 <div class="card-controls">
@@ -28,22 +33,20 @@
   <button id="next-card" class="btn-next">次へ</button>
 </div>
 
-
-<!-- Railsから単語データをJSONで渡す -->
 <script>
   window.VOCABULARIES = <%= raw @vocabularies.to_json(only: [:english, :japanese]) %>;
 </script>
 
-<%= render "shared/navigation_tab" %>
-
 <style>
-/* 全体中央寄せ */
+/* カード全体 */
 .single-card-wrapper {
   width: 100%;
   min-height: 60vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 10px;
 }
 
 /* カード本体 */
@@ -54,7 +57,6 @@
   perspective: 1000px;
 }
 
-/* フリップ部分 */
 .card-inner {
   width: 100%;
   height: 100%;
@@ -63,79 +65,33 @@
   transform-style: preserve-3d;
 }
 
-/* 裏返し */
 .flash-card.is-flipped .card-inner {
   transform: rotateY(180deg);
 }
 
-/* 表・裏 共通 */
 .card-face {
   position: absolute;
   inset: 0;
-  background: #ffffff;
+  background: #fff;
   border-radius: 20px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
   backface-visibility: hidden;
-
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-/* 裏 */
 .card-back {
   transform: rotateY(180deg);
 }
 
-/* 英語 */
-.word-english {
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-}
+/* 英語・日本語 */
+.word-english { font-size: 25px; font-weight: 700; letter-spacing: 0.5px; }
+#word-english-back { font-size: 20px; font-weight: 700; }
+#word-japanese { font-size: 16px; color: #666; margin-top: 14px; }
 
-/* 日本語 */
-.word-japanese {
-  margin-top: 14px;
-  font-size: 16px;
-  color: #666;
-}
-
-.card-controls {
-  margin-top: 24px;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.card-controls button {
-  width: 120px;
-  padding: 12px 0;
-  border-radius: 24px;
-  font-size: 16px;
-  font-weight: 600;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-}
-
-/* 前へ（青） */
-.btn-prev {
-  background-color: #2f6df6;
-}
-
-/* 次へ（赤） */
-.btn-next {
-  background-color: #e64545;
-}
-
-/* 押した感 */
-.card-controls button:active {
-  transform: scale(0.97);
-}
-
-/* 発音ボタン共通 */
+/* 発音ボタン */
 .play-word-btn {
   position: absolute;
   bottom: 10px;
@@ -152,82 +108,69 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  padding: 0;
 }
 
-/* 裏面 */
-.card-back {
+/* カード操作ボタン */
+.card-controls {
+  margin-top: 12px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  transform: rotateY(180deg);
-  padding: 20px;
-  gap: 10px;
+  gap: 16px;
 }
 
-/* 裏面英語 */
-#word-english-back {
-  font-size: 22px;
-  font-weight: 700;
+.card-controls button {
+  width: 110px;
+  padding: 6px 0;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  color: #fff;
+  cursor: pointer;
 }
 
-/* 裏面日本語 */
-#word-japanese {
-  font-size: 16px;
-  color: #666;
-}
-.single-card-wrapper {
-  width: 100%;
-  min-height: 60vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px; /* 余白追加 */
-}
+.btn-prev { background-color: #2f6df6; }
+.btn-next { background-color: #e64545; }
+.card-controls button:active { transform: scale(0.97); }
 
-.flash-card {
+/* 進捗バー */
+.progress-wrapper {
   width: 90%;
   max-width: 360px;
-  height: 240px;
-  perspective: 1000px;
+  height: 20px;
+  background-color: #eee;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 20px;
 }
 
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background-color: #FF9800; /* オレンジ */
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.3s ease;
+}
+
+/* レスポンシブ */
 @media (max-width: 480px) {
-  .flash-card {
-    max-width: 280px;
-    height: 200px;
-  }
-
-  .word-english {
-    font-size: 22px;
-  }
-
-  #word-english-back {
-    font-size: 18px;
-  }
-
-  #word-japanese {
-    font-size: 14px;
-  }
-
-  .play-word-btn {
-    width: 28px;
-    height: 28px;
-    font-size: 14px;
-  }
-
-  .card-controls button {
-    width: 100px;
-    padding: 10px 0;
-    font-size: 14px;
-  }
+  .flash-card { max-width: 280px; height: 200px; }
+  .word-english { font-size: 22px; }
+  #word-english-back { font-size: 18px; }
+  #word-japanese { font-size: 14px; }
+  .play-word-btn { width: 28px; height: 28px; font-size: 14px; }
+  .card-controls button { width: 120px; padding: 8px 0; font-size: 16px; border-radius: 24px; }
+  .progress-wrapper { height: 16px; }
+  .progress-bar { font-size: 12px; }
 }
-
-
 </style>
-<script>
 
+<script>
 document.addEventListener("turbo:load", () => {
   const vocabularies = window.VOCABULARIES;
   if (!vocabularies || vocabularies.length === 0) return;
@@ -240,11 +183,11 @@ document.addEventListener("turbo:load", () => {
   const nextBtn = document.getElementById("next-card");
   const playBtn = document.getElementById("play-word");
   const playBtnBack = document.getElementById("play-word-back");
+  const progressBar = document.getElementById("progress-bar");
 
   let current = 0;
   let voices = [];
 
-  // 音声一覧取得
   function loadVoices() {
     voices = speechSynthesis.getVoices();
   }
@@ -254,41 +197,55 @@ document.addEventListener("turbo:load", () => {
   function speak(word) {
     const utterance = new SpeechSynthesisUtterance(word);
     utterance.lang = "en-US";
-    utterance.rate = 0.9;
-    utterance.pitch = 0.9;
+    utterance.rate = 0.95;
+    utterance.pitch = 1.0;
 
-    const maleVoice = voices.find(v => v.lang.startsWith('en') && v.name.toLowerCase().includes('male'));
-    if (maleVoice) utterance.voice = maleVoice;
+    const voice = voices.find(v => v.lang.startsWith('en') && v.name.toLowerCase().includes('female'))
+                  || voices.find(v => v.lang.startsWith('en'))
+                  || voices[0];
 
+    if (voice) utterance.voice = voice;
     speechSynthesis.cancel();
     speechSynthesis.speak(utterance);
   }
 
+  function updateProgress(index) {
+    const total = vocabularies.length;
+    const percent = Math.round(((index + 1) / total) * 100);
+    progressBar.style.width = percent + "%";
+    progressBar.textContent = percent + "%";
+  }
+
   function renderCard(index) {
+    if (index >= vocabularies.length) {
+      window.location.href = "<%= clear_vocabularies_path(level: params[:level]) %>";
+      return;
+    }
+
     const word = vocabularies[index];
     englishEl.textContent = word.english;
     englishBackEl.textContent = word.english;
     japaneseEl.textContent = word.japanese;
     card.classList.remove("is-flipped");
 
-    // 自動再生
     speak(word.english);
+    updateProgress(index);
   }
 
   renderCard(current);
 
-  // カードフリップ
-  card.addEventListener("click", () => {
-    card.classList.toggle("is-flipped");
+  card.addEventListener("click", () => card.classList.toggle("is-flipped"));
+
+  prevBtn.addEventListener("click", () => {
+    if (current > 0) renderCard(--current);
   });
 
-  // 前後ボタン
-  prevBtn.addEventListener("click", () => { if (current > 0) renderCard(--current); });
-  nextBtn.addEventListener("click", () => { if (current < vocabularies.length - 1) renderCard(++current); });
+  nextBtn.addEventListener("click", () => {
+    current++;
+    renderCard(current);
+  });
 
-  // 発音ボタン
   playBtn.addEventListener("click", () => speak(englishEl.textContent));
   playBtnBack.addEventListener("click", () => speak(englishBackEl.textContent));
 });
-
 </script>

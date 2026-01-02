@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     collection do
       get :memorization   # 暗記カード画面
       get :level
+      get :clear          # クリア画面を追加
     end
   end
   resources :textbooks, only: [:index, :show] do

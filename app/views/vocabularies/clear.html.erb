@@ -1,0 +1,110 @@
+<div class="clear-container">
+  <h1>🎉 おめでとう！ 🎉</h1>
+  <p>単語の暗記を完了しました！</p>
+
+  <!-- 進捗バー -->
+  <div class="progress-wrapper">
+    <div class="progress-bar" id="progress-bar">0%</div>
+  </div>
+  
+  <!-- 単語リストに戻る -->
+  <%= link_to "単語リストに戻る", level_vocabularies_path(level: params[:level]), 
+              class: "btn-return" %>
+
+</div>
+<%= render "shared/navigation_tab" %>
+
+<style>
+.clear-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 20px;
+  min-height: 70vh;
+}
+
+.clear-container h1 {
+  font-size: 48px;
+  color: #4CAF50;
+  margin-bottom: 20px;
+}
+
+.clear-container p {
+  font-size: 24px;
+  color: #555;
+  margin-bottom: 30px;
+}
+
+/* 進捗バー */
+.progress-wrapper {
+  width: 80%;
+  max-width: 400px;
+  background-color: #eee;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 40px;
+  height: 28px;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #4CAF50;
+  color: white;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  width: 0%;
+  transition: width 0.2s linear;
+}
+
+/* ボタン共通 */
+.clear-container a {
+  display: inline-block;
+  padding: 14px 28px;
+  border-radius: 28px;
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  text-decoration: none;
+  margin-bottom: 16px;
+  width: 220px; 
+  text-align: center;
+  transition: background-color 0.2s;
+}
+
+.btn-return { background-color: #2f6df6; }
+.btn-return:hover { background-color: #1e4ed8; }
+
+.btn-repeat { background-color: #ef7c10ff; }
+.btn-repeat:hover { background-color: #e3831cc4; }
+
+@media (max-width: 480px) {
+  .clear-container h1 { font-size: 36px; }
+  .clear-container p { font-size: 20px; }
+  .progress-wrapper { height: 24px; }
+  .progress-bar { font-size: 16px; }
+  .clear-container a { padding: 12px 20px; font-size: 16px; width: 180px; }
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const progressBar = document.getElementById("progress-bar");
+  let progress = 0; // 初期値0%
+
+  // カウントアップ式アニメーション
+  const interval = setInterval(() => {
+    if (progress >= 100) {
+      clearInterval(interval); // 100%で止める
+    } else {
+      progress++;
+      progressBar.style.width = progress + "%";
+      progressBar.textContent = progress + "%";
+    }
+  }, 15); // 1%ごとに15msずつ更新 → 合計約1.5秒で100%に
+});
+</script>

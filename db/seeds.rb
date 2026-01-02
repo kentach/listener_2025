@@ -4,6 +4,1192 @@ ActiveRecord::Base.transaction do
   # 既存のVocabularyを削除
   Vocabulary.delete_all
 
+  actions_3kyu = [
+  { number: 1, english: "shine", japanese: "輝く" },
+  { number: 2, english: "continue", japanese: "続ける" },
+  { number: 3, english: "escape", japanese: "逃げる" },
+  { number: 4, english: "master", japanese: "習得する、極める" },
+  { number: 5, english: "pick", japanese: "選ぶ、摘む" },
+  { number: 6, english: "hunt", japanese: "狩る" },
+  { number: 7, english: "press", japanese: "押す" },
+  { number: 8, english: "guess", japanese: "推測する、思う" },
+  { number: 9, english: "damage", japanese: "損害を与える" },
+  { number: 10, english: "marry", japanese: "結婚する" },
+  { number: 11, english: "cancel", japanese: "取り消す" },
+  { number: 12, english: "blow", japanese: "（風が）吹く" },
+  { number: 13, english: "relax", japanese: "くつろぐ" },
+  { number: 14, english: "offer", japanese: "提供する、勧める" },
+  { number: 15, english: "collect", japanese: "集める" },
+  { number: 16, english: "lead", japanese: "導く、先導する" },
+  { number: 17, english: "hide", japanese: "隠す" },
+  { number: 18, english: "trust", japanese: "信頼する、信用する" },
+  { number: 19, english: "agree", japanese: "賛成する" },
+  { number: 20, english: "exchange", japanese: "交換する" },
+  { number: 21, english: "shock", japanese: "衝撃を与える" },
+  { number: 22, english: "introduce", japanese: "紹介する" },
+  { number: 23, english: "join", japanese: "加わる、参加する" },
+  { number: 24, english: "state", japanese: "述べる" },
+  { number: 25, english: "pass", japanese: "過ぎる、合格する" },
+  { number: 26, english: "stew", japanese: "煮込む" },
+  { number: 27, english: "attend", japanese: "出席する" },
+  { number: 28, english: "believe", japanese: "信じる" },
+  { number: 29, english: "hate", japanese: "嫌う、憎む" },
+  { number: 30, english: "rise", japanese: "昇る、増大する" },
+  { number: 31, english: "act", japanese: "行動する、演じる" },
+  { number: 32, english: "bake", japanese: "焼く" },
+  { number: 33, english: "shoot", japanese: "撃つ、シュートする" },
+  { number: 34, english: "waste", japanese: "むだにする" },
+  { number: 35, english: "invite", japanese: "招待する" },
+  { number: 36, english: "wish", japanese: "望む、願う" },
+  { number: 37, english: "travel", japanese: "旅行する" },
+  { number: 38, english: "wave", japanese: "（手・旗などを）振る" },
+  { number: 39, english: "hurt", japanese: "傷つける、痛む" },
+  { number: 40, english: "taste", japanese: "味がする" },
+  { number: 41, english: "perform", japanese: "演じる、演奏する" },
+  { number: 42, english: "decide", japanese: "決める" },
+  { number: 43, english: "twist", japanese: "ねじる、ひねる、曲げる" },
+  { number: 44, english: "board", japanese: "（船・飛行機・列車に）乗る" },
+  { number: 45, english: "graduate", japanese: "卒業する" },
+  { number: 46, english: "sound", japanese: "聞こえる、音がする" },
+  { number: 47, english: "check", japanese: "照合する、確認する、調べる" },
+  { number: 48, english: "prepare", japanese: "準備する" },
+  { number: 49, english: "advise", japanese: "忠告する、助言する" },
+  { number: 50, english: "add", japanese: "加える" },
+  { number: 51, english: "cross", japanese: "横切る" },
+  { number: 52, english: "mark", japanese: "マークをつける" },
+  { number: 53, english: "solve", japanese: "解く、解決する" },
+  { number: 54, english: "raise", japanese: "上げる［挙げる］、育てる" },
+  { number: 55, english: "miss", japanese: "いないので寂しく思う、乗り遅れる" },
+  { number: 56, english: "smoke", japanese: "たばこを吸う" },
+  { number: 57, english: "die", japanese: "死ぬ" },
+  { number: 58, english: "sign", japanese: "署名する、合図する" },
+  { number: 59, english: "lend", japanese: "貸す" },
+  { number: 60, english: "fit", japanese: "（サイズなどが）合う" },
+  { number: 61, english: "happen", japanese: "起こる" },
+  { number: 62, english: "celebrate", japanese: "祝う" },
+  { number: 63, english: "forgive", japanese: "許す" },
+  { number: 64, english: "smell", japanese: "においがする" },
+  { number: 65, english: "cheer", japanese: "元気づける" },
+  { number: 66, english: "hold", japanese: "支える、手に持つ、（会・式を）開催する" },
+  { number: 67, english: "support", japanese: "支持する、支援する" },
+  { number: 68, english: "explain", japanese: "説明する" },
+  { number: 69, english: "climb", japanese: "登る" },
+  { number: 70, english: "burn", japanese: "燃える、燃やす" },
+  { number: 71, english: "plant", japanese: "植える" },
+  { number: 72, english: "fear", japanese: "恐れる" },
+  { number: 73, english: "choose", japanese: "選ぶ" },
+  { number: 74, english: "touch", japanese: "さわる" },
+  { number: 75, english: "borrow", japanese: "借りる" },
+  { number: 76, english: "boil", japanese: "沸かす、ゆでる" },
+  { number: 77, english: "receive", japanese: "受け取る" },
+  { number: 78, english: "greet", japanese: "あいさつする、出迎える" },
+  { number: 79, english: "pull", japanese: "引っぱる" },
+  { number: 80, english: "save", japanese: "救う、たくわえる、節約する" },
+  { number: 81, english: "cost", japanese: "費用がかかる" },
+  { number: 82, english: "follow", japanese: "後についていく、従う" },
+  { number: 83, english: "fix", japanese: "修理する、決定する" },
+  { number: 84, english: "fold", japanese: "折る、たたむ" },
+  { number: 85, english: "decorate", japanese: "飾る" },
+  { number: 86, english: "release", japanese: "解放する、公開する、発表する" },
+  { number: 87, english: "feed", japanese: "食物を与える" },
+  { number: 88, english: "spread", japanese: "広げる、伸ばす、広がる" },
+  { number: 89, english: "remember", japanese: "覚えている、思い出す" },
+  { number: 90, english: "order", japanese: "注文する" },
+  { number: 91, english: "deliver", japanese: "配達する" },
+  { number: 92, english: "wear", japanese: "身につけている" },
+  { number: 93, english: "share", japanese: "共有する、共用する" },
+  { number: 94, english: "steal", japanese: "盗む" },
+  { number: 95, english: "roast", japanese: "焼く" }
+]
+
+actions_3kyu.each do |w|
+  Vocabulary.create!(
+    number: w[:number],
+    english: w[:english],
+    japanese: w[:japanese],
+    series: "動詞（規則動詞・不規則動詞）",
+    level: "3級"
+  )
+end
+
+adjectives_3kyu = [
+  { number: 1, english: "right", japanese: "正しい" },
+  { number: 2, english: "impossible", japanese: "不可能な" },
+  { number: 3, english: "tight", japanese: "きつい、ぴんと張った" },
+  { number: 4, english: "crowded", japanese: "混雑した" },
+  { number: 5, english: "shy", japanese: "内気な、恥ずかしがりの" },
+  { number: 6, english: "total", japanese: "全部の、総計の、全くの" },
+  { number: 7, english: "rude", japanese: "不作法な、無礼な" },
+  { number: 8, english: "foolish", japanese: "ばかげた" },
+  { number: 9, english: "thirsty", japanese: "のどのかわいた" },
+  { number: 10, english: "boring", japanese: "退屈な" },
+  { number: 11, english: "official", japanese: "公式の" },
+  { number: 12, english: "common", japanese: "普通の、共通の" },
+  { number: 13, english: "familiar", japanese: "見慣れた、聞き慣れた、よく知っている、親しい" },
+  { number: 14, english: "nervous", japanese: "緊張した" },
+  { number: 15, english: "expensive", japanese: "高価な" },
+  { number: 16, english: "smart", japanese: "利口な" },
+  { number: 17, english: "several", japanese: "いくつかの" },
+  { number: 18, english: "alive", japanese: "生きている" },
+  { number: 19, english: "cheap", japanese: "安い" },
+  { number: 20, english: "international", japanese: "国際的な" },
+  { number: 21, english: "enough", japanese: "十分な" },
+  { number: 22, english: "public", japanese: "公共の" },
+  { number: 23, english: "necessary", japanese: "必要な" },
+  { number: 24, english: "possible", japanese: "可能な" },
+  { number: 25, english: "serious", japanese: "重大な、真面目な、真剣な" },
+  { number: 26, english: "basic", japanese: "基本的な" },
+  { number: 27, english: "comfortable", japanese: "快適な、心地よい" },
+  { number: 28, english: "free", japanese: "無料の、暇な" },
+  { number: 29, english: "popular", japanese: "人気のある" },
+  { number: 30, english: "famous", japanese: "有名な" },
+  { number: 31, english: "foreign", japanese: "外国の" },
+  { number: 32, english: "fresh", japanese: "新鮮な" },
+  { number: 33, english: "amazing", japanese: "驚くべき、すごい" },
+  { number: 34, english: "crazy", japanese: "頭がおかしい、熱狂した" },
+  { number: 35, english: "past", japanese: "過去の、過ぎ去った" },
+  { number: 36, english: "local", japanese: "地元の" },
+  { number: 37, english: "extra", japanese: "余分な、追加の" },
+  { number: 38, english: "correct", japanese: "正しい" },
+  { number: 39, english: "bright", japanese: "輝いている、鮮やかな、利口な" },
+  { number: 40, english: "dead", japanese: "死んでいる" },
+  { number: 41, english: "own", japanese: "自分自身の" },
+  { number: 42, english: "terrible", japanese: "ひどい、ひどく悪い" },
+  { number: 43, english: "tasty", japanese: "おいしい" },
+  { number: 44, english: "absent", japanese: "欠席した" },
+  { number: 45, english: "wrong", japanese: "間違った" },
+  { number: 46, english: "major", japanese: "大きい方の、主要な" },
+  { number: 47, english: "each", japanese: "それぞれの" },
+  { number: 48, english: "excellent", japanese: "すぐれた、すばらしい" },
+  { number: 49, english: "normal", japanese: "標準の、普通の、通常の" },
+  { number: 50, english: "surprised", japanese: "驚いた" },
+  { number: 51, english: "lazy", japanese: "怠けた、怠け者の" },
+  { number: 52, english: "polite", japanese: "礼儀正しい" },
+  { number: 53, english: "same", japanese: "同じ" },
+  { number: 54, english: "lonely", japanese: "ひとりぼっちの、寂しい" },
+  { number: 55, english: "fair", japanese: "公正な、公平な" },
+  { number: 56, english: "electric", japanese: "電気の" },
+  { number: 57, english: "elderly", japanese: "年配の" },
+  { number: 58, english: "loud", japanese: "（声・音が）大きい" },
+  { number: 59, english: "pop", japanese: "ポピュラーな" },
+  { number: 60, english: "useful", japanese: "役に立つ" },
+  { number: 61, english: "full", japanese: "いっぱいの、満腹で" },
+  { number: 62, english: "fat", japanese: "太った" },
+  { number: 63, english: "private", japanese: "私的な、個人の" },
+  { number: 64, english: "narrow", japanese: "（幅が）せまい" },
+  { number: 65, english: "helpful", japanese: "助けになる、役に立つ" },
+  { number: 66, english: "healthy", japanese: "健康的な" },
+  { number: 67, english: "low", japanese: "低い" },
+  { number: 68, english: "important", japanese: "重要な" },
+  { number: 69, english: "natural", japanese: "自然の" },
+  { number: 70, english: "afraid", japanese: "怖がって" }
+]
+
+adjectives_3kyu.each do |w|
+  Vocabulary.create!(
+    number: w[:number],
+    english: w[:english],
+    japanese: w[:japanese],
+    series: "形容詞",
+    level: "3級"
+  )
+end
+
+adv_prepositions_3kyu = [
+  { number: 1, english: "actually", japanese: "実のところ、実際に" },
+  { number: 2, english: "exactly", japanese: "正確に、ぴったり、そのとおり" },
+  { number: 3, english: "softly", japanese: "やわらかく、そっと" },
+  { number: 4, english: "both", japanese: "両方とも" },
+  { number: 5, english: "overseas", japanese: "海外へ、海外で" },
+  { number: 6, english: "together", japanese: "一緒に" },
+  { number: 7, english: "friendly", japanese: "親しい、友好的な" },
+  { number: 8, english: "finally", japanese: "ついに、最後に" },
+  { number: 9, english: "nearly", japanese: "ほとんど、もう少しで、ほぼ" },
+  { number: 10, english: "recently", japanese: "最近" },
+  { number: 11, english: "carefully", japanese: "注意深く" },
+  { number: 12, english: "abroad", japanese: "海外へ" },
+  { number: 13, english: "outdoors", japanese: "屋外で、屋外へ" },
+  { number: 14, english: "upstairs", japanese: "上の階へ、上の階に、上の階で" },
+  { number: 15, english: "badly", japanese: "悪く、ひどく" },
+  { number: 16, english: "downtown", japanese: "繁華街へ、都心へ" },
+  { number: 17, english: "instead", japanese: "その代わりに" },
+  { number: 18, english: "easily", japanese: "簡単に" },
+  { number: 19, english: "straight", japanese: "まっすぐに" },
+  { number: 20, english: "almost", japanese: "ほとんど" },
+  { number: 21, english: "aloud", japanese: "声を出して" },
+  { number: 22, english: "anyway", japanese: "とにかく" },
+  { number: 23, english: "nowadays", japanese: "この頃は" },
+  { number: 24, english: "rather", japanese: "かなり、（～よりは）むしろ" },
+  { number: 25, english: "especially", japanese: "特に" },
+  { number: 26, english: "onto", japanese: "～の上に、～の上へ" },
+  { number: 27, english: "beside", japanese: "～のそばに、～のそばの" },
+  { number: 28, english: "between", japanese: "～の間に、～の間で" },
+  { number: 29, english: "across", japanese: "～を横切って" },
+  { number: 30, english: "during", japanese: "～の間中（ずっと）" },
+  { number: 31, english: "against", japanese: "～に反対して" },
+  { number: 32, english: "without", japanese: "～なしで" },
+  { number: 33, english: "behind", japanese: "～の後ろに" },
+  { number: 34, english: "while", japanese: "～している間に" },
+  { number: 35, english: "although", japanese: "～だけれども" }
+]
+
+adv_prepositions_3kyu.each do |w|
+  Vocabulary.create!(
+    number: w[:number],
+    english: w[:english],
+    japanese: w[:japanese],
+    series: "副詞・前置詞・接続詞",
+    level: "3級"
+  )
+end
+
+nouns_3kyu = [
+  { number: 1, english: "crowd", japanese: "群衆、人ごみ" },
+  { number: 2, english: "planet", japanese: "惑星" },
+  { number: 3, english: "village", japanese: "村" },
+  { number: 4, english: "age", japanese: "年齢" },
+  { number: 5, english: "port", japanese: "港" },
+  { number: 6, english: "ceiling", japanese: "天井" },
+  { number: 7, english: "skill", japanese: "技術、技能" },
+  { number: 8, english: "history", japanese: "歴史" },
+  { number: 9, english: "trash", japanese: "ごみ" },
+  { number: 10, english: "cart", japanese: "手押し車、カート" },
+  { number: 11, english: "shadow", japanese: "影" },
+  { number: 12, english: "closet", japanese: "収納室、押し入れ、戸棚" },
+  { number: 13, english: "branch", japanese: "枝、支店" },
+  { number: 14, english: "section", japanese: "部門、地区" },
+  { number: 15, english: "platform", japanese: "（プラット）ホーム" },
+  { number: 16, english: "cave", japanese: "洞くつ、ほら穴" },
+  { number: 17, english: "item", japanese: "項目、品目、記事" },
+  { number: 18, english: "tournament", japanese: "試合、トーナメント" },
+  { number: 19, english: "manager", japanese: "支配人" },
+  { number: 20, english: "middle", japanese: "真ん中、中央" },
+  { number: 21, english: "language", japanese: "言語" },
+  { number: 22, english: "nest", japanese: "巣" },
+  { number: 23, english: "comb", japanese: "くし" },
+  { number: 24, english: "citizen", japanese: "国民、市民" },
+  { number: 25, english: "stair(s)", japanese: "階段" },
+  { number: 26, english: "hero", japanese: "英雄、主人公" },
+  { number: 27, english: "tool", japanese: "道具" },
+  { number: 28, english: "vegetable", japanese: "野菜" },
+  { number: 29, english: "human", japanese: "人、人間" },
+  { number: 30, english: "view", japanese: "意見、ながめ" },
+  { number: 31, english: "castle", japanese: "城" },
+  { number: 32, english: "shower", japanese: "シャワー、にわか雨" },
+  { number: 33, english: "capital", japanese: "首都、資本" },
+  { number: 34, english: "shade", japanese: "（日）陰" },
+  { number: 35, english: "festival", japanese: "祭り" },
+  { number: 36, english: "field", japanese: "野原、畑、競技場" },
+  { number: 37, english: "customer", japanese: "客" },
+  { number: 38, english: "ladder", japanese: "はしご" },
+  { number: 39, english: "apartment", japanese: "アパート" },
+  { number: 40, english: "price", japanese: "値段" },
+  { number: 41, english: "culture", japanese: "文化" },
+  { number: 42, english: "future", japanese: "未来、将来" },
+  { number: 43, english: "glove", japanese: "手袋、グローブ" },
+  { number: 44, english: "symbol", japanese: "象徴" },
+  { number: 45, english: "volunteer", japanese: "ボランティア" },
+  { number: 46, english: "emotion", japanese: "感情" },
+  { number: 47, english: "airport", japanese: "空港" },
+  { number: 48, english: "law", japanese: "法律" },
+  { number: 49, english: "entrance", japanese: "入り口" },
+  { number: 50, english: "accident", japanese: "事故" },
+  { number: 51, english: "nature", japanese: "自然" },
+  { number: 52, english: "twin", japanese: "双子（の１人）" },
+  { number: 53, english: "cage", japanese: "鳥かご、おり" },
+  { number: 54, english: "seed", japanese: "種" },
+  { number: 55, english: "courage", japanese: "勇気" },
+  { number: 56, english: "mirror", japanese: "鏡" },
+  { number: 57, english: "reason", japanese: "理由" },
+  { number: 58, english: "headache", japanese: "頭痛" },
+  { number: 59, english: "nephew", japanese: "おい" },
+  { number: 60, english: "custom", japanese: "慣習、習慣" },
+  { number: 61, english: "flavor", japanese: "風味、味" },
+  { number: 62, english: "gate", japanese: "門" },
+  { number: 63, english: "information", japanese: "情報" },
+  { number: 64, english: "sunrise", japanese: "日の出" },
+  { number: 65, english: "gesture", japanese: "身ぶり" },
+  { number: 66, english: "job", japanese: "仕事" },
+  { number: 67, english: "sweater", japanese: "セーター" },
+  { number: 68, english: "dictionary", japanese: "辞書" },
+  { number: 69, english: "forest", japanese: "森" },
+  { number: 70, english: "generation", japanese: "世代" },
+  { number: 71, english: "sunshine", japanese: "日光" },
+  { number: 72, english: "case", japanese: "場合、事例" },
+  { number: 73, english: "fact", japanese: "事実" },
+  { number: 74, english: "climate", japanese: "気候" },
+  { number: 75, english: "statue", japanese: "像" },
+  { number: 76, english: "figure", japanese: "数字、図、姿" },
+  { number: 77, english: "gas", japanese: "気体、ガス、ガソリン" },
+  { number: 78, english: "storm", japanese: "嵐" },
+  { number: 79, english: "subject", japanese: "教科" },
+  { number: 80, english: "notice", japanese: "知らせ、注目" },
+  { number: 81, english: "boss", japanese: "上司" },
+  { number: 82, english: "scissors", japanese: "はさみ" },
+  { number: 83, english: "league", japanese: "連盟、リーグ" },
+  { number: 84, english: "theater", japanese: "劇場、映画館" },
+  { number: 85, english: "pan", japanese: "（平）なべ" },
+  { number: 86, english: "sign", japanese: "看板、掲示" },
+  { number: 87, english: "mayor", japanese: "市長" },
+  { number: 88, english: "note", japanese: "短い手紙、メモ" },
+  { number: 89, english: "neighbor", japanese: "近所の人、隣人" },
+  { number: 90, english: "gym", japanese: "体育館" },
+  { number: 91, english: "island", japanese: "島" },
+  { number: 92, english: "model", japanese: "模型、型" },
+  { number: 93, english: "weather", japanese: "天気" },
+  { number: 94, english: "cause", japanese: "原因、理由" },
+  { number: 95, english: "shrine", japanese: "聖堂、神社" },
+  { number: 96, english: "dust", japanese: "ほこり" },
+  { number: 97, english: "coast", japanese: "海岸、沿岸" },
+  { number: 98, english: "chopsticks", japanese: "はし" },
+  { number: 99, english: "soldier", japanese: "兵士" },
+  { number: 100, english: "diet", japanese: "日常の食物、食事、ダイエット" }
+]
+
+nouns_3kyu.each do |w|
+  Vocabulary.create!(
+    number: w[:number],
+    english: w[:english],
+    japanese: w[:japanese],
+    series: "名詞①",
+    level: "3級"
+  )
+end
+
+nouns_3kyu_extra = [
+  { number: 1, english: "actor", japanese: "俳優" },
+  { number: 2, english: "department", japanese: "部門" },
+  { number: 3, english: "highway", japanese: "幹線道路" },
+  { number: 4, english: "person", japanese: "人" },
+  { number: 5, english: "tradition", japanese: "伝統、しきたり" },
+  { number: 6, english: "area", japanese: "地域、区域" },
+  { number: 7, english: "refrigerator", japanese: "冷蔵庫" },
+  { number: 8, english: "factory", japanese: "工場" },
+  { number: 9, english: "heat", japanese: "熱、熱さ［暑さ］" },
+  { number: 10, english: "temperature", japanese: "温度、気温、体温" },
+  { number: 11, english: "pain", japanese: "痛み" },
+  { number: 12, english: "rest", japanese: "休憩" },
+  { number: 13, english: "bay", japanese: "湾" },
+  { number: 14, english: "schedule", japanese: "予定、時刻表" },
+  { number: 15, english: "desert", japanese: "砂漠" },
+  { number: 16, english: "garbage", japanese: "（生）ごみ" },
+  { number: 17, english: "guide", japanese: "ガイド、ガイドブック" },
+  { number: 18, english: "medicine", japanese: "薬" },
+  { number: 19, english: "tail", japanese: "尾" },
+  { number: 20, english: "experience", japanese: "経験" },
+  { number: 21, english: "aquarium", japanese: "水族館" },
+  { number: 22, english: "puppy", japanese: "子犬" },
+  { number: 23, english: "meal", japanese: "食事" },
+  { number: 24, english: "million", japanese: "100万" },
+  { number: 25, english: "company", japanese: "会社" },
+  { number: 26, english: "garage", japanese: "車庫、ガレージ" },
+  { number: 27, english: "grass", japanese: "草、芝生" },
+  { number: 28, english: "system", japanese: "体系、方式、制度" },
+  { number: 29, english: "adult", japanese: "成人、大人" },
+  { number: 30, english: "purse", japanese: "ハンドバッグ、小銭入れ" },
+  { number: 31, english: "period", japanese: "期間、（授業の）時限" },
+  { number: 32, english: "wallet", japanese: "財布" },
+  { number: 33, english: "fever", japanese: "（病気の）熱" },
+  { number: 34, english: "promise", japanese: "約束" },
+  { number: 35, english: "novel", japanese: "（長編）小説" },
+  { number: 36, english: "project", japanese: "計画、事業" },
+  { number: 37, english: "hole", japanese: "穴" },
+  { number: 38, english: "message", japanese: "伝言" },
+  { number: 39, english: "truth", japanese: "真実、本当のこと" },
+  { number: 40, english: "bottom", japanese: "底" },
+  { number: 41, english: "secret", japanese: "秘密" },
+  { number: 42, english: "clothes", japanese: "衣服" },
+  { number: 43, english: "government", japanese: "政府" },
+  { number: 44, english: "height", japanese: "身長、高さ" },
+  { number: 45, english: "thought", japanese: "考え、意見" },
+  { number: 46, english: "interview", japanese: "面接" },
+  { number: 47, english: "voice", japanese: "声" },
+  { number: 48, english: "battle", japanese: "戦い、戦闘" },
+  { number: 49, english: "rule", japanese: "規則" },
+  { number: 50, english: "audience", japanese: "聴衆、観衆" },
+  { number: 51, english: "resort", japanese: "行楽地、リゾート" },
+  { number: 52, english: "award", japanese: "賞" },
+  { number: 53, english: "role", japanese: "役割" },
+  { number: 54, english: "address", japanese: "住所" },
+  { number: 55, english: "pleasure", japanese: "楽しみ、喜び" },
+  { number: 56, english: "continent", japanese: "大陸" },
+  { number: 57, english: "exam", japanese: "試験" },
+  { number: 58, english: "leaf", japanese: "（木・草の）葉" },
+  { number: 59, english: "advice", japanese: "忠告、助言" },
+  { number: 60, english: "recipe", japanese: "調理法、レシピ" },
+  { number: 61, english: "earthquake", japanese: "地震" },
+  { number: 62, english: "heaven", japanese: "天国" },
+  { number: 63, english: "office", japanese: "事務所、オフィス" },
+  { number: 64, english: "terminal", japanese: "終点、ターミナル" },
+  { number: 65, english: "license", japanese: "免許（証）" },
+  { number: 66, english: "wedding", japanese: "結婚式" },
+  { number: 67, english: "health", japanese: "健康" },
+  { number: 68, english: "prize", japanese: "賞" },
+  { number: 69, english: "tear", japanese: "涙" },
+  { number: 70, english: "crop", japanese: "作物、農作物" },
+  { number: 71, english: "convenience", japanese: "便利、便利な物、便利な設備" },
+  { number: 72, english: "court", japanese: "法廷、コート、中庭" },
+  { number: 73, english: "niece", japanese: "めい" }
+]
+
+nouns_3kyu_extra.each do |w|
+  Vocabulary.create!(
+    number: w[:number],
+    english: w[:english],
+    japanese: w[:japanese],
+    series: "名詞②",
+    level: "3級"
+  )
+end
+
+
+
+vocabularies_4kyu = [
+  { number: 1, english: "be (was/were, been)", japanese: "～である・いる" },
+  { number: 2, english: "do (did, done)", japanese: "する" },
+  { number: 3, english: "eat (ate, eaten)", japanese: "たべる" },
+  { number: 4, english: "get (got, got(ten))", japanese: "手に入れる" },
+  { number: 5, english: "forget (forgot, forgot(ten))", japanese: "忘れる" },
+  { number: 6, english: "go (went, gone)", japanese: "行く" },
+  { number: 7, english: "come (came, come)", japanese: "来る" },
+  { number: 8, english: "become (became, become)", japanese: "～になる" },
+  { number: 9, english: "have (had, had)", japanese: "持っている" },
+  { number: 10, english: "find (found, found)", japanese: "見つける" },
+  { number: 11, english: "make (made, made)", japanese: "作る" },
+  { number: 12, english: "see (saw, seen)", japanese: "見る・会う" },
+  { number: 13, english: "hear (heard, heard)", japanese: "聞く" },
+  { number: 14, english: "meet (met, met)", japanese: "会う" },
+  { number: 15, english: "lose (lost, lost)", japanese: "負ける・なくす" },
+  { number: 16, english: "read (read, read)", japanese: "読む" },
+  { number: 17, english: "win (won, won)", japanese: "勝つ" },
+  { number: 18, english: "cut (cut, cut)", japanese: "切る" },
+  { number: 19, english: "shut (shut, shut)", japanese: "閉める" },
+  { number: 20, english: "hit (hit, hit)", japanese: "たたく" },
+  { number: 21, english: "sing (sang, sung)", japanese: "歌う" },
+  { number: 22, english: "drink (drank, drunk)", japanese: "飲む" },
+  { number: 23, english: "sit (sat, sat)", japanese: "すわる" },
+  { number: 24, english: "swim (swam, swum)", japanese: "泳ぐ" },
+  { number: 25, english: "run (ran, run)", japanese: "走る" },
+  { number: 26, english: "begin (began, begun)", japanese: "始める・始まる" },
+  { number: 27, english: "take (took, taken)", japanese: "取る・持っていく" },
+  { number: 28, english: "stand (stood, stood)", japanese: "立つ" },
+  { number: 29, english: "understand (understood, understood)", japanese: "理解する" },
+  { number: 30, english: "drive (drove, driven)", japanese: "運転する" },
+  { number: 31, english: "write (wrote, written)", japanese: "書く" },
+  { number: 32, english: "ride (rode, ridden)", japanese: "乗る" },
+  { number: 33, english: "break (broke, broken)", japanese: "壊す" },
+  { number: 34, english: "speak (spoke, spoken)", japanese: "話す" },
+  { number: 35, english: "know (knew, known)", japanese: "知っている" },
+  { number: 36, english: "draw (drew, drawn)", japanese: "描く" },
+  { number: 37, english: "throw (threw, thrown)", japanese: "なげる" },
+  { number: 38, english: "grow (grew, grown)", japanese: "育つ・育てる" },
+  { number: 39, english: "fly (flew, flown)", japanese: "飛ぶ" },
+  { number: 40, english: "send (sent, sent)", japanese: "送る" },
+  { number: 41, english: "spend (spent, spent)", japanese: "過ごす・費やす" },
+  { number: 42, english: "build (built, built)", japanese: "建てる" },
+  { number: 43, english: "buy (bought, bought)", japanese: "買う" },
+  { number: 44, english: "bring (brought, brought)", japanese: "持ってくる" },
+  { number: 45, english: "think (thought, thought)", japanese: "思う・考える" },
+  { number: 46, english: "catch (caught, caught)", japanese: "つかまえる" },
+  { number: 47, english: "teach (taught, taught)", japanese: "教える" },
+  { number: 48, english: "say (said, said)", japanese: "～と言う" },
+  { number: 49, english: "pay (paid, paid)", japanese: "払う" },
+  { number: 50, english: "keep (kept, kept)", japanese: "保つ" },
+  { number: 51, english: "sleep (slept, slept)", japanese: "寝る" },
+  { number: 52, english: "feel (felt, felt)", japanese: "感じる・気がする" },
+  { number: 53, english: "leave (left, left)", japanese: "去る・出発する" },
+  { number: 54, english: "tell (told, told)", japanese: "（人に）言う" },
+  { number: 55, english: "sell (sold, sold)", japanese: "売る" }
+]
+
+vocabularies_4kyu.each do |w|
+  Vocabulary.create!(
+    number: w[:number],
+    english: w[:english],
+    japanese: w[:japanese],
+    series: "不規則動詞",
+    level: "4級"
+  )
+end
+
+adj_adv_prepositions_4kyu = [
+  { number: 1, english: "easy", japanese: "簡単な" },
+  { number: 2, english: "difficult", japanese: "難しい" },
+  { number: 3, english: "busy", japanese: "忙しい" },
+  { number: 4, english: "free", japanese: "無料の、ひまな" },
+  { number: 5, english: "thirsty", japanese: "のどがかわいた" },
+  { number: 6, english: "popular", japanese: "人気のある" },
+  { number: 7, english: "famous", japanese: "有名な" },
+  { number: 8, english: "early", japanese: "早い" },
+  { number: 9, english: "fast", japanese: "速い" },
+  { number: 10, english: "late", japanese: "遅い" },
+  { number: 11, english: "strong", japanese: "強い" },
+  { number: 12, english: "weak", japanese: "弱い" },
+  { number: 13, english: "interesting", japanese: "面白い、興味深い" },
+  { number: 14, english: "funny", japanese: "面白い、笑える" },
+  { number: 15, english: "exciting", japanese: "ワクワクする" },
+  { number: 16, english: "angry", japanese: "怒った" },
+  { number: 17, english: "clean", japanese: "きれいな" },
+  { number: 18, english: "dirty", japanese: "汚い" },
+  { number: 19, english: "better", japanese: "もっと良い" },
+  { number: 20, english: "best", japanese: "一番良い" },
+  { number: 21, english: "delicious", japanese: "おいしい" },
+  { number: 22, english: "fun", japanese: "楽しみ" },
+  { number: 23, english: "boring", japanese: "退屈な" },
+  { number: 24, english: "sick", japanese: "病気の" },
+  { number: 25, english: "healthy", japanese: "健康的な" },
+  { number: 26, english: "short", japanese: "短い" },
+  { number: 27, english: "beautiful", japanese: "美しい" },
+  { number: 28, english: "pretty", japanese: "かわいい" },
+  { number: 29, english: "cute", japanese: "かわいい" },
+  { number: 30, english: "different", japanese: "異なった" },
+  { number: 31, english: "same", japanese: "同じ" },
+  { number: 32, english: "rich", japanese: "お金持ちの" },
+  { number: 33, english: "poor", japanese: "貧しい" },
+  { number: 34, english: "hungry", japanese: "空腹の" },
+  { number: 35, english: "full", japanese: "いっぱいの" },
+  { number: 36, english: "useful", japanese: "役立つ" },
+  { number: 37, english: "right", japanese: "正しい、右の" },
+  { number: 38, english: "left", japanese: "左の" },
+  { number: 39, english: "ready", japanese: "準備のできた" },
+  { number: 40, english: "behind", japanese: "～の後ろに" },
+  { number: 41, english: "front", japanese: "正面の" },
+  { number: 42, english: "around", japanese: "～のあたり" },
+  { number: 43, english: "tired", japanese: "疲れた" },
+  { number: 44, english: "dangerous", japanese: "危険な" },
+  { number: 45, english: "near", japanese: "～の近くに" },
+  { number: 46, english: "away", japanese: "離れて" },
+  { number: 47, english: "between", japanese: "～と・・・の間" },
+  { number: 48, english: "favorite", japanese: "大好きな" },
+  { number: 49, english: "because", japanese: "～なので" },
+  { number: 50, english: "young", japanese: "若い" },
+  { number: 51, english: "kind", japanese: "親切な" },
+  { number: 52, english: "hard", japanese: "一生懸命、大変" },
+  { number: 53, english: "wrong", japanese: "間違った" },
+  { number: 54, english: "careful", japanese: "注意深い" },
+  { number: 55, english: "quiet", japanese: "静かな" },
+  { number: 56, english: "together", japanese: "いっしょに" },
+  { number: 57, english: "sometimes", japanese: "時々" },
+  { number: 58, english: "often", japanese: "よく" },
+  { number: 59, english: "usually", japanese: "ふつう" },
+  { number: 60, english: "always", japanese: "いつも" }
+]
+
+adj_adv_prepositions_4kyu.each do |w|
+  Vocabulary.create!(
+    number: w[:number],
+    english: w[:english],
+    japanese: w[:japanese],
+    series: "形容詞・副詞・前置詞",
+    level: "4級"
+  )
+end
+
+school_nouns_4kyu = [
+  { number: 1, english: "subject", japanese: "科目" },
+  { number: 2, english: "Japanese", japanese: "国語" },
+  { number: 3, english: "math", japanese: "数学" },
+  { number: 4, english: "history", japanese: "歴史" },
+  { number: 5, english: "social studies", japanese: "社会" },
+  { number: 6, english: "science", japanese: "理科" },
+  { number: 7, english: "P.E.", japanese: "体育" },
+  { number: 8, english: "art", japanese: "美術" },
+  { number: 9, english: "dictionary", japanese: "辞書" },
+  { number: 10, english: "elementary school", japanese: "小学校" },
+  { number: 11, english: "junior high school", japanese: "中学校" },
+  { number: 12, english: "high school", japanese: "高校" },
+  { number: 13, english: "college", japanese: "大学" },
+  { number: 14, english: "gym", japanese: "体育館" },
+  { number: 15, english: "test", japanese: "テスト" },
+  { number: 16, english: "examination", japanese: "試験" },
+  { number: 17, english: "problem", japanese: "問題" },
+  { number: 18, english: "question", japanese: "質問" },
+  { number: 19, english: "answer", japanese: "答え" },
+  { number: 20, english: "report", japanese: "レポート" },
+  { number: 21, english: "eraser", japanese: "消しゴム" },
+  { number: 22, english: "lesson", japanese: "レッスン" },
+  { number: 23, english: "uniform", japanese: "制服、ユニフォーム" },
+  { number: 24, english: "language", japanese: "言葉" }
+]
+
+school_nouns_4kyu.each do |w|
+  Vocabulary.create!(
+    number: w[:number],
+    english: w[:english],
+    japanese: w[:japanese],
+    series: "科目 / 学校 / 勉強",
+    level: "4級"
+  )
+end
+
+places_4kyu = [
+  { number: 1, english: "apartment", japanese: "アパート" },
+  { number: 2, english: "kitchen", japanese: "台所" },
+  { number: 3, english: "bathroom", japanese: "トイレ、お風呂" },
+  { number: 4, english: "living room", japanese: "居間" },
+  { number: 5, english: "bedroom", japanese: "寝室" },
+  { number: 6, english: "yard", japanese: "庭" },
+  { number: 7, english: "supermarket", japanese: "スーパー" },
+  { number: 8, english: "stadium", japanese: "スタジアム" },
+  { number: 9, english: "airport", japanese: "空港" },
+  { number: 10, english: "hospital", japanese: "病院" },
+  { number: 11, english: "dentist", japanese: "歯医者" },
+  { number: 12, english: "museum", japanese: "美術館" },
+  { number: 13, english: "library", japanese: "図書館" },
+  { number: 14, english: "bank", japanese: "銀行" },
+  { number: 15, english: "farm", japanese: "農場" },
+  { number: 16, english: "bookstore", japanese: "本屋" },
+  { number: 17, english: "office", japanese: "会社" },
+  { number: 18, english: "bridge", japanese: "橋" },
+  { number: 19, english: "department store", japanese: "デパート" },
+  { number: 20, english: "gas station", japanese: "ガソリンスタンド" },
+  { number: 21, english: "restaurant", japanese: "レストラン" },
+  { number: 22, english: "post office", japanese: "郵便局" },
+  { number: 23, english: "theater", japanese: "映画館" },
+  { number: 24, english: "place", japanese: "場所" },
+  { number: 25, english: "hometown", japanese: "故郷" },
+  { number: 26, english: "city", japanese: "市" },
+  { number: 27, english: "town", japanese: "町" },
+  { number: 28, english: "village", japanese: "村" }
+]
+
+places_4kyu.each do |w|
+  Vocabulary.create!(
+    number: w[:number],
+    english: w[:english],
+    japanese: w[:japanese],
+    series: "建物・場所",
+    level: "4級"
+  )
+end
+
+family_4kyu = [
+  { number: 1, english: "family", japanese: "家族" },
+  { number: 2, english: "parents", japanese: "両親" },
+  { number: 3, english: "daughter", japanese: "娘" },
+  { number: 4, english: "son", japanese: "息子" },
+  { number: 5, english: "child", japanese: "子供" },
+  { number: 6, english: "children", japanese: "子供たち" },
+  { number: 7, english: "aunt", japanese: "おば" },
+  { number: 8, english: "uncle", japanese: "おじ" },
+  { number: 9, english: "twins", japanese: "双子" },
+  { number: 10, english: "grandparents", japanese: "祖父母" },
+  { number: 11, english: "grandmother", japanese: "祖母" },
+  { number: 12, english: "grandfather", japanese: "祖父" },
+  { number: 13, english: "cousin", japanese: "いとこ" },
+  { number: 14, english: "nephew", japanese: "おい" },
+  { number: 15, english: "niece", japanese: "めい" },
+  { number: 16, english: "woman", japanese: "女性" },
+  { number: 17, english: "man", japanese: "男性" },
+  { number: 18, english: "people", japanese: "人々" },
+  { number: 19, english: "lady", japanese: "女性" },
+  { number: 20, english: "gentleman", japanese: "紳士" }
+]
+
+family_4kyu.each do |w|
+  Vocabulary.create!(
+    number: w[:number],
+    english: w[:english],
+    japanese: w[:japanese],
+    series: "家族 / 人間",
+    level: "4級"
+  )
+end
+
+jobs_4kyu = [
+  { number: 1, english: "doctor", japanese: "医者" },
+  { number: 2, english: "nurse", japanese: "看護師" },
+  { number: 3, english: "pilot", japanese: "パイロット" },
+  { number: 4, english: "teacher", japanese: "先生" },
+  { number: 5, english: "cook", japanese: "調理師" },
+  { number: 6, english: "farmer", japanese: "農家" },
+  { number: 7, english: "police officer", japanese: "警察官" },
+  { number: 8, english: "firefighter", japanese: "消防士" },
+  { number: 9, english: "driver", japanese: "運転手" },
+  { number: 10, english: "scientist", japanese: "科学者" },
+  { number: 11, english: "singer", japanese: "歌手" },
+  { number: 12, english: "actor", japanese: "俳優" },
+  { number: 13, english: "actress", japanese: "女優" },
+  { number: 14, english: "model", japanese: "モデル" },
+  { number: 15, english: "barber", japanese: "床屋" },
+  { number: 16, english: "designer", japanese: "デザイナー" }
+]
+
+jobs_4kyu.each do |w|
+  Vocabulary.create!(
+    number: w[:number],
+    english: w[:english],
+    japanese: w[:japanese],
+    series: "職業",
+    level: "4級"
+  )
+end
+
+nature_time_4kyu = [
+  { number: 1, english: "star", japanese: "星" },
+  { number: 2, english: "wind", japanese: "風" },
+  { number: 3, english: "sky", japanese: "空" },
+  { number: 4, english: "desert", japanese: "砂漠" },
+  { number: 5, english: "lake", japanese: "湖" },
+  { number: 6, english: "river", japanese: "川" },
+  { number: 7, english: "sea", japanese: "海" },
+  { number: 8, english: "country", japanese: "国" },
+  { number: 9, english: "season", japanese: "季節" },
+  { number: 10, english: "spring", japanese: "春" },
+  { number: 11, english: "summer", japanese: "夏" },
+  { number: 12, english: "autumn", japanese: "秋" },
+  { number: 13, english: "fall", japanese: "秋" },
+  { number: 14, english: "winter", japanese: "冬" },
+  { number: 15, english: "beach", japanese: "海岸" },
+  { number: 16, english: "weather", japanese: "天気" },
+  { number: 17, english: "minute", japanese: "分" },
+  { number: 18, english: "hour", japanese: "時間" },
+  { number: 19, english: "day", japanese: "日" },
+  { number: 20, english: "week", japanese: "週" },
+  { number: 21, english: "month", japanese: "月" },
+  { number: 22, english: "year", japanese: "年" },
+  { number: 23, english: "morning", japanese: "朝、午前中" },
+  { number: 24, english: "night", japanese: "夜" },
+  { number: 25, english: "tonight", japanese: "今夜" },
+  { number: 26, english: "weekend", japanese: "週末" },
+  { number: 27, english: "yesterday", japanese: "昨日" },
+  { number: 28, english: "tomorrow", japanese: "明日" },
+  { number: 29, english: "date", japanese: "日付" },
+  { number: 30, english: "future", japanese: "将来" },
+  { number: 31, english: "vacation", japanese: "休み" },
+  { number: 32, english: "holiday", japanese: "休み" }
+]
+
+nature_time_4kyu.each do |w|
+  Vocabulary.create!(
+    number: w[:number],
+    english: w[:english],
+    japanese: w[:japanese],
+    series: "自然 / 時間",
+    level: "4級"
+  )
+end
+
+objects_4kyu = [
+  { number: 1, english: "clothes", japanese: "衣服" },
+  { number: 2, english: "shoes", japanese: "くつ" },
+  { number: 3, english: "coat", japanese: "コート" },
+  { number: 4, english: "shirt", japanese: "シャツ" },
+  { number: 5, english: "face", japanese: "顔" },
+  { number: 6, english: "tooth", japanese: "歯" },
+  { number: 7, english: "head", japanese: "頭" },
+  { number: 8, english: "movie", japanese: "映画" },
+  { number: 9, english: "seat", japanese: "席" },
+  { number: 10, english: "present", japanese: "プレゼント" },
+  { number: 11, english: "something", japanese: "何か" },
+  { number: 12, english: "anything", japanese: "何か（否定・疑問）" },
+  { number: 13, english: "nothing", japanese: "何も～ない" },
+  { number: 14, english: "thing", japanese: "もの" },
+  { number: 15, english: "money", japanese: "お金" },
+  { number: 16, english: "computer", japanese: "コンピュータ" },
+  { number: 17, english: "picture", japanese: "絵／写真" },
+  { number: 18, english: "festival", japanese: "祭り" },
+  { number: 19, english: "corner", japanese: "角" },
+  { number: 20, english: "meeting", japanese: "会議" },
+  { number: 21, english: "example", japanese: "例" },
+  { number: 22, english: "practice", japanese: "練習" },
+  { number: 23, english: "world", japanese: "世界" },
+  { number: 24, english: "dish", japanese: "皿、料理" },
+  { number: 25, english: "breakfast", japanese: "朝食" },
+  { number: 26, english: "lunch", japanese: "昼食" },
+  { number: 27, english: "dinner", japanese: "夕食" },
+  { number: 28, english: "idea", japanese: "考え" },
+  { number: 29, english: "pants", japanese: "ズボン" },
+  { number: 30, english: "everyone", japanese: "みんな" },
+  { number: 31, english: "address", japanese: "住所" },
+  { number: 32, english: "magazine", japanese: "雑誌" },
+  { number: 33, english: "airplane", japanese: "飛行機" },
+  { number: 34, english: "group", japanese: "グループ" },
+  { number: 35, english: "story", japanese: "物語" },
+  { number: 36, english: "contest", japanese: "コンテスト" },
+  { number: 37, english: "trip", japanese: "旅行" },
+  { number: 38, english: "dream", japanese: "夢" },
+  { number: 39, english: "bread", japanese: "パン" },
+  { number: 40, english: "rice", japanese: "米" },
+  { number: 41, english: "concert", japanese: "コンサート" },
+  { number: 42, english: "ticket", japanese: "チケット" },
+  { number: 43, english: "hotel", japanese: "ホテル" },
+  { number: 44, english: "telephone", japanese: "電話" },
+  { number: 45, english: "sound", japanese: "音" },
+  { number: 46, english: "culture", japanese: "文化" },
+  { number: 47, english: "also", japanese: "～も" },
+  { number: 48, english: "soon", japanese: "すぐに" },
+  { number: 49, english: "about", japanese: "～について／約" },
+  { number: 50, english: "floor", japanese: "階、床" },
+  { number: 51, english: "notice", japanese: "お知らせ" },
+  { number: 52, english: "member", japanese: "メンバー・一員" }
+]
+
+objects_4kyu.each do |w|
+  Vocabulary.create!(
+    number: w[:number],
+    english: w[:english],
+    japanese: w[:japanese],
+    series: "その他",
+    level: "4級"
+  )
+end
+
+adj_adv_prepositions = [
+  { number: 1, english: "new", japanese: "新しい" },
+  { number: 2, english: "old", japanese: "古い" },
+  { number: 3, english: "big", japanese: "大きい" },
+  { number: 4, english: "large", japanese: "大きい、広い" },
+  { number: 5, english: "small", japanese: "小さい" },
+  { number: 6, english: "fast", japanese: "速い" },
+  { number: 7, english: "early", japanese: "早い" },
+  { number: 8, english: "slow", japanese: "遅い" },
+  { number: 9, english: "long", japanese: "長い" },
+  { number: 10, english: "short", japanese: "短い" },
+  { number: 11, english: "happy", japanese: "うれしい" },
+  { number: 12, english: "sad", japanese: "悲しい" },
+  { number: 13, english: "angry", japanese: "怒った" },
+  { number: 14, english: "tired", japanese: "疲れた" },
+  { number: 15, english: "good", japanese: "よい" },
+  { number: 16, english: "nice", japanese: "すてきな" },
+  { number: 17, english: "bad", japanese: "悪い" },
+  { number: 18, english: "many", japanese: "たくさんの（数）" },
+  { number: 19, english: "much", japanese: "たくさんの（量）" },
+  { number: 20, english: "beautiful", japanese: "美しい" },
+  { number: 21, english: "great", japanese: "すばらしい" },
+  { number: 22, english: "sweet", japanese: "甘い" },
+  { number: 23, english: "right", japanese: "右の" },
+  { number: 24, english: "left", japanese: "左の" },
+  { number: 25, english: "very", japanese: "とても" },
+  { number: 26, english: "well", japanese: "上手に" },
+  { number: 27, english: "cute", japanese: "かわいい" },
+  { number: 28, english: "pretty", japanese: "かわいい" },
+  { number: 29, english: "in", japanese: "～の中" },
+  { number: 30, english: "on", japanese: "～の上" },
+  { number: 31, english: "under", japanese: "～の下" },
+  { number: 32, english: "by", japanese: "～のそば、～によって" },
+  { number: 33, english: "at", japanese: "～に、～で" },
+  { number: 34, english: "after", japanese: "～の後" },
+  { number: 35, english: "before", japanese: "～の前" },
+  { number: 36, english: "but", japanese: "でも" },
+  { number: 37, english: "near", japanese: "～の近く" },
+  { number: 38, english: "about", japanese: "約、～について" },
+  { number: 39, english: "or", japanese: "～か…" },
+  { number: 40, english: "and", japanese: "～と…" }
+]
+
+adj_adv_prepositions.each do |w|
+  Vocabulary.create!(
+    number: w[:number],
+    english: w[:english],
+    japanese: w[:japanese],
+    series: "形容詞・副詞・前置詞",
+    level: "5級"
+  )
+end
+
+other_nouns = [
+  { number: 1, english: "flower", japanese: "花" },
+  { number: 2, english: "tree", japanese: "木" },
+  { number: 3, english: "sky", japanese: "空" },
+  { number: 4, english: "window", japanese: "窓" },
+  { number: 5, english: "door", japanese: "ドア" },
+  { number: 6, english: "newspaper", japanese: "新聞" },
+  { number: 7, english: "table", japanese: "テーブル" },
+  { number: 8, english: "umbrella", japanese: "傘" },
+  { number: 9, english: "book", japanese: "本" },
+  { number: 10, english: "chair", japanese: "いす" },
+  { number: 11, english: "blackboard", japanese: "黒板" },
+  { number: 12, english: "notebook", japanese: "ノート" },
+  { number: 13, english: "pencil", japanese: "鉛筆" },
+  { number: 14, english: "eraser", japanese: "消しゴム" },
+  { number: 15, english: "ruler", japanese: "定規" },
+  { number: 16, english: "wall", japanese: "壁" },
+  { number: 17, english: "cap", japanese: "帽子" },
+  { number: 18, english: "cup", japanese: "カップ" },
+  { number: 19, english: "glass", japanese: "コップ" },
+  { number: 20, english: "shirt", japanese: "シャツ" },
+  { number: 21, english: "game", japanese: "試合、ゲーム" },
+  { number: 22, english: "party", japanese: "パーティー" },
+  { number: 23, english: "hair", japanese: "髪" },
+  { number: 24, english: "eye", japanese: "目" },
+  { number: 25, english: "ear", japanese: "耳" },
+  { number: 26, english: "hand", japanese: "手" },
+  { number: 27, english: "tea", japanese: "紅茶" },
+  { number: 28, english: "coffee", japanese: "コーヒー" },
+  { number: 29, english: "juice", japanese: "ジュース" },
+  { number: 30, english: "sugar", japanese: "砂糖" },
+  { number: 31, english: "salt", japanese: "塩" },
+  { number: 32, english: "bag", japanese: "かばん" },
+  { number: 33, english: "desk", japanese: "机" },
+  { number: 34, english: "computer", japanese: "コンピューター" },
+  { number: 35, english: "letter", japanese: "手紙" },
+  { number: 36, english: "breakfast", japanese: "朝食" },
+  { number: 37, english: "lunch", japanese: "昼食" },
+  { number: 38, english: "dinner", japanese: "夕食" }
+]
+
+other_nouns.each do |w|
+  Vocabulary.create!(
+    number: w[:number],
+    english: w[:english],
+    japanese: w[:japanese],
+    series: "その他の名詞",
+    level: "5級"
+  )
+end
+
+important_phrases = [
+  { number: 1, english: "after school", japanese: "放課後" },
+  { number: 2, english: "over there", japanese: "あそこで" },
+  { number: 3, english: "All right.", japanese: "いいですよ。" },
+  { number: 4, english: "Of course.", japanese: "もちろん。" },
+  { number: 5, english: "Thank you for ～.", japanese: "～をありがとう。" },
+  { number: 6, english: "You’re welcome.", japanese: "どういたしまして。" },
+  { number: 7, english: "Here you are.", japanese: "はい、どうぞ。" },
+  { number: 8, english: "Here it is.", japanese: "はい、どうぞ。" },
+  { number: 9, english: "Good morning.", japanese: "おはようございます。" },
+  { number: 10, english: "Good night.", japanese: "おやすみなさい。" },
+  { number: 11, english: "Have a nice (good) ～.", japanese: "よい～を。" },
+  { number: 12, english: "It’s time for ～.", japanese: "～する時間です。" },
+  { number: 13, english: "Pass me the ～.", japanese: "～を取ってください。" },
+  { number: 14, english: "in the morning", japanese: "朝に、午前中に" },
+  { number: 15, english: "in the afternoon", japanese: "午後に" },
+  { number: 16, english: "at night", japanese: "夜に" },
+  { number: 17, english: "Welcome to ～", japanese: "ようこそ～へ。" },
+  { number: 18, english: "Me, too.", japanese: "私も。" },
+  { number: 19, english: "You, too.", japanese: "あなたも。" },
+  { number: 20, english: "a little", japanese: "少し" },
+  { number: 21, english: "a lot of ～", japanese: "たくさんの～" },
+  { number: 22, english: "on TV", japanese: "テレビで" },
+  { number: 23, english: "by 乗り物", japanese: "乗り物で" },
+  { number: 24, english: "It’s mine.", japanese: "私のです。" },
+  { number: 25, english: "from A to B", japanese: "AからBまで" },
+  { number: 26, english: "late for ～", japanese: "～に遅れる" }
+]
+
+important_phrases.each do |w|
+  Vocabulary.create!(
+    number: w[:number],
+    english: w[:english],
+    japanese: w[:japanese],
+    series: "重要熟語",
+    level: "5級"
+  )
+end
+
+colors = [
+  { number: 1, english: "color", japanese: "色" },
+  { number: 2, english: "blue", japanese: "青" },
+  { number: 3, english: "red", japanese: "赤" },
+  { number: 4, english: "yellow", japanese: "黄色" },
+  { number: 5, english: "black", japanese: "黒" },
+  { number: 6, english: "white", japanese: "白" },
+  { number: 7, english: "green", japanese: "緑" },
+  { number: 8, english: "pink", japanese: "ピンク" },
+  { number: 9, english: "orange", japanese: "オレンジ" },
+  { number: 10, english: "purple", japanese: "紫" },
+  { number: 11, english: "brown", japanese: "茶色" },
+  { number: 12, english: "gray", japanese: "灰色" }
+]
+
+colors.each do |c|
+  Vocabulary.create!(
+    number: c[:number],
+    english: c[:english],
+    japanese: c[:japanese],
+    series: "色",
+    level: "5級"
+  )
+end
+
+animals = [
+  { number: 1, english: "animal", japanese: "動物" },
+  { number: 2, english: "pet", japanese: "ペット" },
+  { number: 3, english: "zoo", japanese: "動物園" },
+  { number: 4, english: "dog", japanese: "犬" },
+  { number: 5, english: "cat", japanese: "猫" },
+  { number: 6, english: "rabbit", japanese: "ウサギ" },
+  { number: 7, english: "monkey", japanese: "サル" },
+  { number: 8, english: "elephant", japanese: "ゾウ" },
+  { number: 9, english: "lion", japanese: "ライオン" },
+  { number: 10, english: "tiger", japanese: "トラ" },
+  { number: 11, english: "fish", japanese: "魚" },
+  { number: 12, english: "bird", japanese: "鳥" }
+]
+
+animals.each do |a|
+  Vocabulary.create!(
+    number: a[:number],
+    english: a[:english],
+    japanese: a[:japanese],
+    series: "動物",
+    level: "5級"
+  )
+end
+
+school_words = [
+  { number: 1, english: "school", japanese: "学校" },
+  { number: 2, english: "elementary school", japanese: "小学校" },
+  { number: 3, english: "junior high school", japanese: "中学校" },
+  { number: 4, english: "high school", japanese: "高校" },
+  { number: 5, english: "class", japanese: "授業、クラス" },
+  { number: 6, english: "classroom", japanese: "教室" },
+  { number: 7, english: "teacher", japanese: "先生" },
+  { number: 8, english: "student", japanese: "生徒" },
+  { number: 9, english: "textbook", japanese: "教科書" },
+  { number: 10, english: "club", japanese: "クラブ、部" },
+  { number: 11, english: "Japanese", japanese: "国語" },
+  { number: 12, english: "math", japanese: "算数（数学）" },
+  { number: 13, english: "science", japanese: "理科" },
+  { number: 14, english: "social studies", japanese: "社会" },
+  { number: 15, english: "English", japanese: "英語" },
+  { number: 16, english: "P.E.", japanese: "体育" },
+  { number: 17, english: "music", japanese: "音楽" },
+  { number: 18, english: "art", japanese: "美術" }
+]
+
+school_words.each do |w|
+  Vocabulary.create!(
+    number: w[:number],
+    english: w[:english],
+    japanese: w[:japanese],
+    series: "学校・科目",
+    level: "5級"
+  )
+end
+
+seasons = [
+  { number: 1, english: "season", japanese: "季節" },
+  { number: 2, english: "spring", japanese: "春" },
+  { number: 3, english: "summer", japanese: "夏" },
+  { number: 4, english: "fall", japanese: "秋" },
+  { number: 5, english: "autumn", japanese: "秋" },
+  { number: 6, english: "winter", japanese: "冬" }
+]
+
+seasons.each do |s|
+  Vocabulary.create!(
+    number: s[:number],
+    english: s[:english],
+    japanese: s[:japanese],
+    series: "季節",
+    level: "5級"
+  )
+end
+
+countries = [
+  { number: 1, english: "country", japanese: "国" },
+  { number: 2, english: "Japan", japanese: "日本" },
+  { number: 3, english: "America", japanese: "アメリカ" },
+  { number: 4, english: "England", japanese: "イギリス" },
+  { number: 5, english: "China", japanese: "中国" },
+  { number: 6, english: "Korea", japanese: "韓国" },
+  { number: 7, english: "Australia", japanese: "オーストラリア" },
+  { number: 8, english: "Italy", japanese: "イタリア" },
+  { number: 9, english: "Canada", japanese: "カナダ" },
+  { number: 10, english: "France", japanese: "フランス" },
+  { number: 11, english: "Germany", japanese: "ドイツ" },
+  { number: 12, english: "New Zealand", japanese: "ニュージーランド" },
+  { number: 13, english: "Brazil", japanese: "ブラジル" },
+  { number: 14, english: "India", japanese: "インド" }
+]
+
+countries.each do |c|
+  Vocabulary.create!(
+    number: c[:number],
+    english: c[:english],
+    japanese: c[:japanese],
+    series: "国",
+    level: "5級"
+  )
+end
+
+family = [
+  { number: 1, english: "family", japanese: "家族" },
+  { number: 2, english: "father", japanese: "父" },
+  { number: 3, english: "mother", japanese: "母" },
+  { number: 4, english: "sister", japanese: "姉妹" },
+  { number: 5, english: "brother", japanese: "兄弟" },
+  { number: 6, english: "grandfather", japanese: "おじいさん" },
+  { number: 7, english: "grandmother", japanese: "おばあさん" },
+  { number: 8, english: "son", japanese: "息子" },
+  { number: 9, english: "daughter", japanese: "娘" },
+  { number: 10, english: "cousin", japanese: "いとこ" },
+  { number: 11, english: "uncle", japanese: "おじ" },
+  { number: 12, english: "aunt", japanese: "おば" },
+  { number: 13, english: "people", japanese: "人々" },
+  { number: 14, english: "girl", japanese: "女の子" },
+  { number: 15, english: "boy", japanese: "男の子" },
+  { number: 16, english: "child", japanese: "こども" },
+  { number: 17, english: "children", japanese: "こどもたち" },
+  { number: 18, english: "baby", japanese: "赤ちゃん" },
+  { number: 19, english: "woman", japanese: "女性" },
+  { number: 20, english: "man", japanese: "男性" }
+]
+
+family.each do |f|
+  Vocabulary.create!(
+    number: f[:number],
+    english: f[:english],
+    japanese: f[:japanese],
+    series: "家族・人",
+    level: "5級"
+  )
+end
+
+instruments = [
+  { number: 1, english: "piano", japanese: "ピアノ" },
+  { number: 2, english: "violin", japanese: "バイオリン" },
+  { number: 3, english: "drum", japanese: "ドラム、太鼓" },
+  { number: 4, english: "guitar", japanese: "ギター" },
+  { number: 5, english: "trumpet", japanese: "トランペット" },
+  { number: 6, english: "flute", japanese: "フルート" }
+]
+
+instruments.each do |i|
+  Vocabulary.create!(
+    number: i[:number],
+    english: i[:english],
+    japanese: i[:japanese],
+    series: "楽器",
+    level: "5級"
+  )
+end
+
+food = [
+  { number: 1, english: "fruit", japanese: "果物" },
+  { number: 2, english: "apple", japanese: "りんご" },
+  { number: 3, english: "orange", japanese: "オレンジ" },
+  { number: 4, english: "banana", japanese: "バナナ" },
+  { number: 5, english: "melon", japanese: "メロン" },
+  { number: 6, english: "strawberry", japanese: "イチゴ" },
+  { number: 7, english: "cherry", japanese: "サクランボ" },
+  { number: 8, english: "pineapple", japanese: "パイナップル" },
+  { number: 9, english: "grape", japanese: "ブドウ" },
+  { number: 10, english: "peach", japanese: "桃" },
+  { number: 11, english: "vegetable", japanese: "野菜" },
+  { number: 12, english: "salad", japanese: "サラダ" },
+  { number: 13, english: "potato", japanese: "ジャガイモ" },
+  { number: 14, english: "carrot", japanese: "人参" },
+  { number: 15, english: "onion", japanese: "玉ねぎ" },
+  { number: 16, english: "pumpkin", japanese: "カボチャ" },
+  { number: 17, english: "cabbage", japanese: "キャベツ" },
+  { number: 18, english: "cucumber", japanese: "キュウリ" },
+  { number: 19, english: "radish", japanese: "大根" },
+  { number: 20, english: "broccoli", japanese: "ブロッコリー" }
+]
+
+food.each do |f|
+  Vocabulary.create!(
+    number: f[:number],
+    english: f[:english],
+    japanese: f[:japanese],
+    series: "果物・野菜",
+    level: "5級"
+  )
+end
+
   # -------------------------------
   # 疑問詞
   # -------------------------------

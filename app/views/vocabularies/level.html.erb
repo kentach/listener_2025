@@ -1,5 +1,5 @@
 <div class="container" style="max-width: 600px; margin-top: 20px;">
-  <%= link_to "＜英検級", vocabularies_path, class: "text-dark text-decoration-none" %>
+  <%= link_to "＜英検級に戻る", vocabularies_path, class: "text-dark text-decoration-none" %>
 </div>
 
 <section class="vocab-series-list" style="max-width: 600px; margin-top: 20px;">
@@ -21,28 +21,10 @@
   <% end %>
 </div>
 
-
-
-
-  <% series_colors = {
-    "疑問詞" => "#4CAF50",
-    "動詞シリーズ1" => "#2196F3",
-    "動詞シリーズ2" => "#216ef3ff",
-    "時間" => "#FF9800",
-    "場所" => "#9C27B0",
-    "天気" => "#033bf4ff",
-    "スポーツ" => "#E91E63",
-    "家" => "#795548",
-    "曜日" => "#2ec33fff",
-    "数・順序" => "rgba(39, 156, 219, 1)",
-    "月" => "#607D8B",
-    "乗り物" => "#4CAF50"
-  } %>
-
 <% @vocabularies.group_by(&:series).each do |series, words| %>
   <div class="series-block" style="margin-bottom:16px;">
     <div class="series-header" 
-         style="background-color: <%= series_colors[series] || '#333' %>;"
+            style="background-color:#333;"
          onclick="this.nextElementSibling.classList.toggle('collapsed'); 
                   this.querySelector('.toggle-icon').textContent = this.nextElementSibling.classList.contains('collapsed') ? '+' : '−';">
       <%= series %> （<%= words.count %>語）
@@ -188,8 +170,8 @@
 
 <script>
 document.addEventListener("turbo:load", () => {
-  // ボイスロード
   let voices = [];
+
   function loadVoices(callback) {
     voices = speechSynthesis.getVoices();
     if (voices.length > 0) {
@@ -208,10 +190,13 @@ document.addEventListener("turbo:load", () => {
     speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'en-US';
-    utterance.rate = 0.9;
-    utterance.pitch = 1.0;
+    utterance.rate = 0.95;    // 少し早めで自然
+    utterance.pitch = 1.0;    // 標準
 
-    const enVoice = voices.find(v => v.lang.startsWith('en')) || voices[0];
+    // 自然な女性の英語音声を優先
+    const enVoice = voices.find(v => v.lang === 'en-US' && v.name.toLowerCase().includes('female')) 
+                    || voices.find(v => v.lang.startsWith('en')) 
+                    || voices[0];
     if (enVoice) utterance.voice = enVoice;
 
     speechSynthesis.speak(utterance);
@@ -220,11 +205,12 @@ document.addEventListener("turbo:load", () => {
   loadVoices(() => {
     document.querySelectorAll(".play-btn").forEach(btn => {
       btn.addEventListener("click", () => {
-        const word = btn.closest(".word-card").querySelector(".word-english").textContent;
+        const word = btn.closest(".word-card").querySelector(".word-english").textContent.trim();
         speakWord(word);
       });
     });
   });
 });
+
 
 </script>
