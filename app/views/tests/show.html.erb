@@ -1,0 +1,163 @@
+<!-- 戻るボタン -->
+<div class="container" style="max-width: 600px; margin-top: 30px;">
+  <%= link_to "＜単語リストに戻る", level_vocabularies_path(level: @test.level), class: "text-dark text-decoration-none btn-back" %>
+</div>
+
+<!-- テストタイトル -->
+<h2 class="test-title">
+  英検 <%= @test.level %> - <%= @test.series %> シリーズ テスト
+</h2>
+
+<%= form_with url: submit_test_path(@test), method: :post, local: true do |f| %>
+  <div class="test-container">
+    <% @questions.each_with_index do |q, index| %>
+      <div class="question-row">
+        <!-- 左側: 問題番号＋英語/日本語 -->
+        <div class="question-left">
+          <span class="question-number"><%= index + 1 %>.</span>
+          <span class="question-text">
+            <% if @test.question_language == "english" %>
+              <%= q.vocabulary.english %>
+            <% else %>
+              <%= q.vocabulary.japanese %>
+            <% end %>
+          </span>
+        </div>
+
+        <!-- 右側: 解答欄 -->
+        <div class="question-right">
+          <%= f.text_field "answers[#{q.id}]", placeholder: "ここに解答", class: "answer-input" %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="submit-wrapper">
+      <%= f.submit "解答を送信", class: "btn-submit" %>
+    </div>
+  </div>
+<% end %>
+
+<style>
+/* ------------------------------
+   戻るボタン
+--------------------------------*/
+.btn-back {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #9E9E9E;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+.btn-back:hover {
+  background-color: #757575;
+}
+
+/* ------------------------------
+   テストタイトル
+--------------------------------*/
+.test-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin: 20px auto;
+  max-width: 900px;
+}
+
+/* ------------------------------
+   テスト全体コンテナ
+--------------------------------*/
+.test-container {
+  max-width: 900px;
+  margin: 0 auto 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ------------------------------
+   問題行
+--------------------------------*/
+.question-row {
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fdfdfd;
+  overflow: hidden;
+  height: 60px;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+.question-row:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+/* 左側: 問題番号＋英語/日本語 */
+.question-left {
+  flex: 1 1 50%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid #ccc;
+  font-weight: bold;
+  color: #333;
+}
+.question-number {
+  margin-right: 8px;
+  color: #555;
+}
+
+/* 右側: 解答欄 */
+.question-right {
+  flex: 1 1 50%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+.answer-input {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #aaa;
+}
+
+/* ------------------------------
+   送信ボタン
+--------------------------------*/
+.submit-wrapper {
+  text-align: center;
+  margin-top: 20px;
+}
+.btn-submit {
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.btn-submit:hover {
+  background-color: #388E3C;
+}
+
+/* ------------------------------
+   レスポンシブ
+--------------------------------*/
+@media (max-width: 768px) {
+  .question-row {
+    flex-direction: column;
+    height: auto;
+  }
+  .question-left {
+    border-right: none;
+    border-bottom: 1px solid #ccc;
+  }
+  .question-right {
+    padding-top: 8px;
+  }
+}
+</style>

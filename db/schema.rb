@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_01_01_134443) do
+ActiveRecord::Schema[7.2].define(version: 2026_01_03_131248) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -69,10 +69,58 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_01_134443) do
     t.index ["user_id"], name: "index_favorites_on_user_id"
   end
 
+  create_table "rhythmas", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "name", null: false
+    t.string "level"
+    t.string "series"
+    t.string "cover_image", null: false
+  end
+
   create_table "tasks", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "test_progresses", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "series", null: false
+    t.integer "cleared_count", default: 0, null: false
+    t.boolean "max_cleared", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "series"], name: "index_test_progresses_on_user_id_and_series", unique: true
+    t.index ["user_id"], name: "index_test_progresses_on_user_id"
+  end
+
+  create_table "test_questions", force: :cascade do |t|
+    t.bigint "test_id", null: false
+    t.bigint "vocabulary_id", null: false
+    t.integer "position", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "user_answer"
+    t.string "result"
+    t.string "correct_answers"
+    t.index ["test_id", "position"], name: "index_test_questions_on_test_id_and_position", unique: true
+    t.index ["test_id"], name: "index_test_questions_on_test_id"
+    t.index ["vocabulary_id"], name: "index_test_questions_on_vocabulary_id"
+  end
+
+  create_table "tests", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "series", null: false
+    t.integer "range_start", null: false
+    t.integer "range_end", null: false
+    t.string "question_language", null: false
+    t.integer "score"
+    t.boolean "passed", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "level"
+    t.index ["user_id"], name: "index_tests_on_user_id"
   end
 
   create_table "textbooks", force: :cascade do |t|
@@ -115,4 +163,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_01_134443) do
   add_foreign_key "chapters", "textbooks"
   add_foreign_key "favorites", "audios"
   add_foreign_key "favorites", "users"
+  add_foreign_key "test_progresses", "users"
+  add_foreign_key "test_questions", "tests"
+  add_foreign_key "test_questions", "vocabularies"
+  add_foreign_key "tests", "users"
 end

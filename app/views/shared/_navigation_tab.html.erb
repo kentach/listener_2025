@@ -2,8 +2,8 @@
   <div class="tab-menu d-flex justify-content-center">
     <%= link_to root_path, 
         class: "tab-item text-center mx-3 #{current_page?(root_path) ? 'active' : ''}" do %>
-      <i class="bi bi-house"></i>
-      <div>ホーム</div>
+      <i class="bi bi-headphones me-2"></i>
+      <div>リスニング</div>
     <% end %>
 
     <%= link_to favorites_path, 
@@ -15,7 +15,7 @@
     <%= link_to vocabularies_path, 
         class: "tab-item text-center mx-3 #{current_page?(vocabularies_path) ? 'active' : ''}" do %>
       <i class="bi bi-book"></i>
-      <div>ボキャブラリー</div>
+      <div>ボキャブラリ</div>
     <% end %>
 
     <%= link_to profile_path, 
