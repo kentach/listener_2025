@@ -1576,26 +1576,17 @@ end
 
 
 
-def create_chapters_for(textbook_name, chapters_data)
-  textbook = Textbook.find_by!(name: textbook_name)
+# ================================
+# 全削除（順番重要）
+# ================================
+Favorite.delete_all
+Audio.delete_all
+Chapter.delete_all
+Textbook.delete_all
 
-  chapters_data.each do |c|
-    chapter = Chapter.find_or_initialize_by(
-      textbook_id: textbook.id,
-      series: c[:series],
-      title: c[:title]
-    )
-    chapter.save!
-
-    Array(c[:audio_files]).each do |file|
-      Audio.find_or_initialize_by(
-        chapter_id: chapter.id,
-        file_name: file
-      ).save!
-    end
-  end
-end
-
+# ================================
+# IDリセット（PostgreSQL）
+# ================================
 ActiveRecord::Base.connection.tables.each do |table|
   next if table.in?(%w[schema_migrations ar_internal_metadata])
 
@@ -1603,9 +1594,31 @@ ActiveRecord::Base.connection.tables.each do |table|
     SELECT setval(
       pg_get_serial_sequence('#{table}', 'id'),
       COALESCE((SELECT MAX(id) FROM #{table}), 1),
-      true
+      false
     )
   SQL
+end
+
+# ================================
+# 共通メソッド（create専用）
+# ================================
+def create_chapters_for(textbook_name, chapters_data)
+  textbook = Textbook.find_by!(name: textbook_name)
+
+  chapters_data.each do |c|
+    chapter = Chapter.create!(
+      textbook_id: textbook.id,
+      series: c[:series],
+      title: c[:title]
+    )
+
+    Array(c[:audio_files]).each do |file|
+      Audio.create!(
+        chapter_id: chapter.id,
+        file_name: file
+      )
+    end
+  end
 end
 
 ActiveRecord::Base.transaction do
@@ -1625,8 +1638,7 @@ ActiveRecord::Base.transaction do
   ]
 
   textbooks.each do |attrs|
-    textbook = Textbook.find_or_initialize_by(name: attrs[:name])
-    textbook.update!(attrs)
+    Textbook.create!(attrs)
   end
 
   # ================================
@@ -1688,11 +1700,11 @@ ActiveRecord::Base.transaction do
     { series: "長文", title: "TOPIC18 Culture② 文化②", audio_files: ["ontre5_topic18.mp3"] },
     { series: "長文", title: "TOPIC19 Society 社会", audio_files: ["ontre5_topic19.mp3"] },
     { series: "長文", title: "TOPIC20 Culture③ 文化③", audio_files: ["ontre5_topic20.mp3"] },
-    { series: "リスニング", title: "Scene1 Situation Dialogues 様々な場面での対話", audio_files: ["音トレ5段 SCENE1 No1", "音トレ5段 SCENE Q1"] },
-    { series: "リスニング", title: "Scene2 Story Narrations 様々なストーリーのナレーション", audio_files: ["音トレ5段 SCENE2 No1", "音トレ5段 SCENE2 Q1"] },
-    { series: "リスニング", title: "Scene3 Speeches and Announcements 様々なスピーチ・お知らせ", audio_files: ["音トレ5段 SCENE3 No1", "音トレ5段 SCENE3 Q1"] },
-    { series: "リスニング", title: "Scene4 Topic Narrations 様々な説明文", audio_files: ["音トレ5段 SCENE4 No1", "音トレ5段 SCENE4 Q1"] },
-    { series: "リスニング", title: "Scene5 Listening Comprehension Mock Test リスニング・ミニ模試", audio_files: ["音トレ5段 SCENE5 No1", "音トレ5段 SCENE5 Q1"] }
+    { series: "リスニング", title: "Scene1 Situation Dialogues 様々な場面での対話", audio_files: ["音トレ5段SCENE1_No1.mp3", "音トレ5段SCENE1_Q1.mp3"] },
+    { series: "リスニング", title: "Scene2 Story Narrations 様々なストーリーのナレーション", audio_files: ["音トレ5段SCENE2_No1.mp3", "音トレ5段 SCENE2_Q1.mp3"] },
+    { series: "リスニング", title: "Scene3 Speeches and Announcements 様々なスピーチ・お知らせ", audio_files: ["音トレ5段SCENE3_No1.mp3", "音トレ5段 SCENE3_Q1.mp3"] },
+    { series: "リスニング", title: "Scene4 Topic Narrations 様々な説明文", audio_files: ["音トレ5段SCENE4_No1.mp3", "音トレ5段SCENE4_Q1.mp3"] },
+    { series: "リスニング", title: "Scene5 Listening Comprehension Mock Test リスニング・ミニ模試", audio_files: ["音トレ5段SCENE5_No1.mp3", "音トレ5段 SCENE5_Q1.mp3"] }
   ]
 
   create_chapters_for("音トレ道場5段", chapters_data5)
@@ -1715,17 +1727,17 @@ ActiveRecord::Base.transaction do
     { series: "長文", title: "TOPIC12 Society 社会", audio_files: ["ontre4_topic12.mp3"]},
     { series: "長文", title: "TOPIC13 Biology 伝記", audio_files: ["ontre4_topic13.mp3"]},
     { series: "長文", title: "TOPIC14 History 歴史", audio_files: ["ontre4_topic14.mp3"]},
-    { series: "長文", title: "TOPIC15 International Affairs 国際情勢", audio_files: ["音トレ4段 TOPIC15"]},
-    { series: "リスニング", title: "Scene1 Restaurant・Dining レストラン・食事", audio_files: ["音トレ4段 SCENE1 No1", "音トレ4段 SCENE1 Q1"]},
-    { series: "リスニング", title: "Scene2 Shopping 買い物", audio_files: ["音トレ4段 SCENE2 No1", "音トレ4段 SCENE2 Q1"]},
-    { series: "リスニング", title: "Scene3 Telephone Conversation 電話での会話", audio_files: ["音トレ4段 SCENE3 No1", "音トレ4段 SCENE3 Q1"]},
-    { series: "リスニング", title: "Scene4 School Life 学校生活", audio_files: ["音トレ4段 SCENE4 No1", "音トレ4段 SCENE4 Q1"]},
-    { series: "リスニング", title: "Scene5 Traveling & Leisure 旅行・レジャー", audio_files: ["音トレ4段 SCENE5 No1", "音トレ4段 SCENE5 Q1"]},
-    { series: "リスニング", title: "Scene6 Offer & Request 誘い・依頼", audio_files: ["音トレ4段 SCENE6 No1", "音トレ4段 SCENE6 Q1"]},
-    { series: "リスニング", title: "Scene7 Daily Expressions① 日常生活① 様々な表現", audio_files: ["音トレ4段 SCENE7 No1", "音トレ4段 SCENE7 Q1"]},
-    { series: "リスニング", title: "Scene8 Daily Expressions② 日常生活② 類似表現・反対表現", audio_files: ["音トレ4段 SCENE8 No1", "音トレ4段 SCENE8 Q1"]},
-    { series: "リスニング", title: "Scene9 Narration① 様々なナレーション①", audio_files: ["音トレ4段 SCENE9 No1", "音トレ4段 SCENE9 Q1"]},
-    { series: "リスニング", title: "Scene10 Narration② 様々なナレーション②", audio_files: ["音トレ4段 SCENE10 No1", "音トレ4段 SCENE10 Q1"]}
+    { series: "長文", title: "TOPIC15 International Affairs 国際情勢", audio_files: ["ontre4_topic15.mp3"]},
+    { series: "リスニング", title: "Scene1 Restaurant・Dining レストラン・食事", audio_files: ["音トレ4段SCENE1_No1.mp3", "音トレ4段SCENE1_Q1.mp3"]},
+    { series: "リスニング", title: "Scene2 Shopping 買い物", audio_files: ["音トレ4段SCENE2_No1.mp3", "音トレ4段SCENE2_Q1.mp3"]},
+    { series: "リスニング", title: "Scene3 Telephone Conversation 電話での会話", audio_files: ["音トレ4段SCENE3_No1.mp3", "音トレ4段SCENE3_Q1.mp3"]},
+    { series: "リスニング", title: "Scene4 School Life 学校生活", audio_files: ["音トレ4段SCENE4_No1.mp3", "音トレ4段SCENE4_Q1.mp3"]},
+    { series: "リスニング", title: "Scene5 Traveling & Leisure 旅行・レジャー", audio_files: ["音トレ4段SCENE5_No1.mp3", "音トレ4段SCENE5_Q1.mp3"]},
+    { series: "リスニング", title: "Scene6 Offer & Request 誘い・依頼", audio_files: ["音トレ4段SCENE6_No1.mp3", "音トレ4段SCENE6_Q1.mp3"]},
+    { series: "リスニング", title: "Scene7 Daily Expressions① 日常生活① 様々な表現", audio_files: ["音トレ4段SCENE7_No1.mp3", "音トレ4段SCENE7_Q1.mp3"]},
+    { series: "リスニング", title: "Scene8 Daily Expressions② 日常生活② 類似表現・反対表現", audio_files: ["音トレ4段SCENE8_No1.mp3", "音トレ4段SCENE8_Q1.mp3"]},
+    { series: "リスニング", title: "Scene9 Narration① 様々なナレーション①", audio_files: ["音トレ4段SCENE9_No1.mp3", "音トレ4段SCENE9_Q1.mp3"]},
+    { series: "リスニング", title: "Scene10 Narration② 様々なナレーション②", audio_files: ["音トレ4段SCENE10_No1.mp3", "音トレ4段SCENE10_Q1.mp3"]}
   ]
 
   create_chapters_for("音トレ道場4段", chapters_data4)
@@ -1750,14 +1762,14 @@ ActiveRecord::Base.transaction do
     { series: "長文", title: "TOPIC13", audio_files: ["ontre3_topic13.mp3"]},
     { series: "長文", title: "TOPIC14", audio_files: ["ontre3_topic14.mp3"]},
     { series: "長文", title: "TOPIC15", audio_files: ["ontre3_topic15.mp3"]},
-    { series: "リスニング", title: "Scene1", audio_files: ["音トレ3段 SCENE1 No1", "音トレ3段 SCENE1 Q1"]},
-    { series: "リスニング", title: "Scene2", audio_files: ["音トレ3段 SCENE2 No1", "音トレ3段 SCENE2 Q1"]},
-    { series: "リスニング", title: "Scene3", audio_files: ["音トレ3段 SCENE3 No1", "音トレ3段 SCENE3 Q1"]},
-    { series: "リスニング", title: "Scene4", audio_files: ["音トレ3段 SCENE4 No1", "音トレ3段 SCENE4 Q1"]},
-    { series: "リスニング", title: "Scene5", audio_files: ["音トレ3段 SCENE5 No1", "音トレ3段 SCENE5 Q1"]},
-    { series: "リスニング", title: "Scene6", audio_files: ["音トレ3段 SCENE6 No1", "音トレ3段 SCENE6 Q1"]},
-    { series: "リスニング", title: "Scene7", audio_files: ["音トレ3段 SCENE7 No1", "音トレ3段 SCENE7 Q1"]},
-    { series: "リスニング", title: "Scene8", audio_files: ["音トレ3段 SCENE8 No1", "音トレ3段 SCENE8 Q1"]},
+    { series: "リスニング", title: "Scene1", audio_files: ["音トレ3段SCENE1_No1", "音トレ3段SCENE1_Q1"]},
+    { series: "リスニング", title: "Scene2", audio_files: ["音トレ3段SCENE2_No1", "音トレ3段SCENE2_Q1"]},
+    { series: "リスニング", title: "Scene3", audio_files: ["音トレ3段SCENE3_No1", "音トレ3段SCENE3_Q1"]},
+    { series: "リスニング", title: "Scene4", audio_files: ["音トレ3段SCENE4_No1", "音トレ3段SCENE4_Q1"]},
+    { series: "リスニング", title: "Scene5", audio_files: ["音トレ3段SCENE5_No1", "音トレ3段SCENE5_Q1"]},
+    { series: "リスニング", title: "Scene6", audio_files: ["音トレ3段SCENE6_No1", "音トレ3段SCENE6_Q1"]},
+    { series: "リスニング", title: "Scene7", audio_files: ["音トレ3段SCENE7_No1", "音トレ3段SCENE7_Q1"]},
+    { series: "リスニング", title: "Scene8", audio_files: ["音トレ3段SCENE8_No1", "音トレ3段SCENE8_Q1"]},
   ]
   
   create_chapters_for("音トレ道場3段", chapters_data3)
@@ -1778,14 +1790,14 @@ ActiveRecord::Base.transaction do
     { series: "長文", title: "TOPIC8", audio_files: ["音トレ2段TOPIC8.mp3"]},
     { series: "長文", title: "TOPIC9", audio_files: ["音トレ2段TOPIC9.mp3"]},
     { series: "長文", title: "TOPIC10", audio_files: ["音トレ2段TOPIC10.mp3"]},
-    { series: "リスニング", title: "Scene1", audio_files: ["音トレ2段 SCENE1 No1", "音トレ2段 SCENE1 Q1"]},
-    { series: "リスニング", title: "Scene2", audio_files: ["音トレ2段 SCENE2 No1", "音トレ2段 SCENE2 Q1"]},
-    { series: "リスニング", title: "Scene3", audio_files: ["音トレ2段 SCENE3 No1", "音トレ2段 SCENE3 Q1"]},
-    { series: "リスニング", title: "Scene4", audio_files: ["音トレ2段 SCENE4 No1", "音トレ2段 SCENE4 Q1"]},
-    { series: "リスニング", title: "Scene5", audio_files: ["音トレ2段 SCENE5 No1", "音トレ2段 SCENE5 Q1"]},
-    { series: "リスニング", title: "Scene6", audio_files: ["音トレ2段 SCENE6 No1", "音トレ2段 SCENE6 Q1"]},
-    { series: "リスニング", title: "Scene7", audio_files: ["音トレ2段 SCENE7 No1", "音トレ2段 SCENE7 Q1"]},
-    { series: "リスニング", title: "Scene8", audio_files: ["音トレ2段 SCENE8 No1", "音トレ2段 SCENE8 Q1"]},
+    { series: "リスニング", title: "Scene1", audio_files: ["音トレ2段SCENE1_No1", "音トレ2段SCENE1_Q1"]},
+    { series: "リスニング", title: "Scene2", audio_files: ["音トレ2段SCENE2_No1", "音トレ2段SCENE2_Q1"]},
+    { series: "リスニング", title: "Scene3", audio_files: ["音トレ2段SCENE3_No1", "音トレ2段SCENE3_Q1"]},
+    { series: "リスニング", title: "Scene4", audio_files: ["音トレ2段SCENE4_No1", "音トレ2段SCENE4_Q1"]},
+    { series: "リスニング", title: "Scene5", audio_files: ["音トレ2段SCENE5_No1", "音トレ2段SCENE5_Q1"]},
+    { series: "リスニング", title: "Scene6", audio_files: ["音トレ2段SCENE6_No1", "音トレ2段SCENE6_Q1"]},
+    { series: "リスニング", title: "Scene7", audio_files: ["音トレ2段SCENE7_No1", "音トレ2段SCENE7_Q1"]},
+    { series: "リスニング", title: "Scene8", audio_files: ["音トレ2段SCENE8_No1", "音トレ2段SCENE8_Q1"]},
   ]
   
   create_chapters_for("音トレ道場2段", chapters_data2)
@@ -1806,12 +1818,11 @@ ActiveRecord::Base.transaction do
     { series: "長文", title: "TOPIC12", audio_files: ["TOPIC12.mp3"]},
     { series: "長文", title: "TOPIC13", audio_files: ["TOPIC13.mp3"]},
     { series: "長文", title: "TOPIC14", audio_files: ["TOPIC14.mp3"]},
-    { series: "リスニング", title: "Scene1", audio_files: ["音トレ初段 SCENE1 No1", "音トレ初段 SCENE1 No2", "音トレ初段 SCENE1 No3", "音トレ初段 SCENE1 No4", "音トレ初段 SCENE1 Q1", "音トレ初段 SCENE1 Q2", "音トレ初段 SCENE1 Q3", "音トレ初段 SCENE1 Q4", "音トレ初段 SCENE1 Q5", "音トレ初段 SCENE1 Q6", "音トレ初段 SCENE1 Q7", "音トレ初段 SCENE1 Q8"]},
-    { series: "リスニング", title: "Scene2", audio_files: ["音トレ初段 SCENE2 No1", "音トレ初段 SCENE2 No2", "音トレ初段 SCENE2 No3", "音トレ初段 SCENE2 No4", "音トレ初段 SCENE2 Q1", "音トレ初段 SCENE2 Q2", "音トレ初段 SCENE2 Q3", "音トレ初段 SCENE2 Q4", "音トレ初段 SCENE2 Q5", "音トレ初段 SCENE2 Q6", "音トレ初段 SCENE2 Q7", "音トレ初段 SCENE2 Q8"]},
-    { series: "リスニング", title: "Scene3", audio_files: ["音トレ初段 SCENE3 No1", "音トレ初段 SCENE3 No2", "音トレ初段 SCENE3 No3", "音トレ初段 SCENE3 No4", "音トレ初段 SCENE3 Q1", "音トレ初段 SCENE3 Q2", "音トレ初段 SCENE3 Q3", "音トレ初段 SCENE3 Q4", "音トレ初段 SCENE3 Q5", "音トレ初段 SCENE3 Q6", "音トレ初段 SCENE3 Q7", "音トレ初段 SCENE3 Q8"]},
-    { series: "リスニング", title: "Scene4", audio_files: ["音トレ初段 SCENE4 No1", "音トレ初段 SCENE4 No2", "音トレ初段 SCENE4 No3", "音トレ初段 SCENE4 No4", "音トレ初段 SCENE4 Q1", "音トレ初段 SCENE4 Q2", "音トレ初段 SCENE4 Q3", "音トレ初段 SCENE4 Q4", "音トレ初段 SCENE4 Q5", "音トレ初段 SCENE4 Q6", "音トレ初段 SCENE4 Q7", "音トレ初段 SCENE4 Q8"]},
+    { series: "リスニング", title: "Scene1", audio_files: ["音トレ初段SCENE1_No1.mp3", "音トレ初段SCENE1_No2.mp3", "音トレ初段SCENE1_No3.mp3", "音トレ初段SCENE1_No4.mp3", "音トレ初段SCENE1_Q1.mp3", "音トレ初段SCENE1_Q2.mp3", "音トレ初段SCENE1_Q3.mp3", "音トレ初段SCENE1_Q4.mp3", "音トレ初段SCENE1_Q5.mp3", "音トレ初段SCENE1_Q6.mp3", "音トレ初段SCENE1_Q7.mp3", "音トレ初段SCENE1_Q8.mp3"]},
+    { series: "リスニング", title: "Scene2", audio_files: ["音トレ初段SCENE2_No1.mp3", "音トレ初段SCENE2_No2.mp3", "音トレ初段SCENE2_No3.mp3", "音トレ初段SCENE2_No4.mp3", "音トレ初段SCENE2_Q1.mp3", "音トレ初段SCENE2_Q2.mp3", "音トレ初段SCENE2_Q3.mp3", "音トレ初段SCENE2_Q4.mp3", "音トレ初段SCENE2_Q5.mp3", "音トレ初段SCENE2_Q6.mp3", "音トレ初段SCENE2_Q7.mp3", "音トレ初段SCENE2_Q8.mp3"]},
+    { series: "リスニング", title: "Scene3", audio_files: ["音トレ初段SCENE3_No1.mp3", "音トレ初段SCENE3_No2.mp3", "音トレ初段SCENE3_No3.mp3", "音トレ初段SCENE3_No4.mp3", "音トレ初段SCENE3_Q1.mp3", "音トレ初段SCENE3_Q2.mp3", "音トレ初段SCENE3_Q3.mp3", "音トレ初段SCENE3_Q4.mp3", "音トレ初段SCENE3_Q5.mp3", "音トレ初段SCENE3_Q6.mp3", "音トレ初段SCENE3_Q7.mp3", "音トレ初段SCENE4_Q8.mp3"]},
+    { series: "リスニング", title: "Scene4", audio_files: ["音トレ初段SCENE4_No1.mp3", "音トレ初段SCENE4_No2.mp3", "音トレ初段SCENE4_No3.mp3", "音トレ初段SCENE4_No4.mp3", "音トレ初段SCENE4_Q1.mp3", "音トレ初段SCENE4_Q2.mp3", "音トレ初段SCENE4_Q3.mp3", "音トレ初段SCENE4_Q4.mp3", "音トレ初段SCENE4_Q5.mp3", "音トレ初段SCENE4_Q6.mp3", "音トレ初段SCENE4_Q7.mp3", "音トレ初段SCENE4_Q8.mp3"]}
   ]
-    create_chapters_for("音トレ道場初段", chapters_data1)
 
   chapters_data1 = [
     { series: "フレーズ", title: "Unit1", audio_files: ["Unit1.mp3"]},
@@ -1840,32 +1851,32 @@ ActiveRecord::Base.transaction do
     { series: "フレーズ", title: "Unit24", audio_files: ["Unit24.mp3"]},
     { series: "フレーズ", title: "Unit25", audio_files: ["Unit25.mp3"]},
     { series: "フレーズ", title: "Unit26", audio_files: ["Unit26.mp3"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit1 リスニング問題にチャレンジ", audio_files: ["Unit1 リスニング問題にチャレンジ"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit2 リスニング問題にチャレンジ", audio_files: ["Unit2 リスニング問題にチャレンジ"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit3 リスニング問題にチャレンジ", audio_files: ["Unit3 リスニング問題にチャレンジ"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit4 リスニング問題にチャレンジ", audio_files: ["Unit4 リスニング問題にチャレンジ"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit5 リスニング問題にチャレンジ", audio_files: ["Unit5 リスニング問題にチャレンジ"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit6 リスニング問題にチャレンジ", audio_files: ["Unit6 リスニング問題にチャレンジ"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit7 リスニング問題にチャレンジ", audio_files: ["Unit7 リスニング問題にチャレンジ"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit8 リスニング問題にチャレンジ", audio_files: ["Unit8 リスニング問題にチャレンジ"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit9 リスニング問題にチャレンジ", audio_files: ["Unit9 リスニング問題にチャレンジ"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit10 リスニング問題にチャレンジ", audio_files: ["Unit10 リスニング問題にチャレンジ"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit11 リスニング問題にチャレンジ", audio_files: ["Unit11 リスニング問題にチャレンジ"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit12 リスニング問題にチャレンジ", audio_files: ["Unit12 リスニング問題にチャレンジ"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit13 リスニング問題にチャレンジ", audio_files: ["Unit13 リスニング問題にチャレンジ"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit14 リスニング問題にチャレンジ", audio_files: ["Unit14 リスニング問題にチャレンジ"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit15 リスニング問題にチャレンジ", audio_files: ["Unit15 リスニング問題にチャレンジ"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit16 リスニング問題にチャレンジ", audio_files: ["Unit16 リスニング問題にチャレンジ"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit17 リスニング問題にチャレンジ", audio_files: ["Unit17 リスニング問題にチャレンジ"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit18 リスニング問題にチャレンジ", audio_files: ["Unit18 リスニング問題にチャレンジ"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit19 リスニング問題にチャレンジ", audio_files: ["Unit19 リスニング問題にチャレンジ"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit20 リスニング問題にチャレンジ", audio_files: ["Unit20 リスニング問題にチャレンジ"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit21 リスニング問題にチャレンジ", audio_files: ["Unit21 リスニング問題にチャレンジ"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit22 リスニング問題にチャレンジ", audio_files: ["Unit22 リスニング問題にチャレンジ"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit23 リスニング問題にチャレンジ", audio_files: ["Unit23 リスニング問題にチャレンジ"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit24 リスニング問題にチャレンジ", audio_files: ["Unit24 リスニング問題にチャレンジ"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit25 リスニング問題にチャレンジ", audio_files: ["Unit25 リスニング問題にチャレンジ"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit26 リスニング問題にチャレンジ", audio_files: ["Unit26 リスニング問題にチャレンジ"]}
+    { series: "リスニング問題にチャレンジ", title: "Unit1 リスニング問題にチャレンジ", audio_files: ["Unit1 リスニング問題にチャレンジ.mp3"]},
+    { series: "リスニング問題にチャレンジ", title: "Unit2 リスニング問題にチャレンジ", audio_files: ["Unit2 リスニング問題にチャレンジ.mp3"]},
+    { series: "リスニング問題にチャレンジ", title: "Unit3 リスニング問題にチャレンジ", audio_files: ["Unit3 リスニング問題にチャレンジ.mp3"]},
+    { series: "リスニング問題にチャレンジ", title: "Unit4 リスニング問題にチャレンジ", audio_files: ["Unit4 リスニング問題にチャレンジ.mp3"]},
+    { series: "リスニング問題にチャレンジ", title: "Unit5 リスニング問題にチャレンジ", audio_files: ["Unit5 リスニング問題にチャレンジ.mp3"]},
+    { series: "リスニング問題にチャレンジ", title: "Unit6 リスニング問題にチャレンジ", audio_files: ["Unit6 リスニング問題にチャレンジ.mp3"]},
+    { series: "リスニング問題にチャレンジ", title: "Unit7 リスニング問題にチャレンジ", audio_files: ["Unit7 リスニング問題にチャレンジ.mp3"]},
+    { series: "リスニング問題にチャレンジ", title: "Unit8 リスニング問題にチャレンジ", audio_files: ["Unit8 リスニング問題にチャレンジ.mp3"]},
+    { series: "リスニング問題にチャレンジ", title: "Unit9 リスニング問題にチャレンジ", audio_files: ["Unit9 リスニング問題にチャレンジ.mp3"]},
+    { series: "リスニング問題にチャレンジ", title: "Unit10 リスニング問題にチャレンジ", audio_files: ["Unit10 リスニング問題にチャレンジ.mp3"]},
+    { series: "リスニング問題にチャレンジ", title: "Unit11 リスニング問題にチャレンジ", audio_files: ["Unit11 リスニング問題にチャレンジ.mp3"]},
+    { series: "リスニング問題にチャレンジ", title: "Unit12 リスニング問題にチャレンジ", audio_files: ["Unit12 リスニング問題にチャレンジ.mp3"]},
+    { series: "リスニング問題にチャレンジ", title: "Unit13 リスニング問題にチャレンジ", audio_files: ["Unit13 リスニング問題にチャレンジ.mp3"]},
+    { series: "リスニング問題にチャレンジ", title: "Unit14 リスニング問題にチャレンジ", audio_files: ["Unit14 リスニング問題にチャレンジ.mp3"]},
+    { series: "リスニング問題にチャレンジ", title: "Unit15 リスニング問題にチャレンジ", audio_files: ["Unit15 リスニング問題にチャレンジ.mp3"]},
+    { series: "リスニング問題にチャレンジ", title: "Unit16 リスニング問題にチャレンジ", audio_files: ["Unit16 リスニング問題にチャレンジ.mp3"]},
+    { series: "リスニング問題にチャレンジ", title: "Unit17 リスニング問題にチャレンジ", audio_files: ["Unit17 リスニング問題にチャレンジ.mp3"]},
+    { series: "リスニング問題にチャレンジ", title: "Unit18 リスニング問題にチャレンジ", audio_files: ["Unit18 リスニング問題にチャレンジ.mp3"]},
+    { series: "リスニング問題にチャレンジ", title: "Unit19 リスニング問題にチャレンジ", audio_files: ["Unit19 リスニング問題にチャレンジ.mp3"]},
+    { series: "リスニング問題にチャレンジ", title: "Unit20 リスニング問題にチャレンジ", audio_files: ["Unit20 リスニング問題にチャレンジ.mp3"]},
+    { series: "リスニング問題にチャレンジ", title: "Unit21 リスニング問題にチャレンジ", audio_files: ["Unit21 リスニング問題にチャレンジ.mp3"]},
+    { series: "リスニング問題にチャレンジ", title: "Unit22 リスニング問題にチャレンジ", audio_files: ["Unit22 リスニング問題にチャレンジ.mp3"]},
+    { series: "リスニング問題にチャレンジ", title: "Unit23 リスニング問題にチャレンジ", audio_files: ["Unit23 リスニング問題にチャレンジ.mp3"]},
+    { series: "リスニング問題にチャレンジ", title: "Unit24 リスニング問題にチャレンジ", audio_files: ["Unit24 リスニング問題にチャレンジ.mp3"]},
+    { series: "リスニング問題にチャレンジ", title: "Unit25 リスニング問題にチャレンジ", audio_files: ["Unit25 リスニング問題にチャレンジ.mp3"]},
+    { series: "リスニング問題にチャレンジ", title: "Unit26 リスニング問題にチャレンジ", audio_files: ["Unit26 リスニング問題にチャレンジ.mp3"]}
 ]
 create_chapters_for("リズムでマスター英検５級", chapters_data1)
 end

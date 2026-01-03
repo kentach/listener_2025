@@ -25,5 +25,6 @@ class VocabulariesController < ApplicationController
         @vocabularies = Vocabulary.where(series: params[:series], level: params[:level]).order(:number)
     end
 
+
 end
 

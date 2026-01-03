@@ -22,6 +22,8 @@ gem "jbuilder"
 gem 'devise'
 
 gem 'rails-i18n', '~> 7.0.0'
+
+gem 'amatch'
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 

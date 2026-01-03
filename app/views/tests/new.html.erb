@@ -1,0 +1,23 @@
+<!-- app/views/tests/new.html.erb -->
+<h2>
+  <%= @vocabulary.series %> テスト
+</h2>
+
+<%= form_with
+      url: vocabulary_tests_path(@vocabulary),
+      method: :post do %>
+
+  <div>
+    範囲
+    <%= number_field_tag :range_start %> 〜
+    <%= number_field_tag :range_end %>
+  </div>
+
+  <div>
+    出題言語
+    <%= select_tag :question_language,
+        options_for_select([["英語", "english"], ["日本語", "japanese"]]) %>
+  </div>
+
+  <%= submit_tag "テスト開始" %>
+<% end %>

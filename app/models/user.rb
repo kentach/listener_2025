@@ -5,6 +5,8 @@ class User < ApplicationRecord
   validates :eiken_level, presence: true
   has_many :favorites, dependent: :destroy
   has_many :favorited_audios, through: :favorites, source: :audio
+  has_many :tests, dependent: :destroy
+  has_many :test_progresses, dependent: :destroy
 
   def favorited?(audio)
     favorited_audios.include?(audio)
