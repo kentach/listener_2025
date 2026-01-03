@@ -1583,6 +1583,8 @@ Favorite.delete_all
 Audio.delete_all
 Chapter.delete_all
 Textbook.delete_all
+TestQuestion.delete_all
+Vocabulary.delete_all
 
 # ================================
 # IDリセット（PostgreSQL）
