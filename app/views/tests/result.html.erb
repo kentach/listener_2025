@@ -15,31 +15,32 @@
       </div>
       <div class="card-body">
         <p class="question-text"><strong>問題:</strong> <%= @test.question_language == "english" ? q.vocabulary.english : q.vocabulary.japanese %></p>
-        <p class="user-answer"><strong>あなたの解答:</strong> <%= user_answer %></p>
+        <p class="user-answer"><strong>あなたの解答:</strong> <%= user_answer.present? ? user_answer : "未回答" %></p>
         <p class="correct-answer"><strong>正解:</strong> <%= correct_answer %></p>
       </div>
     </div>
   <% end %>
 </div>
 
-<div class="container" style="max-width: 600px; margin-top: 30px;">
-  <%= link_to "＜もう一度挑戦する", level_vocabularies_path(level: @test.level), class: "text-dark text-decoration-none btn-back" %>
+<div class="btn-wrapper">
+  <%= link_to "＜単語リストへ戻る", level_vocabularies_path(level: @test.level), class: "btn-retry" %>
 </div>
 
-
-
 <style>
+/* タイトル・スコア */
 .test-title {
   text-align: center;
-  margin-top: 20px;
+  margin: 20px auto 8px;
   font-size: 22px;
   font-weight: bold;
+  color: #111;
+  max-width: 600px;
 }
-
 .score {
   text-align: center;
   margin-bottom: 20px;
   font-size: 16px;
+  color: #333;
 }
 
 /* 結果カード全体 */
@@ -47,7 +48,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  max-width: 800px;
+  max-width: 600px;
   margin: 0 auto 40px auto;
 }
 
@@ -56,20 +57,22 @@
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  border-left: 6px solid #2196F3;
+  border-left: 12px solid #2196F3; /* 左のバーを太く */
   background-color: #fff;
-  transition: transform 0.1s;
+  transition: transform 0.1s, box-shadow 0.1s;
 }
 .result-card.correct { border-left-color: #4CAF50; }
 .result-card.wrong { border-left-color: #F44336; }
-.result-card:hover { transform: translateY(-2px); }
+.result-card:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
 
 .card-header {
   display: flex;
   justify-content: space-between;
-  padding: 8px 16px;
-  background-color: #f0f0f0;
+  padding: 10px 16px;
+  background-color: #e0e0e0; /* 黒をやめて淡いグレー */
+  color: #111; /* 文字を黒に */
   font-weight: bold;
+  font-size: 16px;
 }
 
 .card-body {
@@ -77,55 +80,46 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+  background-color: #f7f7f7;
 }
 
 .question-text, .user-answer, .correct-answer {
   margin: 0;
-  font-size: 14px;
+  font-size: 15px;
+  color: #111;
 }
 
-/* 戻るボタン */
-.btn-back {
-  display: block;
-  width: fit-content;
-  margin: 0 auto 40px auto;
-  padding: 10px 20px;
-  background-color: #ccc;
-  color: #333;
-  border-radius: 8px;
-  text-decoration: none;
+/* 再挑戦ボタン */
+.btn-wrapper {
   text-align: center;
-  font-weight: bold;
+  margin-bottom: 40px;
 }
-.btn-back:hover { background-color: #aaa; }
-
-
-
 .btn-retry {
-  display: block;
-  margin: 20px auto;
-  padding: 10px 20px;
-  background-color: #FF9800;
+  display: inline-block;
+  padding: 12px 28px;
+  font-size: 16px;
+  background-color: #FF9800; /* オレンジに統一 */
   color: #fff;
   font-weight: bold;
   border-radius: 8px;
   text-decoration: none;
-  border: none;
-  cursor: pointer;
   transition: background-color 0.2s;
 }
 .btn-retry:hover { background-color: #F57C00; }
 
-
 /* レスポンシブ対応 */
 @media (max-width: 768px) {
   .card-body {
-    font-size: 13px;
-  }
-  .card-header {
     font-size: 14px;
   }
+  .card-header {
+    font-size: 15px;
+  }
+  .results-container {
+    gap: 12px;
+  }
+  .test-title {
+    font-size: 20px;
+  }
 }
-
-
 </style>

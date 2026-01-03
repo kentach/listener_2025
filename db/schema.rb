@@ -69,19 +69,20 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_03_131248) do
     t.index ["user_id"], name: "index_favorites_on_user_id"
   end
 
-  create_table "rhythmas", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "name", null: false
-    t.string "level"
-    t.string "series"
-    t.string "cover_image", null: false
-  end
-
   create_table "tasks", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "test_answers", force: :cascade do |t|
+    t.bigint "test_question_id", null: false
+    t.text "user_answer"
+    t.text "correct_answer"
+    t.boolean "correct", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["test_question_id"], name: "index_test_answers_on_test_question_id"
   end
 
   create_table "test_progresses", force: :cascade do |t|
@@ -163,6 +164,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_03_131248) do
   add_foreign_key "chapters", "textbooks"
   add_foreign_key "favorites", "audios"
   add_foreign_key "favorites", "users"
+  add_foreign_key "test_answers", "test_questions"
   add_foreign_key "test_progresses", "users"
   add_foreign_key "test_questions", "tests"
   add_foreign_key "test_questions", "vocabularies"

@@ -1,27 +1,28 @@
 <footer id="footer" class="footer-bottom bg-white border-top fixed-bottom py-2">
   <div class="tab-menu d-flex justify-content-center">
+
     <%= link_to root_path, 
-        class: "tab-item text-center mx-3 #{current_page?(root_path) ? 'active' : ''}" do %>
-      <i class="bi bi-headphones me-2"></i>
-      <div>リスニング</div>
+        class: "tab-item d-flex flex-column align-items-center mx-3 #{current_page?(root_path) ? 'active' : ''}" do %>
+      <i class="bi bi-headphones fs-4 mb-1"></i>
+      <span>リスニング</span>
     <% end %>
 
     <%= link_to favorites_path, 
-        class: "tab-item text-center mx-3 #{current_page?(favorites_path) ? 'active' : ''}" do %>
-      <i class="bi bi-star"></i>
-      <div>お気に入り</div>
+        class: "tab-item d-flex flex-column align-items-center mx-3 #{current_page?(favorites_path) ? 'active' : ''}" do %>
+      <i class="bi bi-star fs-4 mb-1"></i>
+      <span>お気に入り</span>
     <% end %>
 
     <%= link_to vocabularies_path, 
-        class: "tab-item text-center mx-3 #{current_page?(vocabularies_path) ? 'active' : ''}" do %>
-      <i class="bi bi-book"></i>
-      <div>ボキャブラリ</div>
+        class: "tab-item d-flex flex-column align-items-center mx-3 #{current_page?(vocabularies_path) ? 'active' : ''}" do %>
+      <i class="bi bi-book fs-4 mb-1"></i>
+      <span>ボキャブラリ</span>
     <% end %>
 
     <%= link_to profile_path, 
-        class: "tab-item text-center mx-3 #{current_page?(profile_path) ? 'active' : ''}" do %>
-      <i class="bi bi-person-circle"></i>
-      <div>アカウント</div>
+        class: "tab-item d-flex flex-column align-items-center mx-3 #{current_page?(profile_path) ? 'active' : ''}" do %>
+      <i class="bi bi-person-circle fs-4 mb-1"></i>
+      <span>アカウント</span>
     <% end %>
 
   </div>

@@ -3,16 +3,16 @@
 
   <div class="level-list-wrapper">
     <% level_colors = {
-      "準1級" => "#04921aff",   # 落ち着いた赤
-      "2級" => "#05bdddff",     # 落ち着いたオレンジ
-      "準2級" => "#e89613ff",   # 落ち着いた黄色
-      "準2級プラス" => "#0f95deff", # 落ち着いた緑
-      "3級" => "#ffcf40ff;",      # 落ち着いた青
-      "4級" => "#fc77e4ce",      # 落ち着いた紫
-      "5級" => "#5353da"       # 落ち着いたピンク
+      "準1級（開発中）" => "#d9534f",   # 落ち着いた赤
+      "2級（開発中）" => "#f0ad4e",     # 落ち着いたオレンジ
+      "準2級（開発中）" => "#f7e967",   # 落ち着いた黄色
+      "準2級プラス（開発中）" => "#5cb85c", # 落ち着いた緑
+      "3級" => "#5bc0de",      # 落ち着いた青
+      "4級" => "#9966cc",      # 落ち着いた紫
+      "5級" => "#e56fa1"       # 落ち着いたピンク
     } %>
 
-    <% ["準1級", "2級", "準2級", "準2級プラス", "3級", "4級", "5級"].each do |level| %>
+    <% ["準1級（開発中）", "2級（開発中）", "準2級（開発中）", "準2級プラス（開発中）", "3級", "4級", "5級"].each do |level| %>
       <div class="level-card" style="background-color: <%= level_colors[level] %>;">
         <%= link_to level, level_vocabularies_path(level: level), class: "level-link" %>
       </div>
@@ -20,23 +20,24 @@
   </div>
 </section>
 
-
 <%= render "shared/navigation_tab" %>
 
 <style>
+/* セクション全体 */
 .level-list-section {
   padding: 20px 10px;
   text-align: center;
 }
 
+/* タイトル */
 .section-title {
   font-size: 24px;
   font-weight: 700;
   margin-bottom: 20px;
-  color: #222; /* 少し濃くして読みやすく */
+  color: #222;
 }
 
-/* 縦並び用ラッパー */
+/* カードラッパー（縦並び） */
 .level-list-wrapper {
   display: flex;
   flex-direction: column;
@@ -45,10 +46,12 @@
   margin-top: 20px;
 }
 
+/* カード本体 */
 .level-card {
   width: 90%;
   max-width: 300px;
-  height: 60px;
+  min-height: 60px;  /* 高さ固定ではなく最小高さ */
+  padding: 0 10px;
   border-radius: 12px;
   box-shadow: 0 6px 15px rgba(0,0,0,0.1);
   display: flex;
@@ -63,25 +66,29 @@
   box-shadow: 0 10px 20px rgba(0,0,0,0.15);
 }
 
+/* リンク */
 .level-link {
   display: block;
   width: 100%;
-  height: 100%;
-  line-height: 60px;
   text-decoration: none;
   color: #fff;
   font-weight: bold;
   text-align: center;
+  font-size: 18px;
+  line-height: 1.5;
 }
 
-
-/* レスポンシブ調整 */
+/* スマホレスポンシブ */
 @media (max-width: 480px) {
   .level-card {
     width: 95%;
-    height: 50px;
+    min-height: 50px;
+    padding: 0 8px;
+  }
+
+  .level-link {
     font-size: 16px;
-    line-height: 50px;
+    line-height: 1.4;
   }
 
   .section-title {
@@ -89,8 +96,7 @@
   }
 
   .level-list-wrapper {
-    gap: 16px;
+    gap: 12px;
   }
 }
-
 </style>

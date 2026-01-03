@@ -15,11 +15,6 @@
   <%= link_to "単語リストに戻る", level_vocabularies_path(level: params[:level]), 
               class: "btn-return" %>
 
-  <!-- もう一度暗記を始めるボタン -->
-  <%= link_to "もう一度暗記する", memorization_vocabularies_path(level: params[:level]),
-              class: "btn-repeat" %>
-</div>
-
 <%= render "shared/navigation_tab" %>
 
 <style>

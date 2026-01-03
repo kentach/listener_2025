@@ -1,5 +1,5 @@
 <div class="vocab-page">
-  <!-- 左上戻るボタン -->
+  <!-- 左上戻るボタン（固定ではない） -->
   <%= link_to "＜英検級に戻る", vocabularies_path, class: "btn-back" %>
 
   <!-- ヘッダー -->
@@ -34,7 +34,7 @@
       <div class="series-words">
         <!-- アクションボタン -->
         <div class="series-actions">
-          <%= link_to "このシリーズを暗記",
+          <%= link_to "暗記を始める",
               memorization_vocabularies_path(level: @level, series: series),
               class: "btn-action btn-memo" %>
 
@@ -70,34 +70,33 @@
 <%= render "shared/navigation_tab" %>
 
 <style>
-/* ページ全体 */
+/* === ページ全体 === */
 .vocab-page {
   max-width: 600px;
   margin: 0 auto;
-  position: relative;
   font-family: sans-serif;
-  padding-bottom: 100px;
+  padding: 16px;
+  padding-bottom: 120px; /* タブバー分の余白 */
+  box-sizing: border-box;
 }
 
 /* 左上戻るボタン */
 .btn-back {
-  position: absolute;
-  top: 0;
-  left: 0;
+  display: inline-block;
+  margin-bottom: 16px;
   padding: 8px 16px;
   background-color: #ccc;
   border-radius: 8px;
   color: #333;
   font-weight: bold;
   text-decoration: none;
-  z-index: 10;
 }
 .btn-back:hover { background-color: #aaa; }
 
 /* ヘッダー */
 .vocab-header {
   text-align: center;
-  margin: 60px 0 20px; /* 上に余白で戻るボタンと重ならない */
+  margin-bottom: 20px;
 }
 .vocab-header h2 { font-size: 22px; font-weight: bold; }
 .vocab-header p { font-size: 16px; color: #555; }
@@ -136,10 +135,10 @@
 
 /* シリーズブロック */
 .series-block {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
 }
 .series-header {
   color: #fff;
@@ -158,23 +157,29 @@
 }
 .series-words.open { display: block; }
 
-/* アクションボタン */
+/* === アクションボタン === */
 .series-actions {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
   gap: 12px;
   margin-bottom: 12px;
+  flex-wrap: wrap;
 }
 .btn-action {
-  padding: 8px 16px;
+  flex: 1 1 48%;
+  width: 150px;
+  padding: 12px 0;
   border-radius: 8px;
   font-weight: bold;
   color: #fff;
   text-decoration: none;
   border: none;
   cursor: pointer;
+  text-align: center;
   transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .btn-memo { background-color: #f87b0e; }
 .btn-memo:hover { background-color: #c66613; }
@@ -223,7 +228,8 @@
   .word-english { font-size: 15px; }
   .word-japanese { font-size: 13px; }
   .play-btn { font-size: 13px; padding: 5px 10px; align-self: flex-end; margin-top: 4px; }
-  .series-actions { flex-direction: column; gap: 8px; }
+  .series-actions { flex-direction: row; gap: 8px; justify-content: center; }
+  .btn-action { flex: 1 1 48%; font-size: 14px; padding: 10px 0; }
   .search-wrapper { flex-direction: column; gap: 8px; }
 }
 </style>
@@ -234,14 +240,8 @@ document.addEventListener("turbo:load", () => {
 
   function loadVoices(callback) {
     voices = speechSynthesis.getVoices();
-    if (voices.length > 0) {
-      callback();
-    } else {
-      speechSynthesis.onvoiceschanged = () => {
-        voices = speechSynthesis.getVoices();
-        callback();
-      };
-    }
+    if (voices.length > 0) callback();
+    else speechSynthesis.onvoiceschanged = () => { voices = speechSynthesis.getVoices(); callback(); };
   }
 
   function speakWord(text) {

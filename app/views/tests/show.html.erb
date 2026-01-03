@@ -1,6 +1,6 @@
 <!-- 戻るボタン -->
-<div class="container" style="max-width: 600px; margin-top: 30px;">
-  <%= link_to "＜単語リストに戻る", level_vocabularies_path(level: @test.level), class: "text-dark text-decoration-none btn-back" %>
+<div class="container" style="max-width: 600px; margin: 30px auto 20px;">
+  <%= link_to "＜単語リストに戻る", level_vocabularies_path(level: @test.level), class: "btn-back" %>
 </div>
 
 <!-- テストタイトル -->
@@ -8,7 +8,7 @@
   英検 <%= @test.level %> - <%= @test.series %> シリーズ テスト
 </h2>
 
-<%= form_with url: submit_test_path(@test), method: :post, local: true do |f| %>
+<%= form_with url: submit_test_path(@test), method: :post, local: true, html: { id: "test-form" } do |f| %>
   <div class="test-container">
     <% @questions.each_with_index do |q, index| %>
       <div class="question-row">
@@ -44,15 +44,16 @@
 .btn-back {
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #9E9E9E;
+  background-color: #222; /* 濃い背景で視認性アップ */
   color: #fff;
   border-radius: 8px;
   text-decoration: none;
   display: inline-block;
   text-align: center;
+  font-weight: bold;
 }
 .btn-back:hover {
-  background-color: #757575;
+  background-color: #000;
 }
 
 /* ------------------------------
@@ -61,20 +62,22 @@
 .test-title {
   font-size: 24px;
   font-weight: bold;
-  color: #333;
+  color: #111;
   margin: 20px auto;
-  max-width: 900px;
+  max-width: 600px;
+  text-align: center;
 }
 
 /* ------------------------------
    テスト全体コンテナ
 --------------------------------*/
 .test-container {
-  max-width: 900px;
+  max-width: 600px;
   margin: 0 auto 40px;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  box-sizing: border-box;
 }
 
 /* ------------------------------
@@ -82,27 +85,28 @@
 --------------------------------*/
 .question-row {
   display: flex;
-  border: 1px solid #ccc;
   border-radius: 8px;
-  background-color: #fdfdfd;
+  background-color: #f7f7f7; /* 薄いグレーでコントラスト */
   overflow: hidden;
-  height: 60px;
+  border: 1px solid #333;     /* 黒ボーダーで区切り */
   transition: transform 0.1s, box-shadow 0.1s;
 }
 .question-row:hover {
   transform: translateY(-1px);
-  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
 }
 
 /* 左側: 問題番号＋英語/日本語 */
 .question-left {
   flex: 1 1 50%;
-  padding: 10px;
+  padding: 12px;
   display: flex;
   align-items: center;
-  border-right: 1px solid #ccc;
+  border-right: 1px solid #333;
   font-weight: bold;
-  color: #333;
+  color: #111;
+  min-width: 120px;
+  background-color: #fff; /* 左側に少し明るい背景で視認性 */
 }
 .question-number {
   margin-right: 8px;
@@ -112,16 +116,19 @@
 /* 右側: 解答欄 */
 .question-right {
   flex: 1 1 50%;
-  padding: 10px;
+  padding: 12px;
   display: flex;
   align-items: center;
+  background-color: #f0f0f0; /* コントラストのため右側は薄めグレー */
 }
 .answer-input {
   width: 100%;
-  padding: 8px 12px;
-  font-size: 14px;
+  padding: 10px 12px;
+  font-size: 16px;
   border-radius: 6px;
-  border: 1px solid #aaa;
+  border: 1px solid #333;
+  color: #111;
+  background-color: #fff; /* 入力欄は白で文字を見やすく */
 }
 
 /* ------------------------------
@@ -132,16 +139,17 @@
   margin-top: 20px;
 }
 .btn-submit {
-  padding: 12px 24px;
+  padding: 12px 28px;
   font-size: 16px;
-  background-color: #4CAF50;
+  background-color: #f0740fff;
   color: #fff;
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.2s;
 }
 .btn-submit:hover {
-  background-color: #388E3C;
+  background-color: #d16709ff;
 }
 
 /* ------------------------------
@@ -150,14 +158,34 @@
 @media (max-width: 768px) {
   .question-row {
     flex-direction: column;
-    height: auto;
   }
   .question-left {
     border-right: none;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #333;
   }
   .question-right {
     padding-top: 8px;
   }
+  .answer-input {
+    font-size: 15px;
+    padding: 8px 10px;
+  }
+  .btn-submit {
+    width: 100%;
+  }
 }
 </style>
+
+<script>
+document.addEventListener("turbo:load", () => {
+  const form = document.getElementById("test-form");
+  if (form) {
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      if (confirm("本当に解答を送信しますか？")) {
+        form.submit();
+      }
+    });
+  }
+});
+</script>
