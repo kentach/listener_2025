@@ -1,191 +1,277 @@
-<!-- 戻るボタン -->
-<div class="container" style="max-width: 600px; margin: 30px auto 20px;">
-  <%= link_to "＜単語リストに戻る", level_vocabularies_path(level: @test.level), class: "btn-back" %>
-</div>
+<div id="questions">
+  <% @vocabularies.each_with_index do |vocab, index| %>
+    <div
+      class="question-row"
+      data-index="<%= index %>"
+      data-answer="<%= vocab.japanese %>"
+      data-english="<%= vocab.english %>"
+      style="<%= index == 0 ? '' : 'display:none;' %>">
 
-<!-- テストタイトル -->
-<h2 class="test-title">
-  英検 <%= @test.level %> - <%= @test.series %> シリーズ テスト
-</h2>
-
-<%= form_with url: submit_test_path(@test), method: :post, local: true, html: { id: "test-form" } do |f| %>
-  <div class="test-container">
-    <% @questions.each_with_index do |q, index| %>
-      <div class="question-row">
-        <!-- 左側: 問題番号＋英語/日本語 -->
-        <div class="question-left">
-          <span class="question-number"><%= index + 1 %>.</span>
-          <span class="question-text">
-            <% if @test.question_language == "english" %>
-              <%= q.vocabulary.english %>
-            <% else %>
-              <%= q.vocabulary.japanese %>
-            <% end %>
-          </span>
-        </div>
-
-        <!-- 右側: 解答欄 -->
-        <div class="question-right">
-          <%= f.text_field "answers[#{q.id}]", placeholder: "ここに解答", class: "answer-input" %>
+      <!-- タイマー（最上部） -->
+      <div class="timer-wrapper">
+        <span class="timer-label">Time</span>
+        <div class="timer-bar">
+          <div class="timer-fill"></div>
         </div>
       </div>
-    <% end %>
 
-    <div class="submit-wrapper">
-      <%= f.submit "解答を送信", class: "btn-submit" %>
+      <!-- 英語カード（タップで再生） -->
+      <div class="english-card tap-to-play">
+        <div class="question-number"><%= index + 1 %></div>
+        <div class="question-text"><%= vocab.english %></div>
+        <div class="tap-hint">🔊 タップしてもう一度聞く</div>
+      </div>
+
+      <!-- 意味表示 -->
+      <button type="button" class="show-choices-btn">
+        意味を表示
+      </button>
+
+      <!-- 選択肢 -->
+      <div class="choices" style="display:none;">
+        <% @choices[vocab.id].each do |choice| %>
+          <label class="choice-item">
+            <input type="radio" name="q-<%= index %>" value="<%= choice %>">
+            <span><%= choice %></span>
+          </label>
+        <% end %>
+      </div>
+
+      <!-- 正誤 -->
+      <div class="result-message" style="display:none;"></div>
+
+      <!-- 次へ -->
+      <button type="button" class="next-btn" style="display:none;">
+        次へ ▶
+      </button>
+
     </div>
-  </div>
-<% end %>
+  <% end %>
+</div>
 
+
+
+<!-- =========================
+     CSS
+========================= -->
 <style>
-/* ------------------------------
-   戻るボタン
---------------------------------*/
-.btn-back {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #222; /* 濃い背景で視認性アップ */
-  color: #fff;
-  border-radius: 8px;
-  text-decoration: none;
-  display: inline-block;
-  text-align: center;
-  font-weight: bold;
-}
-.btn-back:hover {
-  background-color: #000;
+#questions {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 16px;
 }
 
-/* ------------------------------
-   テストタイトル
---------------------------------*/
-.test-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #111;
-  margin: 20px auto;
-  max-width: 600px;
-  text-align: center;
+/* ===== タイマー ===== */
+.timer-wrapper {
+  margin-bottom: 14px;
 }
 
-/* ------------------------------
-   テスト全体コンテナ
---------------------------------*/
-.test-container {
-  max-width: 600px;
-  margin: 0 auto 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  box-sizing: border-box;
+.timer-label {
+  font-size: 12px;
+  color: #666;
 }
 
-/* ------------------------------
-   問題行
---------------------------------*/
-.question-row {
-  display: flex;
-  border-radius: 8px;
-  background-color: #f7f7f7; /* 薄いグレーでコントラスト */
+.timer-bar {
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 3px;
   overflow: hidden;
-  border: 1px solid #333;     /* 黒ボーダーで区切り */
-  transition: transform 0.1s, box-shadow 0.1s;
-}
-.question-row:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
 }
 
-/* 左側: 問題番号＋英語/日本語 */
-.question-left {
-  flex: 1 1 50%;
-  padding: 12px;
-  display: flex;
-  align-items: center;
-  border-right: 1px solid #333;
-  font-weight: bold;
-  color: #111;
-  min-width: 120px;
-  background-color: #fff; /* 左側に少し明るい背景で視認性 */
+.timer-fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #4caf50, #81c784);
+  transition: width 1s linear;
 }
+
+/* ===== 英語カード ===== */
+.english-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 30px 20px;
+  text-align: center;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.15);
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
 .question-number {
-  margin-right: 8px;
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.question-text {
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+}
+
+.tap-hint {
+  margin-top: 10px;
+  font-size: 13px;
   color: #555;
 }
 
-/* 右側: 解答欄 */
-.question-right {
-  flex: 1 1 50%;
-  padding: 12px;
+/* ===== ボタン ===== */
+.show-choices-btn {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 14px;
+  border-radius: 14px;
+  border: 1px solid #333;
+  background: #fafafa;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* ===== 選択肢 ===== */
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.choice-item {
   display: flex;
   align-items: center;
-  background-color: #f0f0f0; /* コントラストのため右側は薄めグレー */
-}
-.answer-input {
-  width: 100%;
-  padding: 10px 12px;
-  font-size: 16px;
-  border-radius: 6px;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 14px;
   border: 1px solid #333;
-  color: #111;
-  background-color: #fff; /* 入力欄は白で文字を見やすく */
-}
-
-/* ------------------------------
-   送信ボタン
---------------------------------*/
-.submit-wrapper {
-  text-align: center;
-  margin-top: 20px;
-}
-.btn-submit {
-  padding: 12px 28px;
+  background: #fff;
   font-size: 16px;
-  background-color: #f0740fff;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-.btn-submit:hover {
-  background-color: #d16709ff;
 }
 
-/* ------------------------------
-   レスポンシブ
---------------------------------*/
-@media (max-width: 768px) {
-  .question-row {
-    flex-direction: column;
-  }
-  .question-left {
-    border-right: none;
-    border-bottom: 1px solid #333;
-  }
-  .question-right {
-    padding-top: 8px;
-  }
-  .answer-input {
-    font-size: 15px;
-    padding: 8px 10px;
-  }
-  .btn-submit {
-    width: 100%;
+/* ===== 正誤 ===== */
+.result-message {
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.result-correct {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.result-wrong {
+  background: #ffebee;
+  color: #c62828;
+}
+
+/* ===== 次へ ===== */
+.next-btn {
+  margin-top: 18px;
+  padding: 14px;
+  width: 100%;
+  border-radius: 14px;
+  background: #f0740f;
+  color: #fff;
+  font-size: 16px;
+  border: none;
+}
+
+/* スマホ */
+@media (max-width: 600px) {
+  .question-text {
+    font-size: 26px;
   }
 }
+
 </style>
 
+<!-- =========================
+     JavaScript
+========================= -->
 <script>
 document.addEventListener("turbo:load", () => {
-  const form = document.getElementById("test-form");
-  if (form) {
-    form.addEventListener("submit", function(e) {
-      e.preventDefault();
-      if (confirm("本当に解答を送信しますか？")) {
-        form.submit();
+  const rows = document.querySelectorAll(".question-row");
+  const LIMIT = 5;
+  let timer;
+
+  const speak = (text) => {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "en-US";
+    u.rate = 0.9;
+    speechSynthesis.speak(u);
+  };
+
+  const startTimer = (row) => {
+    let time = LIMIT;
+    const fill = row.querySelector(".timer-fill");
+    fill.style.width = "100%";
+
+    timer = setInterval(() => {
+      time--;
+      fill.style.width = (time / LIMIT * 100) + "%";
+      if (time <= 0) {
+        clearInterval(timer);
+        showWrong(row);
+      }
+    }, 1000);
+  };
+
+  const showCorrect = (row) => {
+    const msg = row.querySelector(".result-message");
+    msg.textContent = "⭕ 正解！";
+    msg.className = "result-message result-correct";
+    msg.style.display = "block";
+    row.querySelector(".next-btn").style.display = "block";
+  };
+
+  const showWrong = (row) => {
+    const msg = row.querySelector(".result-message");
+    msg.innerHTML = `❌ 不正解<br>正解：${row.dataset.answer}`;
+    msg.className = "result-message result-wrong";
+    msg.style.display = "block";
+  };
+
+  // 初回
+  if (rows.length > 0) {
+    speak(rows[0].dataset.english);
+    startTimer(rows[0]);
+  }
+
+  rows.forEach((row, index) => {
+    const correct = row.dataset.answer;
+
+    // 英語カードをタップで再生
+    row.querySelector(".english-card").addEventListener("click", () => {
+      speak(row.dataset.english);
+    });
+
+    row.querySelector(".show-choices-btn").addEventListener("click", e => {
+      row.querySelector(".choices").style.display = "flex";
+      e.target.style.display = "none";
+    });
+
+    row.querySelectorAll("input[type=radio]").forEach(input => {
+      input.addEventListener("change", () => {
+        clearInterval(timer);
+        input.value === correct ? showCorrect(row) : showWrong(row);
+      });
+    });
+
+    row.querySelector(".next-btn").addEventListener("click", () => {
+      clearInterval(timer);
+      row.style.display = "none";
+      const next = rows[index + 1];
+      if (next) {
+        next.style.display = "block";
+        speak(next.dataset.english);
+        startTimer(next);
+      } else {
+        alert("テスト終了！");
       }
     });
-  }
+  });
 });
+
+
 </script>

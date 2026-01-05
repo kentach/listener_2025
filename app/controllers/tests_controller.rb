@@ -33,10 +33,30 @@ class TestsController < ApplicationController
   # テスト問題表示
 def show
   @test = Test.find(params[:id])
-  # level は URLパラメータが優先、なければシリーズ名などを表示用に
-  @level = params[:level] || @test.series
-  @questions = @test.test_questions.includes(:vocabulary)
+
+  @vocabularies = Vocabulary
+    .where(level: @test.level, series: @test.series)
+    .where(number: @test.range_start..@test.range_end)
+    .order("RANDOM()")
+    .limit(10)
+
+  # 4択用の選択肢
+  @choices = {}
+
+  @vocabularies.each do |vocab|
+    correct = vocab.japanese
+
+    wrongs = Vocabulary
+      .where(level: @test.level)
+      .where.not(id: vocab.id)
+      .order("RANDOM()")
+      .limit(3)
+      .pluck(:japanese)
+
+    @choices[vocab.id] = (wrongs + [correct]).shuffle
+  end
 end
+
 
   # 解答送信・採点
 def submit
