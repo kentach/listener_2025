@@ -2,10 +2,6 @@
   <%= link_to "＜単語リスト", level_vocabularies_path(level: params[:level]), class: "text-dark text-decoration-none" %>
 </div>
 
-<div class="time-wrapper">
-  <div class="time-bar" id="time-bar"></div>
-</div>
-
 <div class="single-card-wrapper">
   <div class="flash-card" id="flash-card">
     <div class="card-inner">
@@ -49,179 +45,28 @@
 </script>
 
 <style>
-/* スワイプ中は transition を切る */
-.flash-card.dragging {
-  transition: none;
-}
-
-/* スワイプ方向の背景色 */
-.flash-card.bg-know {
-  background: #E8F5E9;
-}
-
-.flash-card.bg-dontknow {
-  background: #FDECEA;
-}
-
-/* 中のカードも同時に色を変える */
-.flash-card.bg-know .card-face {
-  background: #E8F5E9;
-}
-
-.flash-card.bg-dontknow .card-face {
-  background: #FDECEA;
-}
-
-.time-wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 6px;
-  background: #eee;
-  z-index: 200;
-}
-
-.time-bar {
-  height: 100%;
-  width: 100%;
-  background: linear-gradient(90deg, #4CAF50, #FF9800, #E53935);
-  transition: width 1s linear;
-}
-
-
-.single-card-wrapper {
-  min-height: 60vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.flash-card {
-  width: 90%;
-  max-width: 360px;
-  height: 240px;
-  perspective: 1000px;
-}
-
-.card-inner {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.55s cubic-bezier(.4,.2,.2,1);
-}
-
-.flash-card.is-flipped .card-inner {
-  transform: rotateY(180deg);
-}
-
-.card-face {
-  position: absolute;
-  inset: 0;
-  background: #fff;
-  border-radius: 20px;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-  backface-visibility: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
+/* スタイルは元のままタイムバー関連は削除 */
+.single-card-wrapper { min-height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.flash-card { width: 90%; max-width: 360px; height: 240px; perspective: 1000px; }
+.card-inner { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.55s cubic-bezier(.4,.2,.2,1); }
+.flash-card.is-flipped .card-inner { transform: rotateY(180deg); }
+.card-face { position: absolute; inset: 0; background: #fff; border-radius: 20px; box-shadow: 0 12px 30px rgba(0,0,0,0.12); backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .card-back { transform: rotateY(180deg); }
-
 .word-english { font-size: 25px; font-weight: 700; }
 .word-japanese { margin-top: 12px; color: #666; }
-
-.play-word-btn {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  border: none;
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  background: #2f6df6;
-  color: #fff;
-}
-
-.progress-wrapper {
-  width: 90%;
-  max-width: 360px;
-  height: 20px;
-  background: #eee;
-  border-radius: 20px;
-  margin-top: 20px;
-  overflow: hidden;
-}
-
-.progress-bar {
-  height: 100%;
-  background: #FF9800;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  transition: width 0.3s;
-}
-
-.card-controls {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 32px;
-  z-index: 100;
-}
-
-.circle-btn {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  border: none;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.18);
-}
-
+.play-word-btn { position: absolute; bottom: 10px; right: 10px; border: none; border-radius: 50%; width: 32px; height: 32px; background: #2f6df6; color: #fff; }
+.progress-wrapper { width: 90%; max-width: 360px; height: 20px; background: #eee; border-radius: 20px; margin-top: 20px; overflow: hidden; }
+.progress-bar { height: 100%; background: #FF9800; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; transition: width 0.3s; }
+.card-controls { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; gap: 32px; z-index: 100; }
+.circle-btn { width: 90px; height: 90px; border-radius: 50%; border: none; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 6px 16px rgba(0,0,0,0.18); }
 .know { background: linear-gradient(135deg,#4CAF50,#43A047); }
 .dontknow { background: linear-gradient(135deg,#E53935,#D32F2F); }
-
 /* スワイプ中 */
-.flash-card.dragging .card-inner {
-  transition: none;
-}
-
-/* 右に飛ぶ（わかる） */
-.flash-card.fly-right {
-  transform: translateX(120%) rotate(12deg);
-  opacity: 0;
-  transition: transform 0.35s ease, opacity 0.35s ease;
-}
-
-/* 左に飛ぶ（知らない） */
-.flash-card.fly-left {
-  transform: translateX(-120%) rotate(-12deg);
-  opacity: 0;
-  transition: transform 0.35s ease, opacity 0.35s ease;
-}
-
-.flash-card.bg-know .card-face {
-  background: #E8F5E9;
-}
-
-.flash-card.bg-dontknow .card-face {
-  background: #FDECEA;
-}
-
+.flash-card.dragging .card-inner { transition: none; }
+.flash-card.fly-right { transform: translateX(120%) rotate(12deg); opacity: 0; transition: transform 0.35s ease, opacity 0.35s ease; }
+.flash-card.fly-left { transform: translateX(-120%) rotate(-12deg); opacity: 0; transition: transform 0.35s ease, opacity 0.35s ease; }
+.flash-card.bg-know .card-face { background: #E8F5E9; }
+.flash-card.bg-dontknow .card-face { background: #FDECEA; }
 </style>
 
 <script>
@@ -236,7 +81,6 @@ document.addEventListener("turbo:load", () => {
   const playBtn = document.getElementById("play-word");
   const playBtnBack = document.getElementById("play-word-back");
   const progressBar = document.getElementById("progress-bar");
-  const timeBar = document.getElementById("time-bar");
 
   const knownBtn = document.getElementById("btn-know");
   const unknownBtn = document.getElementById("btn-dontknow");
@@ -245,38 +89,11 @@ document.addEventListener("turbo:load", () => {
   let unknownWords = [];
 
   /* ===== 音声 ===== */
-  let voices = [];
-  function loadVoices() { voices = speechSynthesis.getVoices(); }
-  loadVoices();
-  speechSynthesis.onvoiceschanged = loadVoices;
-
   function speak(word) {
-    const u = new SpeechSynthesisUtterance(word);
-    u.lang = "en-US";
-    u.rate = 0.95;
-    u.voice = voices.find(v => v.lang.startsWith("en")) || voices[0];
-    speechSynthesis.cancel();
-    speechSynthesis.speak(u);
-  }
-
-  /* ===== タイマー ===== */
-  const TIME_LIMIT = 8;
-  let timerInterval;
-
-  function startTimer() {
-    clearInterval(timerInterval);
-    let timeLeft = TIME_LIMIT;
-    timeBar.style.width = "100%";
-
-    timerInterval = setInterval(() => {
-      timeLeft--;
-      timeBar.style.width = (timeLeft / TIME_LIMIT) * 100 + "%";
-
-      if (timeLeft <= 0) {
-        clearInterval(timerInterval);
-        swipeResult("left");
-      }
-    }, 1000);
+    if (!word) return;
+    const utter = new SpeechSynthesisUtterance(word);
+    utter.lang = "en-US";
+    speechSynthesis.speak(utter);
   }
 
   /* ===== 表示 ===== */
@@ -303,7 +120,6 @@ document.addEventListener("turbo:load", () => {
 
     speak(word.english);
     updateProgress();
-    startTimer();
   }
 
   renderCard();
@@ -356,8 +172,6 @@ document.addEventListener("turbo:load", () => {
   });
 
   function swipeResult(direction) {
-    clearInterval(timerInterval);
-
     if (direction === "right") {
       card.classList.add("fly-right");
     } else {

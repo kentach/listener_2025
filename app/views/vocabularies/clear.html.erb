@@ -4,10 +4,6 @@
 
   <p class="congrats-message">素晴らしい！あなたの努力が確実に力になっています</p>
   <p class="congrats-message">次のステップも、この勢いで挑戦してみましょう！</p>
-
-  <div class="progress-wrapper">
-    <div class="progress-bar" id="progress-bar">0%</div>
-  </div>
 </div>
 
 <!-- 学習結果 -->
@@ -49,29 +45,6 @@
   font-size: 16px;
   color: #000;
   font-weight: 600;
-}
-
-/* ===== 進捗バー ===== */
-.progress-wrapper {
-  margin: 24px auto 0;
-  width: 80%;
-  max-width: 360px;
-  height: 26px;
-  background: #eee;
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.progress-bar {
-  height: 100%;
-  width: 0%;
-  background: #fbc02d;
-  color: #fff;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: width 0.2s;
 }
 
 /* ===== 学習結果 ===== */
@@ -136,23 +109,22 @@
 }
 
 .btn-audio { background: #2f6df6; }
-.btn-save { background: #ff9800; }
 
 /* ===== 戻るボタン ===== */
 .back-btn-wrapper {
   position: fixed;
-  bottom: 64px;
-  left: 0;
-  width: 100%;
-  padding: 12px 16px;
-  background: linear-gradient(to top, rgba(255,255,255,0.95), rgba(255,255,255,0));
-  z-index: 20;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
 }
 
 .back-btn {
   display: block;
-  max-width: 420px;
-  margin: 0 auto;
+  width: 100%;
   padding: 14px 0;
   background: #ef9311ff;
   color: #fff;
@@ -163,18 +135,9 @@
   box-shadow: 0 6px 16px rgba(0,0,0,0.18);
 }
 </style>
+
 <script>
 document.addEventListener("turbo:load", () => {
-
-  /* ===== 進捗バー ===== */
-  const bar = document.getElementById("progress-bar");
-  let p = 0;
-  const timer = setInterval(() => {
-    p++;
-    bar.style.width = p + "%";
-    bar.textContent = p + "%";
-    if (p >= 100) clearInterval(timer);
-  }, 15);
 
   /* ===== 音声 ===== */
   let voices = [];
@@ -201,7 +164,7 @@ document.addEventListener("turbo:load", () => {
   const knownBox   = document.getElementById("known-cards");
   const unknownBox = document.getElementById("unknown-cards");
 
-  function render(word, box, saveable) {
+  function render(word, box) {
     const row = document.createElement("div");
     row.className = "word-row";
     row.innerHTML = `
@@ -211,33 +174,17 @@ document.addEventListener("turbo:load", () => {
       </div>
       <div class="word-actions">
         <button class="btn-audio"><i class="bi bi-volume-up"></i></button>
-        ${saveable ? `<button class="btn-save"><i class="bi bi-bookmark-star"></i></button>` : ""}
       </div>
     `;
-
     row.querySelector(".btn-audio").onclick = () => speak(word.english);
-
-    if (saveable) {
-      row.querySelector(".btn-save").onclick = () => {
-        const weak = JSON.parse(localStorage.getItem("weakWords") || "[]");
-        if (!weak.some(w => w.english === word.english)) {
-          weak.push(word);
-          localStorage.setItem("weakWords", JSON.stringify(weak));
-          alert("苦手単語に保存しました");
-        }
-      };
-    }
-
     box.appendChild(row);
   }
 
-  if (knownWords.length === 0)
-    document.querySelector(".learned-title.known").style.display = "none";
-  else knownWords.forEach(w => render(w, knownBox));
+  if (knownWords.length > 0) knownWords.forEach(w => render(w, knownBox));
+  else document.querySelector(".learned-title.known").style.display = "none";
 
-  if (unknownWords.length === 0)
-    document.querySelector(".learned-title.unknown").style.display = "none";
-  else unknownWords.forEach(w => render(w, unknownBox, true));
+  if (unknownWords.length > 0) unknownWords.forEach(w => render(w, unknownBox));
+  else document.querySelector(".learned-title.unknown").style.display = "none";
 
   localStorage.removeItem("knownWords");
   localStorage.removeItem("unknownWords");

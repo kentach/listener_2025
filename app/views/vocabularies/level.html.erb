@@ -192,20 +192,32 @@
 .series-words { display: none; padding: 12px; background: #f7f7f7; }
 .series-words.open { display: block; }
 
-.series-actions { display: flex; gap: 12px; margin-bottom: 12px; }
+/* アクションボタン */
+.series-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
 
 .btn-action {
-  flex: 1;
+  flex: 1;                      /* 横幅揃え */
   padding: 12px 0;
   border-radius: 8px;
   color: #fff;
   text-decoration: none;
   text-align: center;
   font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-memo { background: #f87b0e; }
-.btn-test { background: #2196F3; }
+.btn-test {
+  background: #2196F3;
+  border: none;
+  cursor: pointer;
+}
 
 /* 単語カード */
 .word-card {
@@ -235,11 +247,19 @@
 
 .play-btn:active { transform: scale(0.95); }
 .play-btn i { pointer-events: none; }
+
+/* スマホ対応 */
+@media screen and (max-width: 480px) {
+  .vocab-page { padding: 12px; }
+  .vocab-search-form input { padding: 8px 10px; }
+  .vocab-search-form button { padding: 0 10px; }
+  .btn-action { padding: 10px 0; font-size: 14px; }
+  .word-card { padding: 8px 10px; font-size: 14px; }
+}
 </style>
 
 <script>
 document.addEventListener("turbo:load", () => {
-
   /* ===== 発音準備 ===== */
   let voices = [];
   function loadVoices() { voices = speechSynthesis.getVoices(); }
@@ -316,6 +336,5 @@ document.addEventListener("turbo:load", () => {
     seriesList.style.display = "";
     backBtn.parentElement.hidden = true;
   });
-
 });
 </script>

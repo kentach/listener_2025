@@ -24,8 +24,8 @@ class VocabulariesController < ApplicationController
 
 
     def memorization
-        @vocabularies =
-        Vocabulary.where(series: params[:series], level: params[:level])
-                    .order(:number)
+    @vocabularies = Vocabulary.where(series: params[:series], level: params[:level]).order(:number)
+    @total_words_for_level = Vocabulary.where(level: params[:level]).count
     end
+
 end

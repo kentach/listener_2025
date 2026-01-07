@@ -1,3 +1,7 @@
+<div class="container" style="max-width: 600px; margin-top: 30px;">
+  <%= link_to "＜ 単語リストへ戻る", level_vocabularies_path(level: @test.level), class: "text-dark text-decoration-none" %>
+</div>
+
 <div id="questions" data-test-id="<%= @test.id %>">
   <% @questions.each_with_index do |q, index| %>
     <% vocab = q.vocabulary %>
