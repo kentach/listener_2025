@@ -1,0 +1,124 @@
+<div class="result-container">
+  <h1 class="result-title">テスト結果</h1>
+
+  <% score = params[:score].to_i %>
+  <% total = params[:total].to_i %>
+  <% rate  = total > 0 ? (score * 100 / total) : 0 %>
+
+  <!-- スコア -->
+  <div class="score-card">
+    <div class="score-main">
+      <span class="score-number"><%= score %></span>
+      <span class="score-total">/ <%= total %></span>
+    </div>
+    <div class="score-rate">
+      正答率 <strong><%= rate %>%</strong>
+    </div>
+  </div>
+
+  <!-- メッセージ -->
+  <div class="result-message <%= rate >= 80 ? 'good' : rate >= 50 ? 'normal' : 'bad' %>">
+    <% if rate >= 80 %>
+      🎉 素晴らしい！よく覚えています！
+    <% elsif rate >= 50 %>
+      👍 いい調子！もう少しで完璧です
+    <% else %>
+      🔁 復習しよう！繰り返しが大事です
+    <% end %>
+  </div>
+
+  <!-- アクション -->
+  <div class="result-actions">
+    <%= link_to "もう一度テスト", test_path(@test), class: "action-btn retry" %>
+    <%= link_to "単語リストに戻る",
+        level_vocabularies_path(level: @test.level),
+        class: "action-btn back" %>
+  </div>
+</div>
+
+<style>
+.result-container {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.result-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.score-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 30px 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  margin-bottom: 24px;
+}
+
+.score-main {
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.score-total {
+  font-size: 18px;
+  color: #777;
+}
+
+.score-rate {
+  margin-top: 8px;
+  font-size: 16px;
+  color: #444;
+}
+
+.result-message {
+  padding: 16px;
+  border-radius: 14px;
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+
+.result-message.good {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.result-message.normal {
+  background: #fffde7;
+  color: #f57f17;
+}
+
+.result-message.bad {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.result-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.action-btn {
+  display: block;
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.action-btn.retry {
+  background: #f0740f;
+  color: #fff;
+}
+
+.action-btn.back {
+  border: 1px solid #333;
+  color: #333;
+  background: #fafafa;
+}
+</style>

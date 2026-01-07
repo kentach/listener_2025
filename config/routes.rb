@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   member do
     post :submit   # 解答送信
     get  :result   # 結果表示
+    get :review
   end
 end
 

@@ -1,270 +1,321 @@
 <div class="vocab-page">
-  <!-- 左上戻るボタン（固定ではない） -->
+  <!-- 左上戻るボタン -->
   <%= link_to "＜英検級に戻る", vocabularies_path, class: "btn-back" %>
 
   <!-- ヘッダー -->
   <header class="vocab-header">
     <h2>英検<%= @level %> 重要単語リスト</h2>
-    <p>全<%= @vocabularies.count %>語</p>
+    <h4>全<%= @vocabularies.count %>語</h4>
   </header>
 
   <!-- 検索バー -->
   <div class="search-wrapper">
-    <%= form_with url: level_vocabularies_path(level: @level), method: :get, local: true, class: "vocab-search-form" do %>
-      <input type="text" name="q" placeholder="単語を検索..." value="<%= params[:q] %>">
+    <%= form_with url: level_vocabularies_path, method: :get, class: "vocab-search-form", local: true do %>
+      <%= hidden_field_tag :level, @level %>
+      <input type="search" name="q" placeholder="英語 / 日本語で検索" class="search-input" autocomplete="off">
       <button type="submit">🔍</button>
-    <% end %>
-
-    <% if params[:q].present? %>
-      <%= link_to "元のリストに戻る", level_vocabularies_path(level: @level), class: "btn-return" %>
     <% end %>
   </div>
 
-  <!-- シリーズごとの単語リスト -->
-  <% @vocabularies.group_by(&:series).each do |series, words| %>
-    <div class="series-block">
-      <div class="series-header"
-           onclick="this.nextElementSibling.classList.toggle('open');
-                    this.querySelector('.toggle-icon').textContent =
-                    this.nextElementSibling.classList.contains('open') ? '−' : '+';">
-        <span><%= series %>（<%= words.count %>語）</span>
-        <span class="toggle-icon">+</span>
-      </div>
+  <!-- 検索状態表示 -->
+  <div class="search-status" hidden>
+    「<span class="search-keyword"></span>」の検索結果
+  </div>
 
-      <div class="series-words">
-        <!-- アクションボタン -->
-        <div class="series-actions">
-          <%= link_to "暗記を始める",
-              memorization_vocabularies_path(level: @level, series: series),
-              class: "btn-action btn-memo" %>
+  <!-- 検索結果 -->
+  <div class="search-results" hidden></div>
 
-          <%= button_to "テストに挑戦",
-                tests_path,
-                method: :post,
-                params: {
-                  series: series,
-                  level: @level,
-                  range_start: words.first.number,
-                  range_end: words.last.number,
-                  question_language: "english"
-                },
-                class: "btn-action btn-test" %>
+  <!-- 一覧に戻るボタン -->
+  <div class="search-actions" hidden>
+    <button type="button" class="btn-return">← 一覧画面に戻る</button>
+  </div>
+
+  <!-- シリーズ一覧 -->
+  <div class="series-list">
+    <% @vocabularies.group_by(&:series).each do |series, words| %>
+      <div class="series-block">
+        <div class="series-header"
+             onclick="this.nextElementSibling.classList.toggle('open');
+                      this.querySelector('.toggle-icon').textContent =
+                      this.nextElementSibling.classList.contains('open') ? '−' : '+';">
+          <span><%= series %>（<%= words.count %>語）</span>
+          <span class="toggle-icon">+</span>
         </div>
 
-        <!-- 単語カード -->
-        <% words.each do |word| %>
-          <div class="word-card">
-            <div class="word-info">
-              <span class="word-number"><%= word.number %>.</span>
-              <span class="word-english"><%= word.english %></span>
-              <span class="word-japanese"><%= word.japanese %></span>
-            </div>
-            <button class="play-btn">🔊</button>
+        <div class="series-words">
+          <div class="series-actions">
+            <%= link_to "暗記を始める",
+                memorization_vocabularies_path(level: @level, series: series),
+                class: "btn-action btn-memo" %>
+
+            <%= button_to "テストに挑戦",
+                  tests_path,
+                  method: :post,
+                  params: {
+                    series: series,
+                    level: @level,
+                    range_start: words.first.number,
+                    range_end: words.last.number,
+                    question_language: "english"
+                  },
+                  class: "btn-action btn-test" %>
           </div>
-        <% end %>
+
+          <% words.each do |word| %>
+            <div class="word-card">
+              <div class="word-info">
+                <span class="word-number"><%= word.number %>.</span>
+                <span class="word-english"><%= word.english %></span>
+                <span class="word-japanese"><%= word.japanese %></span>
+              </div>
+              <button class="play-btn" data-word="<%= word.english %>">
+                <i class="bi bi-volume-up"></i>
+              </button>
+            </div>
+          <% end %>
+        </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>
 
 <%= render "shared/navigation_tab" %>
 
 <style>
-/* === ページ全体 === */
+/* ===== ページ全体 ===== */
 .vocab-page {
   max-width: 600px;
   margin: 0 auto;
-  font-family: sans-serif;
   padding: 16px;
-  padding-bottom: 120px; /* タブバー分の余白 */
-  box-sizing: border-box;
+  padding-bottom: 120px;
+  font-family: sans-serif;
 }
 
-/* 左上戻るボタン */
+/* 戻るボタン */
 .btn-back {
   display: inline-block;
   margin-bottom: 16px;
   padding: 8px 16px;
-  background-color: #ccc;
+  background: #ccc;
   border-radius: 8px;
+  text-decoration: none;
   color: #333;
   font-weight: bold;
-  text-decoration: none;
 }
-.btn-back:hover { background-color: #aaa; }
 
 /* ヘッダー */
-.vocab-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-.vocab-header h2 { font-size: 22px; font-weight: bold; }
-.vocab-header p { font-size: 16px; color: #555; }
+.vocab-header { text-align: center; margin-bottom: 20px; }
 
 /* 検索バー */
 .search-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: #fff;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
 }
-.search-wrapper input {
-  flex: 1 1 200px;
-  padding: 8px 12px;
-  border-radius: 8px;
+
+.vocab-search-form {
+  display: flex;
+}
+
+.vocab-search-form input {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 12px 0 0 12px;
   border: 1px solid #ccc;
 }
-.search-wrapper button {
-  padding: 8px 16px;
-  border-radius: 8px;
-  border: none;
-  background-color: #2196F3;
-  color: #fff;
-  cursor: pointer;
-}
-.btn-return {
-  display: inline-block;
-  padding: 8px 16px;
-  background-color: #9E9E9E;
-  border-radius: 8px;
-  color: #fff;
-  text-decoration: none;
-}
-.btn-return:hover { background-color: #757575; }
 
-/* シリーズブロック */
+.vocab-search-form button {
+  padding: 0 16px;
+  border-radius: 0 12px 12px 0;
+  border: 1px solid #1081e3;
+  background: #1081e3;
+  color: #fff;
+}
+
+/* 検索結果表示 */
+.search-status {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+}
+
+.search-results { margin-top: 8px; }
+.no-result {
+  text-align: center;
+  color: #777;
+  padding: 20px;
+}
+
+.search-actions {
+  position: sticky;
+  top: 64px;
+  z-index: 180;
+  background: #fff;
+  padding: 8px 0 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.btn-return {
+  width: 100%;
+  padding: 12px 0;
+  background: #f1f1f1;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #333;
+}
+
+.btn-return:active { background: #ddd; }
+
+/* シリーズ */
 .series-block {
   margin-bottom: 24px;
   border-radius: 12px;
-  overflow: hidden;
   box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+  overflow: hidden;
 }
+
 .series-header {
+  background: #333;
   color: #fff;
-  background-color: #333;
   padding: 12px 16px;
-  font-weight: bold;
-  font-size: 16px;
   display: flex;
   justify-content: space-between;
   cursor: pointer;
 }
-.series-words {
-  display: none;
-  background-color: #f7f7f7;
-  padding: 12px;
-}
+
+.series-words { display: none; padding: 12px; background: #f7f7f7; }
 .series-words.open { display: block; }
 
-/* === アクションボタン === */
-.series-actions {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
-}
+.series-actions { display: flex; gap: 12px; margin-bottom: 12px; }
+
 .btn-action {
-  flex: 1 1 48%;
-  width: 150px;
+  flex: 1;
   padding: 12px 0;
   border-radius: 8px;
-  font-weight: bold;
   color: #fff;
   text-decoration: none;
-  border: none;
-  cursor: pointer;
   text-align: center;
-  transition: background-color 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-weight: bold;
 }
-.btn-memo { background-color: #f87b0e; }
-.btn-memo:hover { background-color: #c66613; }
-.btn-test { background-color: #2196F3; }
-.btn-test:hover { background-color: #1976D2; }
+
+.btn-memo { background: #f87b0e; }
+.btn-test { background: #2196F3; }
 
 /* 単語カード */
 .word-card {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   padding: 10px 16px;
   margin-bottom: 8px;
+  background: #fff;
   border-radius: 8px;
-  background-color: #fff;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-  transition: transform 0.1s;
 }
-.word-card:hover { transform: translateY(-1px); }
-.word-info {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: center;
-}
-.word-number { font-size: 14px; color: #888; }
-.word-english { font-size: 16px; font-weight: 600; color: #222; }
-.word-japanese { font-size: 14px; color: #555; }
 
-/* 発音ボタン */
+.word-english { font-weight: 600; }
+
 .play-btn {
-  padding: 6px 12px;
-  font-size: 14px;
+  background: #65baffff;
   border: none;
-  border-radius: 6px;
-  background-color: #2196F3;
   color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
   cursor: pointer;
 }
-.play-btn:hover { background-color: #1976D2; }
 
-/* レスポンシブ */
-@media (max-width: 600px) {
-  .series-header { font-size: 14px; padding: 10px 12px; }
-  .word-card { padding: 8px 12px; flex-direction: column; align-items: flex-start; }
-  .word-english { font-size: 15px; }
-  .word-japanese { font-size: 13px; }
-  .play-btn { font-size: 13px; padding: 5px 10px; align-self: flex-end; margin-top: 4px; }
-  .series-actions { flex-direction: row; gap: 8px; justify-content: center; }
-  .btn-action { flex: 1 1 48%; font-size: 14px; padding: 10px 0; }
-  .search-wrapper { flex-direction: column; gap: 8px; }
-}
+.play-btn:active { transform: scale(0.95); }
+.play-btn i { pointer-events: none; }
 </style>
 
 <script>
 document.addEventListener("turbo:load", () => {
+
+  /* ===== 発音準備 ===== */
   let voices = [];
+  function loadVoices() { voices = speechSynthesis.getVoices(); }
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
 
-  function loadVoices(callback) {
-    voices = speechSynthesis.getVoices();
-    if (voices.length > 0) callback();
-    else speechSynthesis.onvoiceschanged = () => { voices = speechSynthesis.getVoices(); callback(); };
-  }
-
-  function speakWord(text) {
-    if (!text) return;
+  function speak(word) {
+    if (!word) return;
+    const utter = new SpeechSynthesisUtterance(word);
+    utter.lang = "en-US";
+    utter.rate = 0.95;
+    utter.voice = voices.find(v => v.lang.startsWith("en")) || voices[0];
     speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'en-US';
-    utterance.rate = 0.95;
-    utterance.pitch = 1.0;
-    const enVoice = voices.find(v => v.lang === 'en-US' && v.name.toLowerCase().includes('female')) 
-                    || voices.find(v => v.lang.startsWith('en')) 
-                    || voices[0];
-    if (enVoice) utterance.voice = enVoice;
-    speechSynthesis.speak(utterance);
+    speechSynthesis.speak(utter);
   }
 
-  loadVoices(() => {
-    document.querySelectorAll(".play-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const word = btn.closest(".word-card").querySelector(".word-english").textContent.trim();
-        speakWord(word);
-      });
-    });
+  /* ===== 発音ボタン（委譲） ===== */
+  document.addEventListener("click", e => {
+    const btn = e.target.closest(".play-btn");
+    if (!btn) return;
+    speak(btn.dataset.word);
   });
+
+  /* ===== 検索機能 ===== */
+  const form = document.querySelector(".vocab-search-form");
+  const input = document.querySelector(".search-input");
+  const results = document.querySelector(".search-results");
+  const seriesList = document.querySelector(".series-list");
+  const status = document.querySelector(".search-status");
+  const keyword = document.querySelector(".search-keyword");
+  const backBtn = document.querySelector(".search-actions .btn-return");
+
+  form.addEventListener("submit", e => e.preventDefault());
+
+  input.addEventListener("input", () => {
+    const q = input.value.trim().toLowerCase();
+    if (!q) {
+      results.hidden = true;
+      status.hidden = true;
+      seriesList.style.display = "";
+      backBtn.parentElement.hidden = true;
+      return;
+    }
+
+    keyword.textContent = q;
+    status.hidden = false;
+    results.hidden = false;
+    seriesList.style.display = "none";
+    backBtn.parentElement.hidden = false;
+
+    results.innerHTML = "";
+    let hit = 0;
+
+    document.querySelectorAll(".word-card").forEach(card => {
+      const en = card.querySelector(".word-english").textContent.toLowerCase();
+      const ja = card.querySelector(".word-japanese").textContent.toLowerCase();
+
+      if (en.includes(q) || ja.includes(q)) {
+        hit++;
+        const clone = card.cloneNode(true);
+        results.appendChild(clone);
+      }
+    });
+
+    if (hit === 0) {
+      results.innerHTML = `<div class="no-result">該当する単語がありません</div>`;
+    }
+  });
+
+  backBtn.addEventListener("click", () => {
+    input.value = "";
+    results.hidden = true;
+    status.hidden = true;
+    seriesList.style.display = "";
+    backBtn.parentElement.hidden = true;
+  });
+
 });
 </script>

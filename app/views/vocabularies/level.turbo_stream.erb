@@ -1,0 +1,6 @@
+<%= turbo_stream.replace "vocab-results" do %>
+  <%= render "vocab_results",
+        vocabularies: @vocabularies,
+        level: @level,
+        q: params[:q] %>
+<% end %>

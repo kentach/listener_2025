@@ -10,6 +10,7 @@ import "swiper/css/scrollbar";
 import "./favorites"
 import "./audio_navigation"
 
+
 document.addEventListener("turbo:load", () => {
 
   // ★ 通常スライダー

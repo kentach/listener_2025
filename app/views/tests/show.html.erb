@@ -1,5 +1,7 @@
-<div id="questions">
-  <% @vocabularies.each_with_index do |vocab, index| %>
+<div id="questions" data-test-id="<%= @test.id %>">
+  <% @questions.each_with_index do |q, index| %>
+    <% vocab = q.vocabulary %>
+
     <div
       class="question-row"
       data-index="<%= index %>"
@@ -7,7 +9,7 @@
       data-english="<%= vocab.english %>"
       style="<%= index == 0 ? '' : 'display:none;' %>">
 
-      <!-- タイマー（最上部） -->
+      <!-- タイマー -->
       <div class="timer-wrapper">
         <span class="timer-label">Time</span>
         <div class="timer-bar">
@@ -15,7 +17,7 @@
         </div>
       </div>
 
-      <!-- 英語カード（タップで再生） -->
+      <!-- 英語カード -->
       <div class="english-card tap-to-play">
         <div class="question-number"><%= index + 1 %></div>
         <div class="question-text"><%= vocab.english %></div>
@@ -31,7 +33,7 @@
       <div class="choices" style="display:none;">
         <% @choices[vocab.id].each do |choice| %>
           <label class="choice-item">
-            <input type="radio" name="q-<%= index %>" value="<%= choice %>">
+            <input type="radio" name="q-<%= q.id %>" value="<%= choice %>">
             <span><%= choice %></span>
           </label>
         <% end %>
@@ -44,31 +46,29 @@
       <button type="button" class="next-btn" style="display:none;">
         次へ ▶
       </button>
-
     </div>
   <% end %>
 </div>
 
-
-
-<!-- =========================
-     CSS
-========================= -->
 <style>
 #questions {
   max-width: 520px;
   margin: 0 auto;
-  padding: 16px;
+  padding: 20px 16px;
 }
 
-/* ===== タイマー ===== */
-.timer-wrapper {
-  margin-bottom: 14px;
+.english-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 28px 20px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  margin-bottom: 18px;
 }
 
-.timer-label {
-  font-size: 12px;
-  color: #666;
+.question-text {
+  font-size: 28px;
+  font-weight: 700;
 }
 
 .timer-bar {
@@ -81,77 +81,17 @@
 .timer-fill {
   height: 100%;
   width: 100%;
-  background: linear-gradient(90deg, #4caf50, #81c784);
+  background: linear-gradient(90deg, #fb7c0d, #ff6600);
   transition: width 1s linear;
 }
 
-/* ===== 英語カード ===== */
-.english-card {
-  background: #fff;
-  border-radius: 20px;
-  padding: 30px 20px;
-  text-align: center;
-  box-shadow: 0 10px 24px rgba(0,0,0,0.15);
-  margin-bottom: 20px;
-  cursor: pointer;
-}
-
-.question-number {
-  font-size: 14px;
-  color: #888;
-  margin-bottom: 8px;
-}
-
-.question-text {
-  font-size: 30px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  line-height: 1.4;
-}
-
-.tap-hint {
-  margin-top: 10px;
-  font-size: 13px;
-  color: #555;
-}
-
-/* ===== ボタン ===== */
-.show-choices-btn {
+.show-choices-btn,
+.choice-item,
+.next-btn {
   width: 100%;
   padding: 14px;
-  margin-bottom: 14px;
-  border-radius: 14px;
-  border: 1px solid #333;
-  background: #fafafa;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-/* ===== 選択肢 ===== */
-.choices {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.choice-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px;
-  border-radius: 14px;
-  border: 1px solid #333;
-  background: #fff;
-  font-size: 16px;
-}
-
-/* ===== 正誤 ===== */
-.result-message {
-  margin-top: 16px;
-  padding: 14px;
   border-radius: 14px;
   font-size: 16px;
-  text-align: center;
 }
 
 .result-correct {
@@ -164,35 +104,62 @@
   color: #c62828;
 }
 
-/* ===== 次へ ===== */
-.next-btn {
-  margin-top: 18px;
-  padding: 14px;
-  width: 100%;
-  border-radius: 14px;
-  background: #f0740f;
-  color: #fff;
-  font-size: 16px;
-  border: none;
+/* 選択肢コンテナ */
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
 }
 
-/* スマホ */
-@media (max-width: 600px) {
-  .question-text {
-    font-size: 26px;
-  }
+/* ラジオは非表示 */
+.choice-item input {
+  display: none;
+}
+
+/* 選択肢カード */
+.choice-item {
+  display: block;
+  padding: 16px;
+  border-radius: 16px;
+  border: 2px solid #ddd;
+  background: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* ホバー（PC） */
+.choice-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}
+
+/* 選択中 */
+.choice-item input:checked + span {
+  display: block;
+  color: #fff;
+  background: #f0740f;
+  padding: 16px;
+  border-radius: 14px;
+}
+
+/* span をブロック化 */
+.choice-item span {
+  display: block;
 }
 
 </style>
 
-<!-- =========================
-     JavaScript
-========================= -->
 <script>
 document.addEventListener("turbo:load", () => {
   const rows = document.querySelectorAll(".question-row");
   const LIMIT = 5;
   let timer;
+  let score = 0;
 
   const speak = (text) => {
     speechSynthesis.cancel();
@@ -210,6 +177,7 @@ document.addEventListener("turbo:load", () => {
     timer = setInterval(() => {
       time--;
       fill.style.width = (time / LIMIT * 100) + "%";
+
       if (time <= 0) {
         clearInterval(timer);
         showWrong(row);
@@ -218,6 +186,7 @@ document.addEventListener("turbo:load", () => {
   };
 
   const showCorrect = (row) => {
+    score++;
     const msg = row.querySelector(".result-message");
     msg.textContent = "⭕ 正解！";
     msg.className = "result-message result-correct";
@@ -230,9 +199,10 @@ document.addEventListener("turbo:load", () => {
     msg.innerHTML = `❌ 不正解<br>正解：${row.dataset.answer}`;
     msg.className = "result-message result-wrong";
     msg.style.display = "block";
+    speak(row.dataset.answer);
+    row.querySelector(".next-btn").style.display = "block";
   };
 
-  // 初回
   if (rows.length > 0) {
     speak(rows[0].dataset.english);
     startTimer(rows[0]);
@@ -240,15 +210,11 @@ document.addEventListener("turbo:load", () => {
 
   rows.forEach((row, index) => {
     const correct = row.dataset.answer;
+    const nextBtn = row.querySelector(".next-btn");
 
-    // 英語カードをタップで再生
-    row.querySelector(".english-card").addEventListener("click", () => {
-      speak(row.dataset.english);
-    });
-
-    row.querySelector(".show-choices-btn").addEventListener("click", e => {
+    row.querySelector(".show-choices-btn").addEventListener("click", () => {
       row.querySelector(".choices").style.display = "flex";
-      e.target.style.display = "none";
+      row.querySelector(".show-choices-btn").style.display = "none";
     });
 
     row.querySelectorAll("input[type=radio]").forEach(input => {
@@ -258,20 +224,20 @@ document.addEventListener("turbo:load", () => {
       });
     });
 
-    row.querySelector(".next-btn").addEventListener("click", () => {
+    nextBtn.addEventListener("click", () => {
       clearInterval(timer);
       row.style.display = "none";
+
       const next = rows[index + 1];
       if (next) {
         next.style.display = "block";
         speak(next.dataset.english);
         startTimer(next);
       } else {
-        alert("テスト終了！");
+        const testId = document.getElementById("questions").dataset.testId;
+        window.location.href = `/tests/${testId}/result?score=${score}&total=${rows.length}`;
       }
     });
   });
 });
-
-
 </script>

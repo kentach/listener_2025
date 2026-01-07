@@ -1,125 +1,42 @@
-<h2 class="test-title">英検 - <%= @test.series %> シリーズ テスト 結果</h2>
+<h2 class="test-title">
+  英検 <%= @test.level %> - <%= @test.series %> テスト結果
+</h2>
+
 <p class="score">
-  正解数: <%= @test.score %> / <%= @test.test_questions.count %> |
-  合格: <%= @test.passed ? "✅ 合格" : "❌ 不合格" %>
+  正解数:
+  <%= @test.score || 0 %> / <%= @test.test_questions.count %>｜
+  <%= @test.passed ? "✅ 合格" : "❌ 不合格（練習モード）" %>
 </p>
 
 <div class="results-container">
-  <% @test.test_questions.includes(:vocabulary).each_with_index do |q, i| %>
-    <% user_answer = q.user_answer || "" %>
-    <% correct_answer = @test.question_language == "english" ? q.vocabulary.japanese : q.vocabulary.english %>
-    <div class="result-card <%= user_answer.strip.downcase == correct_answer.strip.downcase ? 'correct' : 'wrong' %>">
+  <% @questions.each_with_index do |q, i| %>
+    <% vocab = q.vocabulary %>
+
+    <% user_answer = q.user_answer.to_s.strip %>
+    <% correct_answer = vocab.japanese %>
+
+    <% is_correct =
+      q.result == "〇" ||
+      user_answer.casecmp?(correct_answer)
+    %>
+
+    <div class="result-card <%= is_correct ? 'correct' : 'wrong' %>">
       <div class="card-header">
-        <span class="question-number">Q<%= i + 1 %></span>
-        <span class="result-icon"><%= user_answer.strip.downcase == correct_answer.strip.downcase ? "✅" : "❌" %></span>
+        <span>Q<%= i + 1 %></span>
+        <span><%= is_correct ? "⭕" : "❌" %></span>
       </div>
+
       <div class="card-body">
-        <p class="question-text"><strong>問題:</strong> <%= @test.question_language == "english" ? q.vocabulary.english : q.vocabulary.japanese %></p>
-        <p class="user-answer"><strong>あなたの解答:</strong> <%= user_answer.present? ? user_answer : "未回答" %></p>
-        <p class="correct-answer"><strong>正解:</strong> <%= correct_answer %></p>
+        <p><strong>問題:</strong> <%= vocab.english %></p>
+        <p><strong>あなたの解答:</strong> <%= user_answer.presence || "未回答" %></p>
+        <p><strong>正解:</strong> <%= correct_answer %></p>
       </div>
     </div>
   <% end %>
 </div>
 
 <div class="btn-wrapper">
-  <%= link_to "＜単語リストへ戻る", level_vocabularies_path(level: @test.level), class: "btn-retry" %>
+  <%= link_to "＜ 単語リストへ戻る",
+    level_vocabularies_path(level: @test.level),
+    class: "btn-retry" %>
 </div>
-
-<style>
-/* タイトル・スコア */
-.test-title {
-  text-align: center;
-  margin: 20px auto 8px;
-  font-size: 22px;
-  font-weight: bold;
-  color: #111;
-  max-width: 600px;
-}
-.score {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 16px;
-  color: #333;
-}
-
-/* 結果カード全体 */
-.results-container {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  max-width: 600px;
-  margin: 0 auto 40px auto;
-}
-
-/* 個別カード */
-.result-card {
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  border-left: 12px solid #2196F3; /* 左のバーを太く */
-  background-color: #fff;
-  transition: transform 0.1s, box-shadow 0.1s;
-}
-.result-card.correct { border-left-color: #4CAF50; }
-.result-card.wrong { border-left-color: #F44336; }
-.result-card:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 16px;
-  background-color: #e0e0e0; /* 黒をやめて淡いグレー */
-  color: #111; /* 文字を黒に */
-  font-weight: bold;
-  font-size: 16px;
-}
-
-.card-body {
-  padding: 12px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  background-color: #f7f7f7;
-}
-
-.question-text, .user-answer, .correct-answer {
-  margin: 0;
-  font-size: 15px;
-  color: #111;
-}
-
-/* 再挑戦ボタン */
-.btn-wrapper {
-  text-align: center;
-  margin-bottom: 40px;
-}
-.btn-retry {
-  display: inline-block;
-  padding: 12px 28px;
-  font-size: 16px;
-  background-color: #FF9800; /* オレンジに統一 */
-  color: #fff;
-  font-weight: bold;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: background-color 0.2s;
-}
-.btn-retry:hover { background-color: #F57C00; }
-
-/* レスポンシブ対応 */
-@media (max-width: 768px) {
-  .card-body {
-    font-size: 14px;
-  }
-  .card-header {
-    font-size: 15px;
-  }
-  .results-container {
-    gap: 12px;
-  }
-  .test-title {
-    font-size: 20px;
-  }
-}
-</style>

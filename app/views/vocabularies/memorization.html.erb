@@ -2,6 +2,10 @@
   <%= link_to "＜単語リスト", level_vocabularies_path(level: params[:level]), class: "text-dark text-decoration-none" %>
 </div>
 
+<div class="time-wrapper">
+  <div class="time-bar" id="time-bar"></div>
+</div>
+
 <div class="single-card-wrapper">
   <div class="flash-card" id="flash-card">
     <div class="card-inner">
@@ -29,8 +33,15 @@
 </div>
 
 <div class="card-controls">
-  <button id="prev-card" class="btn-prev">前へ</button>
-  <button id="next-card" class="btn-next">次へ</button>
+  <button id="btn-dontknow" class="circle-btn dontknow">
+    <i class="bi bi-hand-thumbs-down-fill"></i>
+    <span>知らない</span>
+  </button>
+
+  <button id="btn-know" class="circle-btn know">
+    <i class="bi bi-hand-thumbs-up-fill"></i>
+    <span>わかる</span>
+  </button>
 </div>
 
 <script>
@@ -38,18 +49,55 @@
 </script>
 
 <style>
-/* カード全体 */
-.single-card-wrapper {
+/* スワイプ中は transition を切る */
+.flash-card.dragging {
+  transition: none;
+}
+
+/* スワイプ方向の背景色 */
+.flash-card.bg-know {
+  background: #E8F5E9;
+}
+
+.flash-card.bg-dontknow {
+  background: #FDECEA;
+}
+
+/* 中のカードも同時に色を変える */
+.flash-card.bg-know .card-face {
+  background: #E8F5E9;
+}
+
+.flash-card.bg-dontknow .card-face {
+  background: #FDECEA;
+}
+
+.time-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 6px;
+  background: #eee;
+  z-index: 200;
+}
+
+.time-bar {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #4CAF50, #FF9800, #E53935);
+  transition: width 1s linear;
+}
+
+
+.single-card-wrapper {
   min-height: 60vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10px;
 }
 
-/* カード本体 */
 .flash-card {
   width: 90%;
   max-width: 360px;
@@ -61,8 +109,8 @@
   width: 100%;
   height: 100%;
   position: relative;
-  transition: transform 0.5s ease;
   transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(.4,.2,.2,1);
 }
 
 .flash-card.is-flipped .card-inner {
@@ -82,92 +130,98 @@
   justify-content: center;
 }
 
-.card-back {
-  transform: rotateY(180deg);
-}
+.card-back { transform: rotateY(180deg); }
 
-/* 英語・日本語 */
-.word-english { font-size: 25px; font-weight: 700; letter-spacing: 0.5px; }
-#word-english-back { font-size: 20px; font-weight: 700; }
-#word-japanese { font-size: 16px; color: #666; margin-top: 14px; }
+.word-english { font-size: 25px; font-weight: 700; }
+.word-japanese { margin-top: 12px; color: #666; }
 
-/* 発音ボタン */
 .play-word-btn {
   position: absolute;
   bottom: 10px;
   right: 10px;
-  width: 32px;
-  height: 32px;
-  font-size: 16px;
   border: none;
   border-radius: 50%;
-  background-color: #2f6df6;
-  color: white;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
-
-/* カード操作ボタン */
-.card-controls {
-  margin-top: 12px;
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-}
-
-.card-controls button {
-  width: 110px;
-  padding: 6px 0;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 600;
-  border: none;
+  width: 32px;
+  height: 32px;
+  background: #2f6df6;
   color: #fff;
-  cursor: pointer;
 }
 
-.btn-prev { background-color: #2f6df6; }
-.btn-next { background-color: #e64545; }
-.card-controls button:active { transform: scale(0.97); }
-
-/* 進捗バー */
 .progress-wrapper {
   width: 90%;
   max-width: 360px;
   height: 20px;
-  background-color: #eee;
+  background: #eee;
   border-radius: 20px;
-  overflow: hidden;
   margin-top: 20px;
+  overflow: hidden;
 }
 
 .progress-bar {
   height: 100%;
-  width: 0%;
-  background-color: #FF9800; /* オレンジ */
+  background: #FF9800;
   color: #fff;
-  font-weight: 600;
-  font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: width 0.3s ease;
+  font-weight: bold;
+  transition: width 0.3s;
 }
 
-/* レスポンシブ */
-@media (max-width: 480px) {
-  .flash-card { max-width: 280px; height: 200px; }
-  .word-english { font-size: 22px; }
-  #word-english-back { font-size: 18px; }
-  #word-japanese { font-size: 14px; }
-  .play-word-btn { width: 28px; height: 28px; font-size: 14px; }
-  .card-controls button { width: 120px; padding: 8px 0; font-size: 16px; border-radius: 24px; }
-  .progress-wrapper { height: 16px; }
-  .progress-bar { font-size: 12px; }
+.card-controls {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 32px;
+  z-index: 100;
 }
+
+.circle-btn {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: none;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+}
+
+.know { background: linear-gradient(135deg,#4CAF50,#43A047); }
+.dontknow { background: linear-gradient(135deg,#E53935,#D32F2F); }
+
+/* スワイプ中 */
+.flash-card.dragging .card-inner {
+  transition: none;
+}
+
+/* 右に飛ぶ（わかる） */
+.flash-card.fly-right {
+  transform: translateX(120%) rotate(12deg);
+  opacity: 0;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+/* 左に飛ぶ（知らない） */
+.flash-card.fly-left {
+  transform: translateX(-120%) rotate(-12deg);
+  opacity: 0;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+.flash-card.bg-know .card-face {
+  background: #E8F5E9;
+}
+
+.flash-card.bg-dontknow .card-face {
+  background: #FDECEA;
+}
+
 </style>
 
 <script>
@@ -179,73 +233,142 @@ document.addEventListener("turbo:load", () => {
   const englishEl = document.getElementById("word-english");
   const englishBackEl = document.getElementById("word-english-back");
   const japaneseEl = document.getElementById("word-japanese");
-  const prevBtn = document.getElementById("prev-card");
-  const nextBtn = document.getElementById("next-card");
   const playBtn = document.getElementById("play-word");
   const playBtnBack = document.getElementById("play-word-back");
   const progressBar = document.getElementById("progress-bar");
+  const timeBar = document.getElementById("time-bar");
+
+  const knownBtn = document.getElementById("btn-know");
+  const unknownBtn = document.getElementById("btn-dontknow");
 
   let current = 0;
-  let voices = [];
+  let unknownWords = [];
 
-  function loadVoices() {
-    voices = speechSynthesis.getVoices();
-  }
+  /* ===== 音声 ===== */
+  let voices = [];
+  function loadVoices() { voices = speechSynthesis.getVoices(); }
   loadVoices();
   speechSynthesis.onvoiceschanged = loadVoices;
 
   function speak(word) {
-    const utterance = new SpeechSynthesisUtterance(word);
-    utterance.lang = "en-US";
-    utterance.rate = 0.95;
-    utterance.pitch = 1.0;
-
-    const voice = voices.find(v => v.lang.startsWith('en') && v.name.toLowerCase().includes('female'))
-                  || voices.find(v => v.lang.startsWith('en'))
-                  || voices[0];
-
-    if (voice) utterance.voice = voice;
+    const u = new SpeechSynthesisUtterance(word);
+    u.lang = "en-US";
+    u.rate = 0.95;
+    u.voice = voices.find(v => v.lang.startsWith("en")) || voices[0];
     speechSynthesis.cancel();
-    speechSynthesis.speak(utterance);
+    speechSynthesis.speak(u);
   }
 
-  function updateProgress(index) {
-    const total = vocabularies.length;
-    const percent = Math.round(((index + 1) / total) * 100);
+  /* ===== タイマー ===== */
+  const TIME_LIMIT = 8;
+  let timerInterval;
+
+  function startTimer() {
+    clearInterval(timerInterval);
+    let timeLeft = TIME_LIMIT;
+    timeBar.style.width = "100%";
+
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      timeBar.style.width = (timeLeft / TIME_LIMIT) * 100 + "%";
+
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        swipeResult("left");
+      }
+    }, 1000);
+  }
+
+  /* ===== 表示 ===== */
+  function updateProgress() {
+    const percent = Math.round(((current + 1) / vocabularies.length) * 100);
     progressBar.style.width = percent + "%";
     progressBar.textContent = percent + "%";
   }
 
-  function renderCard(index) {
-    if (index >= vocabularies.length) {
+  function renderCard() {
+    if (current >= vocabularies.length) {
+      localStorage.setItem("unknownWords", JSON.stringify(unknownWords));
       window.location.href = "<%= clear_vocabularies_path(level: params[:level]) %>";
       return;
     }
 
-    const word = vocabularies[index];
+    const word = vocabularies[current];
     englishEl.textContent = word.english;
     englishBackEl.textContent = word.english;
     japaneseEl.textContent = word.japanese;
-    card.classList.remove("is-flipped");
+
+    card.className = "flash-card";
+    card.style.transform = "";
 
     speak(word.english);
-    updateProgress(index);
+    updateProgress();
+    startTimer();
   }
 
-  renderCard(current);
+  renderCard();
 
-  card.addEventListener("click", () => card.classList.toggle("is-flipped"));
-
-  prevBtn.addEventListener("click", () => {
-    if (current > 0) renderCard(--current);
+  /* ===== クリック ===== */
+  card.addEventListener("click", () => {
+    card.classList.toggle("is-flipped");
   });
 
-  nextBtn.addEventListener("click", () => {
-    current++;
-    renderCard(current);
+  playBtn.onclick = e => { e.stopPropagation(); speak(englishEl.textContent); };
+  playBtnBack.onclick = e => { e.stopPropagation(); speak(englishBackEl.textContent); };
+
+  knownBtn.onclick = () => swipeResult("right");
+  unknownBtn.onclick = () => swipeResult("left");
+
+  /* ===== スワイプ ===== */
+  let startX = 0;
+  let currentX = 0;
+  let dragging = false;
+
+  card.addEventListener("touchstart", e => {
+    startX = e.touches[0].clientX;
+    dragging = true;
+    card.classList.add("dragging");
   });
 
-  playBtn.addEventListener("click", () => speak(englishEl.textContent));
-  playBtnBack.addEventListener("click", () => speak(englishBackEl.textContent));
+  card.addEventListener("touchmove", e => {
+    if (!dragging) return;
+
+    currentX = e.touches[0].clientX - startX;
+
+    card.style.transform =
+      `translateX(${currentX}px) rotate(${currentX / 15}deg)`;
+
+    card.classList.remove("bg-know", "bg-dontknow");
+    if (currentX > 40) card.classList.add("bg-know");
+    if (currentX < -40) card.classList.add("bg-dontknow");
+  });
+
+  card.addEventListener("touchend", () => {
+    dragging = false;
+    card.classList.remove("dragging", "bg-know", "bg-dontknow");
+
+    if (Math.abs(currentX) > 80) {
+      swipeResult(currentX > 0 ? "right" : "left");
+    } else {
+      card.style.transform = "";
+    }
+    currentX = 0;
+  });
+
+  function swipeResult(direction) {
+    clearInterval(timerInterval);
+
+    if (direction === "right") {
+      card.classList.add("fly-right");
+    } else {
+      card.classList.add("fly-left");
+      unknownWords.push(vocabularies[current]);
+    }
+
+    setTimeout(() => {
+      current++;
+      renderCard();
+    }, 300);
+  }
 });
 </script>

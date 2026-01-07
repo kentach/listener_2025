@@ -34,16 +34,14 @@ class TestsController < ApplicationController
 def show
   @test = Test.find(params[:id])
 
-  @vocabularies = Vocabulary
-    .where(level: @test.level, series: @test.series)
-    .where(number: @test.range_start..@test.range_end)
-    .order("RANDOM()")
-    .limit(10)
+  @questions = @test.test_questions
+    .includes(:vocabulary)
+    .order(:position)
 
-  # 4択用の選択肢
   @choices = {}
 
-  @vocabularies.each do |vocab|
+  @questions.each do |q|
+    vocab = q.vocabulary
     correct = vocab.japanese
 
     wrongs = Vocabulary
@@ -67,13 +65,14 @@ def submit
     user_answer = answers[q.id.to_s]&.strip || ""
     q.user_answer = user_answer
 
-    # 正解を言語に応じて取得
-    correct_answer = @test.question_language == "english" ? q.vocabulary.japanese : q.vocabulary.english
+    correct_answer =
+      @test.question_language == "english" ?
+      q.vocabulary.japanese :
+      q.vocabulary.english
 
-    # 判定
     q.result = grade_answer(user_answer, correct_answer)
     correct_count += 1 if q.result == "〇"
-    q.save
+    q.save!
   end
 
   @test.score = correct_count
@@ -84,9 +83,10 @@ def submit
 end
 
 
+
   # 結果表示
   def result
-    @questions = @test.test_questions.includes(:vocabulary).order(:position)
+    @questions = @test.test_questions.includes(:vocabulary)
   end
 
   require 'amatch'
@@ -97,21 +97,17 @@ end
     @test = Test.find(params[:id])
   end
 
- def grade_answer(user_answer, correct_answers_string)
-  user_answer = user_answer.strip.downcase
-  correct_answers = correct_answers_string.split(",").map(&:strip).map(&:downcase)
+  def grade_answer(user_answer, correct_answer)
+    user_answer = user_answer.strip.downcase
+    correct_answer = correct_answer.strip.downcase
 
-  # 完全一致
-  return "〇" if correct_answers.include?(user_answer)
+    return "〇" if user_answer == correct_answer
 
-  # 少し間違っている場合（Levenshtein距離2文字以内）
-  correct_answers.each do |ans|
-    distance = Amatch::Levenshtein.new(ans).match(user_answer)
+    # Levenshtein距離2文字以内なら「惜しい」
+    distance = Amatch::Levenshtein.new(correct_answer).match(user_answer)
     return "△" if distance <= 2
+
+    # それ以外は✖︎
+    "✖︎"
   end
-
-  # それ以外は✖︎
-  "✖︎"
-end
-
 end

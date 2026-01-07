@@ -1,128 +1,245 @@
 <div class="clear-container">
   <h1>🎉 おめでとう！ 🎉</h1>
-  <p>単語の暗記を完了しました！</p>
+  <p class="clear-text">単語の暗記を完了しました！</p>
 
-  <!-- モチベーションコメント -->
-  <p class="congrats-message">素晴らしい！あなたの努力が確実に力になっています💪</p>
-  <p class="congrats-message">次のステップも、この勢いで挑戦してみましょう！🚀</p>
+  <p class="congrats-message">素晴らしい！あなたの努力が確実に力になっています</p>
+  <p class="congrats-message">次のステップも、この勢いで挑戦してみましょう！</p>
 
-  <!-- 進捗バー -->
   <div class="progress-wrapper">
     <div class="progress-bar" id="progress-bar">0%</div>
   </div>
-  
-  <!-- 単語リストに戻るボタン -->
-  <%= link_to "単語リストに戻る", level_vocabularies_path(level: params[:level]), 
-              class: "btn-return" %>
+</div>
+
+<!-- 学習結果 -->
+<div id="learned-section" class="learned-section" style="display:none;">
+  <h2 class="learned-title known">✅ 知っている単語</h2>
+  <div class="word-list" id="known-cards"></div>
+
+  <h2 class="learned-title unknown">❗ 知らない単語</h2>
+  <div class="word-list" id="unknown-cards"></div>
+</div>
+
+<!-- 戻るボタン -->
+<div class="back-btn-wrapper">
+  <%= link_to "単語リストに戻る",
+    level_vocabularies_path(level: params[:level]),
+    class: "back-btn" %>
+</div>
 
 <%= render "shared/navigation_tab" %>
 
 <style>
+/* ===== クリア画面 ===== */
 .clear-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   text-align: center;
-  padding: 60px 20px;
-  min-height: 70vh;
+  padding: 48px 16px 24px;
 }
 
 .clear-container h1 {
-  font-size: 48px;
+  font-size: 36px;
   color: #4CAF50;
-  margin-bottom: 20px;
 }
 
-.clear-container p {
-  font-size: 24px;
-  color: #555;
-  margin-bottom: 20px;
+.clear-text {
+  font-size: 18px;
+  margin-bottom: 10px;
 }
 
-/* モチベーションコメント */
 .congrats-message {
-  font-size: 20px;
-  color: #FF9800;
-  margin-bottom: 12px;
+  font-size: 16px;
+  color: #000;
   font-weight: 600;
-  animation: fadeIn 1s ease forwards;
 }
 
-@keyframes fadeIn {
-  0% { opacity: 0; transform: translateY(-10px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-/* 進捗バー */
+/* ===== 進捗バー ===== */
 .progress-wrapper {
+  margin: 24px auto 0;
   width: 80%;
-  max-width: 400px;
-  background-color: #eeeeeeff;
+  max-width: 360px;
+  height: 26px;
+  background: #eee;
   border-radius: 20px;
   overflow: hidden;
-  margin-bottom: 40px;
-  height: 28px;
 }
 
 .progress-bar {
   height: 100%;
-  background-color: #fcbd00ff;
-  color: white;
-  font-weight: 600;
+  width: 0%;
+  background: #fbc02d;
+  color: #fff;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.2s;
+}
+
+/* ===== 学習結果 ===== */
+.learned-section {
+  padding: 24px 16px 120px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.learned-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 28px 0 12px;
+}
+
+.learned-title.known { color: #2e7d32; }
+.learned-title.unknown { color: #c62828; }
+
+/* ===== 縦リスト ===== */
+.word-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.word-row {
+  background: #fff;
+  border-radius: 14px;
+  padding: 14px 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.word-info .en {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.word-info .jp {
+  font-size: 14px;
+  color: #666;
+}
+
+/* ===== ボタン ===== */
+.word-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.word-actions button {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 18px;
-  width: 0%;
-  transition: width 0.2s linear;
+  color: #fff;
 }
 
-/* ボタン共通 */
-.clear-container a {
-  display: inline-block;
-  padding: 14px 28px;
-  border-radius: 28px;
-  font-size: 18px;
-  font-weight: 600;
-  color: white;
-  text-decoration: none;
-  margin-bottom: 16px;
-  width: 220px; 
+.btn-audio { background: #2f6df6; }
+.btn-save { background: #ff9800; }
+
+/* ===== 戻るボタン ===== */
+.back-btn-wrapper {
+  position: fixed;
+  bottom: 64px;
+  left: 0;
+  width: 100%;
+  padding: 12px 16px;
+  background: linear-gradient(to top, rgba(255,255,255,0.95), rgba(255,255,255,0));
+  z-index: 20;
+}
+
+.back-btn {
+  display: block;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 14px 0;
+  background: #ef9311ff;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 999px;
   text-align: center;
-  transition: background-color 0.2s;
-}
-
-.btn-return { background-color: #2f6df6; }
-.btn-return:hover { background-color: #1e4ed8; }
-
-.btn-repeat { background-color: #ef7c10ff; }
-.btn-repeat:hover { background-color: #e3831cc4; }
-
-/* レスポンシブ対応 */
-@media (max-width: 480px) {
-  .clear-container h1 { font-size: 36px; }
-  .clear-container p { font-size: 20px; }
-  .progress-wrapper { height: 24px; }
-  .progress-bar { font-size: 16px; }
-  .clear-container a { padding: 12px 20px; font-size: 16px; width: 180px; }
+  text-decoration: none;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.18);
 }
 </style>
-
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const progressBar = document.getElementById("progress-bar");
-  let progress = 0; // 初期値0%
+document.addEventListener("turbo:load", () => {
 
-  // カウントアップ式アニメーション
-  const interval = setInterval(() => {
-    if (progress >= 100) {
-      clearInterval(interval); // 100%で止める
-    } else {
-      progress++;
-      progressBar.style.width = progress + "%";
-      progressBar.textContent = progress + "%";
+  /* ===== 進捗バー ===== */
+  const bar = document.getElementById("progress-bar");
+  let p = 0;
+  const timer = setInterval(() => {
+    p++;
+    bar.style.width = p + "%";
+    bar.textContent = p + "%";
+    if (p >= 100) clearInterval(timer);
+  }, 15);
+
+  /* ===== 音声 ===== */
+  let voices = [];
+  function loadVoices() { voices = speechSynthesis.getVoices(); }
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+
+  function speak(text) {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "en-US";
+    u.rate = 0.95;
+    u.voice = voices.find(v => v.lang.startsWith("en")) || voices[0];
+    speechSynthesis.cancel();
+    speechSynthesis.speak(u);
+  }
+
+  /* ===== データ ===== */
+  const knownWords   = JSON.parse(localStorage.getItem("knownWords") || "[]");
+  const unknownWords = JSON.parse(localStorage.getItem("unknownWords") || "[]");
+
+  if (knownWords.length === 0 && unknownWords.length === 0) return;
+  document.getElementById("learned-section").style.display = "block";
+
+  const knownBox   = document.getElementById("known-cards");
+  const unknownBox = document.getElementById("unknown-cards");
+
+  function render(word, box, saveable) {
+    const row = document.createElement("div");
+    row.className = "word-row";
+    row.innerHTML = `
+      <div class="word-info">
+        <div class="en">${word.english}</div>
+        <div class="jp">${word.japanese}</div>
+      </div>
+      <div class="word-actions">
+        <button class="btn-audio"><i class="bi bi-volume-up"></i></button>
+        ${saveable ? `<button class="btn-save"><i class="bi bi-bookmark-star"></i></button>` : ""}
+      </div>
+    `;
+
+    row.querySelector(".btn-audio").onclick = () => speak(word.english);
+
+    if (saveable) {
+      row.querySelector(".btn-save").onclick = () => {
+        const weak = JSON.parse(localStorage.getItem("weakWords") || "[]");
+        if (!weak.some(w => w.english === word.english)) {
+          weak.push(word);
+          localStorage.setItem("weakWords", JSON.stringify(weak));
+          alert("苦手単語に保存しました");
+        }
+      };
     }
-  }, 15); // 1%ごとに15msずつ更新 → 約1.5秒で100%に
+
+    box.appendChild(row);
+  }
+
+  if (knownWords.length === 0)
+    document.querySelector(".learned-title.known").style.display = "none";
+  else knownWords.forEach(w => render(w, knownBox));
+
+  if (unknownWords.length === 0)
+    document.querySelector(".learned-title.unknown").style.display = "none";
+  else unknownWords.forEach(w => render(w, unknownBox, true));
+
+  localStorage.removeItem("knownWords");
+  localStorage.removeItem("unknownWords");
 });
 </script>
