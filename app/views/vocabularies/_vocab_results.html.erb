@@ -1,0 +1,50 @@
+<% if q.present? %>
+  <!-- 🔍 検索結果：フラット表示 -->
+  <% if vocabularies.any? %>
+    <% vocabularies.each do |word| %>
+      <div class="word-card">
+        <div class="word-info">
+          <span class="word-number"><%= word.number %>.</span>
+          <span class="word-english"><%= highlight(word.english, q) %></span>
+          <span class="word-japanese"><%= highlight(word.japanese, q) %></span>
+        </div>
+        <button class="play-btn">🔊</button>
+      </div>
+    <% end %>
+  <% else %>
+    <p class="no-result">該当する単語がありません</p>
+  <% end %>
+
+<% else %>
+  <!-- 📚 通常表示：シリーズ別 -->
+  <% vocabularies.group_by(&:series).each do |series, words| %>
+    <div class="series-block">
+      <div class="series-header"
+           onclick="this.nextElementSibling.classList.toggle('open');
+                    this.querySelector('.toggle-icon').textContent =
+                    this.nextElementSibling.classList.contains('open') ? '−' : '+';">
+        <span><%= series %>（<%= words.count %>語）</span>
+        <span class="toggle-icon">+</span>
+      </div>
+
+      <div class="series-words">
+        <div class="series-actions">
+          <%= link_to "暗記を始める",
+              memorization_vocabularies_path(level: level, series: series),
+              class: "btn-action btn-memo" %>
+        </div>
+
+        <% words.each do |word| %>
+          <div class="word-card">
+            <div class="word-info">
+              <span class="word-number"><%= word.number %>.</span>
+              <span class="word-english"><%= word.english %></span>
+              <span class="word-japanese"><%= word.japanese %></span>
+            </div>
+            <button class="play-btn">🔊</button>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

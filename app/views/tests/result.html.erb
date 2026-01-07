@@ -1,42 +1,180 @@
-<h2 class="test-title">
-  英検 <%= @test.level %> - <%= @test.series %> テスト結果
-</h2>
+<h2 class="test-title">単語テスト結果</h2>
 
-<p class="score">
-  正解数:
-  <%= @test.score || 0 %> / <%= @test.test_questions.count %>｜
-  <%= @test.passed ? "✅ 合格" : "❌ 不合格（練習モード）" %>
-</p>
-
-<div class="results-container">
-  <% @questions.each_with_index do |q, i| %>
-    <% vocab = q.vocabulary %>
-
-    <% user_answer = q.user_answer.to_s.strip %>
-    <% correct_answer = vocab.japanese %>
-
-    <% is_correct =
-      q.result == "〇" ||
-      user_answer.casecmp?(correct_answer)
-    %>
-
-    <div class="result-card <%= is_correct ? 'correct' : 'wrong' %>">
-      <div class="card-header">
-        <span>Q<%= i + 1 %></span>
-        <span><%= is_correct ? "⭕" : "❌" %></span>
-      </div>
-
-      <div class="card-body">
-        <p><strong>問題:</strong> <%= vocab.english %></p>
-        <p><strong>あなたの解答:</strong> <%= user_answer.presence || "未回答" %></p>
-        <p><strong>正解:</strong> <%= correct_answer %></p>
-      </div>
-    </div>
-  <% end %>
+<div class="score-card">
+  <p id="score" class="score-text"></p>
+  <div class="score-bar-wrapper">
+    <div class="score-bar-fill" id="score-bar"></div>
+  </div>
 </div>
+
+<div class="results-container" id="results-container"></div>
 
 <div class="btn-wrapper">
-  <%= link_to "＜ 単語リストへ戻る",
-    level_vocabularies_path(level: @test.level),
-    class: "btn-retry" %>
+  <a href="<%= level_vocabularies_path(level: @test.level) %>" class="btn-retry">＜ 単語リストへ戻る</a>
 </div>
+
+<script>
+document.addEventListener("turbo:load", () => {
+  const results = JSON.parse(localStorage.getItem("testResults") || "[]");
+  const container = document.getElementById("results-container");
+  const scoreEl = document.getElementById("score");
+  const scoreBar = document.getElementById("score-bar");
+
+  let correctCount = 0;
+
+  results.forEach((r, i) => {
+    if(r.correct) correctCount++;
+
+    const div = document.createElement("div");
+    div.className = "result-card " + (r.correct ? "correct" : "wrong");
+
+    div.innerHTML = `
+      <div class="card-header">
+        <span>Q${i+1}</span>
+        <span>${r.correct ? "⭕" : "❌"}</span>
+      </div>
+      <div class="card-body">
+        <p><strong>問題:</strong> ${r.english}</p>
+        <p><strong>あなたの解答:</strong> ${r.userAnswer || "未回答"}</p>
+        <p><strong>正解:</strong> ${r.japanese}</p>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+
+  // スコア計算
+  const total = results.length;
+  const rate = total > 0 ? Math.round((correctCount / total) * 100) : 0;
+  scoreEl.textContent = `正解数: ${correctCount} / ${total}｜${rate >= 60 ? "✅ 合格" : "❌ 不合格（練習モード）"}`;
+  scoreBar.style.width = rate + "%";
+});
+</script>
+
+<style>
+/* 全体の余白調整 */
+body {
+  padding: 20px;
+  box-sizing: border-box;
+  background: #f5f5f5;
+  font-family: sans-serif;
+}
+
+/* タイトル */
+.test-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+/* スコアカード */
+.score-card {
+  max-width: 95%;
+  width: 400px;
+  margin: 0 auto 20px auto;
+  background: #fff;
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+  text-align: center;
+}
+
+.score-text {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.score-bar-wrapper {
+  width: 100%;
+  height: 10px;
+  background: #eee;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.score-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #66bb6a, #f57f17, #ef5350);
+  width: 0;
+  transition: width 0.6s ease;
+}
+
+/* 結果カード */
+.results-container {
+  max-width: 95%;
+  width: 400px;
+  margin: 0 auto;
+}
+
+.result-card {
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  text-align: left;
+  transition: all 0.3s ease;
+}
+
+.result-card.correct {
+  border-left: 6px solid #66bb6a;
+  background: #e8f5e9;
+}
+
+.result-card.wrong {
+  border-left: 6px solid #ef5350;
+  background: #ffebee;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.card-body p {
+  margin: 2px 0;
+  font-size: 13px;
+}
+
+/* ボタン */
+.btn-wrapper {
+  max-width: 95%;
+  width: 400px;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.btn-retry {
+  display: inline-block;
+  padding: 12px 20px;
+  background: #2f6df6;
+  color: #fff;
+  border-radius: 16px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* スマホ対応 */
+@media screen and (max-width: 400px) {
+  .score-card,
+  .results-container,
+  .btn-wrapper {
+    max-width: 95%;
+  }
+
+  .score-text {
+    font-size: 14px;
+  }
+
+  .card-body p {
+    font-size: 12px;
+  }
+
+  .btn-retry {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+}
+</style>

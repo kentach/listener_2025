@@ -9,19 +9,18 @@
       data-english="<%= vocab.english %>"
       style="<%= index == 0 ? '' : 'display:none;' %>">
 
+      <!-- 英語カード -->
+      <div class="english-card tap-to-play">
+        <div class="question-number">Q<%= index + 1 %></div>
+        <div class="question-text"><%= vocab.english %></div>
+        <div class="tap-hint">🔊 タップしてもう一度聞く</div>
+      </div>
+
       <!-- タイマー -->
       <div class="timer-wrapper">
-        <span class="timer-label">Time</span>
         <div class="timer-bar">
           <div class="timer-fill"></div>
         </div>
-      </div>
-
-      <!-- 英語カード -->
-      <div class="english-card tap-to-play">
-        <div class="question-number"><%= index + 1 %></div>
-        <div class="question-text"><%= vocab.english %></div>
-        <div class="tap-hint">🔊 タップしてもう一度聞く</div>
       </div>
 
       <!-- 意味表示 -->
@@ -39,36 +38,42 @@
         <% end %>
       </div>
 
-      <!-- 正誤 -->
+      <!-- 正誤メッセージ -->
       <div class="result-message" style="display:none;"></div>
-
-      <!-- 次へ -->
-      <button type="button" class="next-btn" style="display:none;">
-        次へ ▶
-      </button>
     </div>
   <% end %>
 </div>
 
 <style>
 #questions {
-  max-width: 520px;
+  max-width: 480px;
   margin: 0 auto;
-  padding: 20px 16px;
+  padding: 16px;
 }
 
 .english-card {
   background: #fff;
-  border-radius: 18px;
-  padding: 28px 20px;
+  border-radius: 16px;
+  padding: 24px 16px;
   text-align: center;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-  margin-bottom: 18px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+  margin-bottom: 12px;
+  transition: background 0.5s ease;
 }
 
 .question-text {
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 700;
+}
+
+.tap-hint {
+  font-size: 14px;
+  color: #555;
+  margin-top: 8px;
+}
+
+.timer-wrapper {
+  margin: 8px 0 16px;
 }
 
 .timer-bar {
@@ -86,70 +91,67 @@
 }
 
 .show-choices-btn,
-.choice-item,
-.next-btn {
+.choice-item {
   width: 100%;
-  padding: 14px;
+  padding: 12px;
   border-radius: 14px;
   font-size: 16px;
+  margin-top: 8px;
 }
 
-.result-correct {
-  background: #e8f5e9;
-  color: #2e7d32;
-}
-
-.result-wrong {
-  background: #ffebee;
-  color: #c62828;
-}
-
-/* 選択肢コンテナ */
 .choices {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-top: 12px;
+  gap: 8px;
 }
 
-/* ラジオは非表示 */
 .choice-item input {
   display: none;
 }
 
-/* 選択肢カード */
 .choice-item {
-  display: block;
-  padding: 16px;
-  border-radius: 16px;
+  background: #fff;
   border: 2px solid #ddd;
-  background: #ffffff;
-  font-size: 16px;
   font-weight: 600;
   text-align: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-/* ホバー（PC） */
 .choice-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.12);
 }
 
-/* 選択中 */
 .choice-item input:checked + span {
   display: block;
   color: #fff;
   background: #f0740f;
-  padding: 16px;
-  border-radius: 14px;
+  padding: 12px;
+  border-radius: 12px;
 }
 
-/* span をブロック化 */
-.choice-item span {
-  display: block;
+.result-message {
+  margin-top: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.result-correct {
+  color: #2e7d32;
+}
+
+.result-wrong {
+  color: #c62828;
+}
+
+.timer-fill {
+  height: 6px;
+  width: 100%;
+  background: #66bb6a; /* 初期は緑 */
+  transition: width 1s linear, background 0.5s linear;
 }
 
 </style>
@@ -157,11 +159,11 @@
 <script>
 document.addEventListener("turbo:load", () => {
   const rows = document.querySelectorAll(".question-row");
-  const LIMIT = 5;
+  const LIMIT = 10; // 秒数
   let timer;
-  let score = 0;
+  let results = [];
 
-  const speak = (text) => {
+  const speak = text => {
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
     u.lang = "en-US";
@@ -169,48 +171,74 @@ document.addEventListener("turbo:load", () => {
     speechSynthesis.speak(u);
   };
 
-  const startTimer = (row) => {
-    let time = LIMIT;
-    const fill = row.querySelector(".timer-fill");
-    fill.style.width = "100%";
-
-    timer = setInterval(() => {
-      time--;
-      fill.style.width = (time / LIMIT * 100) + "%";
-
-      if (time <= 0) {
-        clearInterval(timer);
-        showWrong(row);
-      }
-    }, 1000);
-  };
-
-  const showCorrect = (row) => {
-    score++;
+  const markCorrect = row => {
+    row.querySelector(".english-card").style.background = "#e8f5e9"; // 緑
     const msg = row.querySelector(".result-message");
     msg.textContent = "⭕ 正解！";
     msg.className = "result-message result-correct";
     msg.style.display = "block";
-    row.querySelector(".next-btn").style.display = "block";
+    results[row.dataset.index] = { english: row.dataset.english, japanese: row.dataset.answer, correct: true };
   };
 
-  const showWrong = (row) => {
+  const markWrong = row => {
+    row.querySelector(".english-card").style.background = "#ffebee"; // 赤
     const msg = row.querySelector(".result-message");
     msg.innerHTML = `❌ 不正解<br>正解：${row.dataset.answer}`;
     msg.className = "result-message result-wrong";
     msg.style.display = "block";
     speak(row.dataset.answer);
-    row.querySelector(".next-btn").style.display = "block";
+    results[row.dataset.index] = { english: row.dataset.english, japanese: row.dataset.answer, correct: false };
   };
 
-  if (rows.length > 0) {
-    speak(rows[0].dataset.english);
-    startTimer(rows[0]);
-  }
+  const nextQuestion = row => {
+    clearInterval(timer);
+    row.style.display = "none";
+    row.querySelector(".english-card").style.background = "#fff"; // リセット
+    const index = parseInt(row.dataset.index);
+    const next = rows[index + 1];
+    if (next) {
+      next.style.display = "block";
+      speak(next.dataset.english);
+      startTimer(next);
+    } else {
+      localStorage.setItem("testResults", JSON.stringify(results));
+      const testId = document.getElementById("questions").dataset.testId;
+      window.location.href = `/tests/${testId}/result`;
+    }
+  };
 
-  rows.forEach((row, index) => {
+ const startTimer = row => {
+  let time = LIMIT;
+  const fill = row.querySelector(".timer-fill");
+  fill.style.width = "100%";
+
+  timer = setInterval(() => {
+    time--;
+    fill.style.width = (time / LIMIT * 100) + "%";
+
+    // 色を残り時間に応じて変更（緑→黄→赤）
+    const ratio = time / LIMIT;
+    if (ratio > 0.6) {
+      fill.style.background = "#66bb6a"; // 緑
+    } else if (ratio > 0.3) {
+      fill.style.background = "#ffeb3b"; // 黄
+    } else {
+      fill.style.background = "#ef5350"; // 赤
+    }
+
+    if (time <= 0) {
+      clearInterval(timer);
+      markWrong(row);
+      setTimeout(() => nextQuestion(row), 700); // タイムアウト後0.7秒で次へ
+    }
+  }, 1000);
+};
+
+
+  if (rows.length > 0) startTimer(rows[0]);
+
+  rows.forEach(row => {
     const correct = row.dataset.answer;
-    const nextBtn = row.querySelector(".next-btn");
 
     row.querySelector(".show-choices-btn").addEventListener("click", () => {
       row.querySelector(".choices").style.display = "flex";
@@ -220,23 +248,13 @@ document.addEventListener("turbo:load", () => {
     row.querySelectorAll("input[type=radio]").forEach(input => {
       input.addEventListener("change", () => {
         clearInterval(timer);
-        input.value === correct ? showCorrect(row) : showWrong(row);
+        input.value === correct ? markCorrect(row) : markWrong(row);
+        setTimeout(() => nextQuestion(row), 700); // 選択後0.7秒で次へ
       });
     });
 
-    nextBtn.addEventListener("click", () => {
-      clearInterval(timer);
-      row.style.display = "none";
-
-      const next = rows[index + 1];
-      if (next) {
-        next.style.display = "block";
-        speak(next.dataset.english);
-        startTimer(next);
-      } else {
-        const testId = document.getElementById("questions").dataset.testId;
-        window.location.href = `/tests/${testId}/result?score=${score}&total=${rows.length}`;
-      }
+    row.querySelector(".english-card").addEventListener("click", () => {
+      speak(row.dataset.english);
     });
   });
 });
