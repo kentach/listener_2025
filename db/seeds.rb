@@ -2281,7 +2281,7 @@ rhythm_data6 = [
     { series: "リスニング問題にチャレンジ", title: "Unit41 リスニング問題にチャレンジ", audio_files: ["英検準1級Unit41リスニング問題にチャレンジ.mp3"]},
     { series: "リスニング問題にチャレンジ", title: "Unit42 リスニング問題にチャレンジ", audio_files: ["英検準1級Unit42リスニング問題にチャレンジ.mp3"]},
     { series: "リスニング問題にチャレンジ", title: "Unit43 リスニング問題にチャレンジ", audio_files: ["英検準1級Unit43リスニング問題にチャレンジ.mp3"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit44 リスニング問題にチャレンジ", audio_files: ["英検準1級Unit44リスニング問題にチャレンジ.mp3"]}
+    { series: "リスニング問題にチャレンジ", title: "Unit44 リスニング問題にチャレンジ", audio_files: ["英検準1級Unit44リスニング問題にチャレンジ.mp3"]},
     { series: "リスニング問題にチャレンジ", title: "Unit45 リスニング問題にチャレンジ", audio_files: ["英検準1級Unit45リスニング問題にチャレンジ.mp3"]}
 ]
 create_chapters_for("リズムでマスター英検準1級", rhythm_data6)
