@@ -1942,7 +1942,7 @@ rhythm_data2 = [
     { series: "リスニング問題にチャレンジ", title: "Unit18 リスニング問題にチャレンジ", audio_files: ["Unit18リスニング問題にチャレンジ.mp3"]},
     { series: "リスニング問題にチャレンジ", title: "Unit19 リスニング問題にチャレンジ", audio_files: ["Unit19リスニング問題にチャレンジ.mp3"]},
     { series: "リスニング問題にチャレンジ", title: "Unit20 リスニング問題にチャレンジ", audio_files: ["Unit20リスニング問題にチャレンジ.mp3"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit21 リスニング問題にチャレンジ", audio_files: ["Unit21リスニング問題にチャレンジ.mp3"]}
+    { series: "リスニング問題にチャレンジ", title: "Unit21 リスニング問題にチャレンジ", audio_files: ["Unit21リスニング問題にチャレンジ.mp3"]},
     { series: "リスニング問題にチャレンジ", title: "Unit22 リスニング問題にチャレンジ", audio_files: ["Unit22リスニング問題にチャレンジ.mp3"]},
     { series: "リスニング問題にチャレンジ", title: "Unit23 リスニング問題にチャレンジ", audio_files: ["Unit23リスニング問題にチャレンジ.mp3"]},
     { series: "リスニング問題にチャレンジ", title: "Unit24 リスニング問題にチャレンジ", audio_files: ["Unit24リスニング問題にチャレンジ.mp3"]},
@@ -2004,19 +2004,19 @@ rhythm_data3 = [
     { series: "リスニング問題にチャレンジ", title: "Unit13 リスニング問題にチャレンジ", audio_files: ["英検3級Unit13リスニング問題にチャレンジ.mp3"]},
     { series: "リスニング問題にチャレンジ", title: "Unit14 リスニング問題にチャレンジ", audio_files: ["英検3級Unit14リスニング問題にチャレンジ.mp3"]},
     { series: "リスニング問題にチャレンジ", title: "Unit15 リスニング問題にチャレンジ", audio_files: ["英検3級Unit15リスニング問題にチャレンジ.mp3"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit16 リスニング問題にチャレンジ", audio_files: ["英検3級Unit16リスニング問題にチャレンジ.mp3"]}
+    { series: "リスニング問題にチャレンジ", title: "Unit16 リスニング問題にチャレンジ", audio_files: ["英検3級Unit16リスニング問題にチャレンジ.mp3"]},
     { series: "リスニング問題にチャレンジ", title: "Unit17 リスニング問題にチャレンジ", audio_files: ["英検3級Unit17リスニング問題にチャレンジ.mp3"]},
     { series: "リスニング問題にチャレンジ", title: "Unit18 リスニング問題にチャレンジ", audio_files: ["英検3級Unit18リスニング問題にチャレンジ.mp3"]},
     { series: "リスニング問題にチャレンジ", title: "Unit19 リスニング問題にチャレンジ", audio_files: ["英検3級Unit19リスニング問題にチャレンジ.mp3"]},
     { series: "リスニング問題にチャレンジ", title: "Unit20 リスニング問題にチャレンジ", audio_files: ["英検3級Unit20リスニング問題にチャレンジ.mp3"]},
     { series: "リスニング問題にチャレンジ", title: "Unit21 リスニング問題にチャレンジ", audio_files: ["英検3級Unit21リスニング問題にチャレンジ.mp3"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit22 リスニング問題にチャレンジ", audio_files: ["英検3級Unit22リスニング問題にチャレンジ.mp3"]}
+    { series: "リスニング問題にチャレンジ", title: "Unit22 リスニング問題にチャレンジ", audio_files: ["英検3級Unit22リスニング問題にチャレンジ.mp3"]},
     { series: "リスニング問題にチャレンジ", title: "Unit23 リスニング問題にチャレンジ", audio_files: ["英検3級Unit23リスニング問題にチャレンジ.mp3"]},
     { series: "リスニング問題にチャレンジ", title: "Unit24 リスニング問題にチャレンジ", audio_files: ["英検3級Unit24リスニング問題にチャレンジ.mp3"]},
     { series: "リスニング問題にチャレンジ", title: "Unit25 リスニング問題にチャレンジ", audio_files: ["英検3級Unit25リスニング問題にチャレンジ.mp3"]},
     { series: "リスニング問題にチャレンジ", title: "Unit26 リスニング問題にチャレンジ", audio_files: ["英検3級Unit26リスニング問題にチャレンジ.mp3"]},
     { series: "リスニング問題にチャレンジ", title: "Unit27 リスニング問題にチャレンジ", audio_files: ["英検3級Unit27リスニング問題にチャレンジ.mp3"]},
-    { series: "リスニング問題にチャレンジ", title: "Unit28 リスニング問題にチャレンジ", audio_files: ["英検3級Unit28リスニング問題にチャレンジ.mp3"]}
+    { series: "リスニング問題にチャレンジ", title: "Unit28 リスニング問題にチャレンジ", audio_files: ["英検3級Unit28リスニング問題にチャレンジ.mp3"]},
     { series: "リスニング問題にチャレンジ", title: "Unit29 リスニング問題にチャレンジ", audio_files: ["英検3級Unit29リスニング問題にチャレンジ.mp3"]},
     { series: "リスニング問題にチャレンジ", title: "Unit30 リスニング問題にチャレンジ", audio_files: ["英検3級Unit30リスニング問題にチャレンジ.mp3"]},
     { series: "リスニング問題にチャレンジ", title: "Unit31 リスニング問題にチャレンジ", audio_files: ["英検3級Unit31リスニング問題にチャレンジ.mp3"]},
