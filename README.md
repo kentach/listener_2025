@@ -1,7 +1,7 @@
 # runteq_app_listener
 
 ##　ER図
-![alt text](<Screenshot 2025-11-19 at 12.11.32.png>)
+![alt text](image.png)
 
 ## 画面遷移図
 https://www.figma.com/design/TKSV1NPatLLnkgQwsVt0BA/%E7%84%A1%E9%A1%8C?node-id=31-935&t=QSRGS9vp4NHPfRx2-1
